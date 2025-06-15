@@ -1,0 +1,24 @@
+@import "./fonts.css";
+@import "./reset.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  accent-color: var(--color-accent);
+}
+
+:root {
+  --color-bg: #f5f5f5;
+  --color-text: #8a8a8d;
+}
+
+html.dark {
+  --color-nav-header: #2b2a2c;
+  --color-bg: #11101d;
+  --color-text: #fff;
+  --color-nav-header-text: #fff;
+}
