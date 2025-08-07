@@ -12,8 +12,11 @@ body {
 }
 
 :root {
-  --color-bg: #f5f5f5;
-  --color-text: #8a8a8d;
+  --color-accent: #6358DC;
+  --color-error: #FF4D4F;
+  --color-disabled: #afb4cb;
+
+  --border-radius: 8px;
 }
 
 html.dark {

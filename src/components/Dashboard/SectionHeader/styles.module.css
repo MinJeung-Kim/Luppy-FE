@@ -1,0 +1,15 @@
+ .section_wrap {
+     display: flex;
+     flex-direction: column;
+     padding-bottom: 1rem;
+
+     .title {
+         font-weight: 600;
+     }
+
+     .sub_title {
+         font-size: .8rem;
+         font-weight: 600;
+         color: var(--color-disabled);
+     }
+ }

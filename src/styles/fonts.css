@@ -1,14 +1,20 @@
 @font-face {
+  font-family: "Pretendard Regular";
+  font-style: normal;
+  src: url("../assets/fonts/pretendard/Pretendard-Regular.ttf") format("truetype"),
+    url("../assets/fonts/pretendard/Pretendard-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Pretendard Bold";
+  font-style: normal;
+  src: url("../assets/fonts/pretendard/Pretendard-Bold.ttf") format("truetype"),
+    url("../assets/fonts/pretendard/Pretendard-Bold.otf") format("opentype");
+}
+
+@font-face {
   font-family: "Jalnan";
   font-style: normal;
   src: url("../assets/fonts/jalnan/Jalnan2TTF.ttf") format("truetype"),
     url("../assets/fonts/jalnan/Jalnan2.otf") format("opentype");
-}
-
-@font-face {
-  font-family: "Jalnan-Gothic";
-  font-style: normal;
-  src: url("../assets/fonts/jalnanGothic/JalnanGothicTTF.ttf") format("truetype"),
-    url("../assets/fonts/jalnanGothic/JalnanGothic.otf") format("opentype");
-  ;
 }

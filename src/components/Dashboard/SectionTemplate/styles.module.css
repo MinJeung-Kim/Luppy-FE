@@ -1,0 +1,7 @@
+.section_container {
+    border: 1px solid #e8e9ef;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+
+
+}

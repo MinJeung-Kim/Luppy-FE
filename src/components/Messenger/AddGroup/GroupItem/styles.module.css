@@ -1,0 +1,75 @@
+   .init_group {
+       display: flex;
+       align-items: center;
+       gap: 1rem;
+       padding: 1rem;
+       border-bottom: 1px solid #e8e9ef;
+       cursor: pointer;
+       position: relative;
+
+       svg {
+           width: 1.2rem;
+           height: 1.2rem;
+           /* color: var(--color-accent); */
+           color: var(--color-disabled);
+       }
+
+       .text_container {
+           display: flex;
+           flex-direction: column;
+           flex: 1;
+
+           .title,
+           .sub_title {
+               line-height: 20px;
+               color: var(--color-disabled);
+           }
+
+           .title {
+               font-weight: 600;
+           }
+
+           .sub_title {
+               font-size: .8rem;
+           }
+       }
+
+       .delete_button {
+           background: none;
+           border: none;
+           font-size: 1.2rem;
+           color: var(--color-disabled);
+           cursor: pointer;
+           padding: 0.2rem 0.4rem;
+           border-radius: 4px;
+           transition: background-color 0.2s ease;
+           opacity: 0;
+           visibility: hidden;
+
+           &:hover {
+               background-color: #f0f0f0;
+               color: #e74c3c;
+           }
+       }
+
+       &:hover .delete_button {
+           opacity: 1;
+           visibility: visible;
+       }
+
+       &.action {
+           background-color: var(--color-accent-light, #f0f4ff);
+
+           svg {
+               color: var(--color-accent, #007bff);
+           }
+
+           .text_container {
+
+               .title,
+               .sub_title {
+                   color: var(--color-text, #333);
+               }
+           }
+       }
+   }

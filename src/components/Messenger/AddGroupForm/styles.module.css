@@ -1,0 +1,50 @@
+.add_group_form_container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+
+    .title {
+        font-size: .85rem;
+        font-family: "Jalnan";
+    }
+
+    .emoji_icon {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.5rem;
+        border: 1px solid var(--color-disabled);
+        border-radius: var(--border-radius);
+        padding: 0.2rem 0.5rem;
+
+        svg {
+            width: 1.2rem;
+            height: 1.2rem;
+            color: var(--color-disabled);
+        }
+    }
+
+    .emoji_picker_container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        margin-top: 8px;
+        max-width: 90vw;
+        max-height: 70vh;
+    }
+
+
+    .button_wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+}

@@ -1,10 +1,15 @@
+html {
+  display: flex;
+}
+
 body {
   margin: 0;
   font-display: swap;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: var(--color-bg);
 }
+
 
 #root {
   position: relative;
@@ -18,7 +23,7 @@ body {
 
 .main {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,0 +1,41 @@
+.header_container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-bottom: 1px solid #e8e9ef;
+
+    .logo_warp {
+        display: flex;
+        align-items: center;
+        flex: 2;
+        gap: 0.3rem;
+
+        .logo_img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo_text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .logo_sub,
+            .logo {
+                line-height: 20px;
+            }
+
+            .logo_sub {
+                font-family: "Jalnan";
+                font-size: 0.8rem;
+                color: var(--color-accent);
+            }
+
+            .logo {
+                font-family: "Jalnan";
+            }
+        }
+    }
+}

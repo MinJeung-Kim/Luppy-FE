@@ -1,0 +1,34 @@
+.banner_container {
+    position: relative;
+    width: 100%;
+    margin: 1rem 0;
+
+    .banner_wrap {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        background: #2248CF;
+        border-radius: var(--border-radius);
+        padding: 2rem 1rem;
+
+
+        .title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .sub_title {
+            color: #a9b7eb;
+            font-size: .85rem;
+        }
+    }
+
+    .banner_img {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 150px;
+    }
+}

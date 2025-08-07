@@ -1,0 +1,105 @@
+import { useEffect, useState } from 'react';
+import { getActions, useSocket, useUser } from '@/stores';
+import { useMessenger } from '@/context/MessengerContext';
+import { formatDate, formatTime } from '@/utils/time-format';
+import type { TServerChatData } from '@/stores/slice/socket';
+import TextInput from '@/components/common/TextInput/TextInput';
+import AirplaneIcon from '@/components/common/icons/AirplaneIcon';
+import Button from '@/components/common/Button/Button';
+import styles from "./styles.module.css";
+
+
+export default function ChatRoom() {
+    const [chatInput, setChatInput] = useState("");
+    const { chatRoomId, chatContent, setChatContent } = useMessenger();
+    const { sendMessage } = getActions();
+    const socket = useSocket();
+    const user = useUser();
+
+    const handleSendMessage = () => {
+        if (!chatInput.trim() || !chatRoomId) return;
+
+        sendMessage(chatRoomId, chatInput);
+        setChatInput("");
+    }
+
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleMessage = (message: TServerChatData) => {
+            console.log("새로운 메시지가 도착했습니다:", message);
+
+            // TServerChatData를 TChatContent 형식으로 변환
+            const newChatContent = {
+                id: Date.now(), // 임시 ID (서버에서 실제 ID를 받을 수 있다면 그것을 사용)
+                createdAt: message.createdAt,
+                chatRoom: {
+                    hostId: message.chatRoom.hostId,
+                    id: message.chatRoom.id,
+                },
+                author: {
+                    id: message.author.id,
+                    name: message.author.name,
+                    profile: message.author.profile,
+                },
+                message: message.message,
+            };
+
+            // 새 메시지를 chatContent에 추가
+            setChatContent(prev => [...prev, newChatContent]);
+        };
+        socket.on("sendMessage", handleMessage);
+
+        return () => {
+            socket.off("sendMessage", handleMessage);
+        };
+    }, [socket, setChatContent]);
+
+    return (
+        <div className={styles.chatRoom}>
+            <ul className={styles.chat_content_wrap}>
+                {chatContent.map((chat, index) => {
+                    const isMe = user?.id && Number(user.id) === chat.author.id;
+                    const currentDate = formatDate(chat.createdAt);
+                    const prevDate = index > 0 ? formatDate(chatContent[index - 1].createdAt) : null;
+                    const shouldShowDate = index === 0 || currentDate !== prevDate;
+
+                    return (
+                        <div key={chat.id}>
+                            {shouldShowDate && (
+                                <div className={styles.date_wrap}>
+                                    <span className={styles.date}>{currentDate}</span>
+                                </div>
+                            )}
+                            <li className={`${styles.chat_content} ${isMe ? styles.me : ""}`}>
+                                {!isMe && <img src={chat.author.profile} alt={chat.author.name} />}
+                                <div className={styles.author_wrap}>
+                                    <div className={styles.author_info}>
+                                        {!isMe && <span className={styles.name}>{chat.author.name}</span>}
+                                        <span className={`${styles.time} ${isMe ? styles.me_time : ""}`}>
+                                            {formatTime(chat.createdAt)}
+                                        </span>
+                                    </div>
+                                    <span className={`${styles.message} ${isMe ? styles.me_message : ""}`}>
+                                        {chat.message}
+                                    </span>
+                                </div>
+                            </li>
+                        </div>
+                    )
+                })}
+            </ul>
+            <div className={styles.chat_input_wrap}>
+                <TextInput name={"chatInput"}
+                    value={chatInput}
+                    placeholder={"메시지를 입력하세요"}
+                    isLabel={false}
+                    onChange={(e) => setChatInput(e.target.value)} />
+                <Button Icon={AirplaneIcon} onClick={handleSendMessage} />
+            </div>
+
+
+        </div>
+    );
+}

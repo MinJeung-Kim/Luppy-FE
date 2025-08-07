@@ -92,9 +92,10 @@ select {
   border: 0;
   font-size: 100%;
   font: inherit;
-  font-family: "Jalnan", "NanumSquare", "Roboto";
+  font-family: "Pretendard Regular", "NanumSquare", "Roboto";
   vertical-align: baseline;
   cursor: default;
+  line-height: 27px;
 }
 
 /* HTML5 display-role reset for older browsers */

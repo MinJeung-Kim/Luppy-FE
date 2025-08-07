@@ -1,0 +1,20 @@
+.login_header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.58rem;
+    padding-bottom: 1rem;
+
+    span {
+        font-family: "Jalnan";
+        font-size: 25px;
+    }
+
+    .title,
+    .sub_title {
+        color: #6358DC;
+    }
+
+    .sub_title {
+        font-size: .8rem;
+    }
+}

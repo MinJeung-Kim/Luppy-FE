@@ -1,0 +1,43 @@
+.controller_box_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .controller_box {
+        display: flex;
+        gap: 1.5rem;
+
+        .arrow_buttons,
+        .action_buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arrow_buttons {
+            position: relative;
+
+            &::before {
+                position: absolute;
+                top: 50%;
+                right: -13px;
+                content: "";
+                width: 1px;
+                height: 60%;
+                background: #e8e9ef;
+                transform: translateY(-50%);
+            }
+
+            button:nth-child(1) {
+                transform: rotate(180deg);
+            }
+        }
+
+        .action_buttons {
+
+            button:nth-child(2) {
+                transform: rotate(90deg);
+            }
+        }
+    }
+}

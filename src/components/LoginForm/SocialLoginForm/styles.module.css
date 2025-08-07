@@ -1,0 +1,25 @@
+.social_login_container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .social_login_item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11);
+        padding: .6rem;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        span {
+            cursor: pointer;
+        }
+    }
+}
