@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { getActions } from '@/stores';
 import TextInput from "@/components/common/TextInput/TextInput";
-<<<<<<< HEAD:src/components/Messenger/AddGroup/AddGroupForm/AddGroupForm.tsx
 import Button from "@/components/common/Button/Button";
-=======
 import EmojiIcon from "@/components/common/icons/EmojiIcon";
-import Button from "@/components/common/Button/Button";
 import Emoji from "@/components/common/Emoji/Emoji";
->>>>>>> messenger:src/components/Messenger/AddGroupForm/AddGroupForm.tsx
 import styles from "./styles.module.css";
 
 
@@ -73,14 +69,10 @@ export default function AddGroupForm() {
       />
 
       <div className={styles.button_wrap}>
-<<<<<<< HEAD:src/components/Messenger/AddGroup/AddGroupForm/AddGroupForm.tsx
-        <Button type="etc" text="Reset" onClick={() => {}} />
-        <Button text="Save" onClick={() => {}} />
-=======
+
         <Button type="etc" text="Reset" onClick={handleReset} />
         <Button text="Save" onClick={handleSave} />
->>>>>>> messenger:src/components/Messenger/AddGroupForm/AddGroupForm.tsx
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }
