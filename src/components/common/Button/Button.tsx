@@ -2,12 +2,8 @@ import styles from "./styles.module.css";
 
 type Props = {
   type?: "etc" | "save";
-<<<<<<< HEAD
-  text: string;
-=======
   text?: string;
   Icon?: React.ComponentType;
->>>>>>> messenger
   disabled?: boolean;
   onClick: () => void;
 };
@@ -15,10 +11,7 @@ type Props = {
 export default function Button({
   type = "save",
   text,
-<<<<<<< HEAD
-=======
   Icon,
->>>>>>> messenger
   disabled = false,
   onClick,
 }: Props) {
@@ -35,14 +28,8 @@ export default function Button({
 
   return (
     <button
-<<<<<<< HEAD
-      className={`${styles.button_container} ${getTypeClass()} ${
-        disabled ? styles.disabled : ""
-      }`}
-=======
       className={`${styles.button_container} ${getTypeClass()} ${disabled ? styles.disabled : ""
         }`}
->>>>>>> messenger
       onClick={onClick}
       disabled={disabled}
     >
