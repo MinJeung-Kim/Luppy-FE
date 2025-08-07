@@ -3,8 +3,7 @@
     width: 25%;
     border-right: 1px solid #e8e9ef;
     padding: 1rem;
-<<<<<<< HEAD:src/components/Messenger/AddGroup/styles.module.css
-=======
+
 
     .init_group {
         display: flex;
@@ -60,5 +59,4 @@
             }
         }
     }
->>>>>>> messenger:src/components/Messenger/GroupList/styles.module.css
 }
