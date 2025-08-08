@@ -3,10 +3,11 @@ import { refreshAccessToken } from "./auth";
 import { useBoundStore } from '@/stores/bound-store';
 
 // const domain = import.meta.env.VITE_API_DOMAIN || "//localhost:";
-const domain = import.meta.env.VITE_API_DOMAIN || "luppy-be.railway.internal:";
-const serverPort = import.meta.env.VITE_SERVER_PORT;
+const domain = import.meta.env.VITE_API_DOMAIN || "luppy-be.railway.internal";
+// const serverPort = import.meta.env.VITE_SERVER_PORT;
 
-export const baseURL = `${domain}${serverPort}`;
+// export const baseURL = `${domain}${serverPort}`;
+export const baseURL = domain;
 
 export const axiosPrivate = axios.create({
   baseURL: `http:${baseURL}`,
