@@ -2,7 +2,7 @@ import axios from "axios";
 import { refreshAccessToken } from "./auth";
 import { useBoundStore } from '@/stores/bound-store';
 
-const domain = "//localhost:";
+const domain = import.meta.env.VITE_API_DOMAIN || "//localhost:";
 const serverPort = import.meta.env.VITE_SERVER_PORT;
 
 export const baseURL = `${domain}${serverPort}`;
