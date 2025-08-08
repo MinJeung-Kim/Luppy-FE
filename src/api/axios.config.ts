@@ -10,7 +10,7 @@ const domain = import.meta.env.VITE_API_DOMAIN || "luppy-be.railway.internal";
 export const baseURL = domain;
 
 export const axiosPrivate = axios.create({
-  baseURL: `http:${baseURL}`,
+  baseURL: `https:${baseURL}`,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
