@@ -2,17 +2,21 @@ import axios from "axios";
 import { refreshAccessToken } from "./auth";
 import { useBoundStore } from '@/stores/bound-store';
 
-// const domain = import.meta.env.VITE_API_DOMAIN || "//localhost:";
-const domain = import.meta.env.VITE_API_DOMAIN || "luppy-be.railway.internal";
-// const serverPort = import.meta.env.VITE_SERVER_PORT;
 
-// export const baseURL = `${domain}${serverPort}`;
+function normalizeBase(url?: string) {
+  if (!url) return 'http://localhost:8080';                 // 로컬 개발 기본값
+  if (/^https?:\/\//i.test(url)) return url;                // 이미 절대 URL
+  if (url.startsWith('//')) return `https:${url}`;          // 프로토콜 상대 → https 붙이기
+  return `https://${url}`;                                  // 호스트만 온 경우
+}
+
+const domain = normalizeBase(import.meta.env.VITE_API_DOMAIN);
 export const baseURL = domain;
 
+// 끝 슬래시 제거(axios가 path 조합할 때 깔끔)
 export const axiosPrivate = axios.create({
-  baseURL: `https:${baseURL}`,
-  // baseURL: `https:`,
-  headers: { "Content-Type": "application/json" },
+  baseURL: domain.replace(/\/+$/, ''),
+  headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
 
