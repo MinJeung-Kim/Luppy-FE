@@ -1,6 +1,4 @@
 .chatList {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
 
     .chat {
         display: flex;
@@ -55,7 +53,7 @@
                     }
 
                     .time {
-                        font-size: 0.85rem;
+                        font-size: 0.7rem;
                         color: #9EA0B9;
                     }
                 }
@@ -68,9 +66,14 @@
             }
         }
 
+        .selected {
+            background-color: #F5F6FA;
+        }
+
     }
 
     .chatRoom {
+        position: relative;
 
         .chat_content_wrap {
             height: 80vh;
@@ -158,6 +161,34 @@
 
             .send_button {
                 background: #2248CF;
+            }
+        }
+    }
+}
+
+.grid {
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+
+
+@media (max-width: 768px) {
+    .chatList {
+        .chatRoom {
+            .chat_content_wrap {
+                height: 60vh;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .chatList {
+        .chatRoom {
+            .chat_content_wrap {
+                height: 60vh;
             }
         }
     }

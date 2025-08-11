@@ -9,8 +9,8 @@ type State = {
     isModal: boolean;
     setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
 
-    isSelectedChat: boolean;
-    setIsSelectedChat: React.Dispatch<React.SetStateAction<boolean>>;
+    selectedChat: number | null;
+    setSelectedChat: React.Dispatch<React.SetStateAction<number | null>>;
 
     chatRoomId: number | null;
     setChatRoomId: React.Dispatch<React.SetStateAction<number | null>>;
@@ -23,7 +23,7 @@ const MessengerContext = createContext<State>({} as State);
 
 export function MessengerProvider({ children }: { children: React.ReactNode }) {
     const [isModal, setIsModal] = useState(false);
-    const [isSelectedChat, setIsSelectedChat] = useState(false);
+    const [selectedChat, setSelectedChat] = useState<number | null>(null);
     const [chatRoomId, setChatRoomId] = useState<number | null>(null);
     const [chatContent, setChatContent] = useState<TChatContent[]>([]);
 
@@ -32,8 +32,7 @@ export function MessengerProvider({ children }: { children: React.ReactNode }) {
             value={{
                 isModal,
                 setIsModal,
-                isSelectedChat,
-                setIsSelectedChat,
+                selectedChat, setSelectedChat,
                 chatRoomId,
                 setChatRoomId,
                 chatContent,

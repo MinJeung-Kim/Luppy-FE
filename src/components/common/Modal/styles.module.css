@@ -9,7 +9,7 @@
     align-items: center;
     backdrop-filter: blur(5px);
     background-color: rgb(85 88 91 / 63%);
-    z-index: 1000;
+    z-index: 10000;
 
     .modal_container {
         width: 40%;
@@ -76,6 +76,18 @@
                 color: #fff;
                 background: var(--color-accent);
             }
+        }
+    }
+
+
+}
+
+
+@media (max-width: 480px) {
+
+    .modal_overlay {
+        .modal_container {
+            width: 60%;
         }
     }
 }

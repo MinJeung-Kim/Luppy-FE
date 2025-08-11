@@ -29,3 +29,51 @@
     background: var(--color-disabled);
     cursor: not-allowed;
 }
+
+/* 태블릿 크기 (768px 이하) */
+@media (max-width: 768px) {
+    .button_container {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .save {
+        svg {
+            width: 0.9rem;
+            height: 0.9rem;
+        }
+    }
+}
+
+/* 모바일 크기 (480px 이하) */
+@media (max-width: 480px) {
+    .button_container {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+        min-height: 32px;
+        /* 터치 친화적인 최소 높이 */
+    }
+
+    .save {
+        svg {
+            width: 0.8rem;
+            height: 0.8rem;
+        }
+    }
+}
+
+/* 작은 모바일 크기 (360px 이하) */
+@media (max-width: 360px) {
+    .button_container {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+        min-height: 28px;
+    }
+
+    .save {
+        svg {
+            width: 0.75rem;
+            height: 0.75rem;
+        }
+    }
+}

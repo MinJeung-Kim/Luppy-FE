@@ -22,6 +22,7 @@
         .sub_title {
             color: #a9b7eb;
             font-size: .85rem;
+            z-index: 999;
         }
     }
 

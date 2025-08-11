@@ -8,8 +8,7 @@ import ChatRoom from './ChatRoom';
 import styles from "./styles.module.css";
 
 export default function ChatList() {
-    const { isSelectedChat } = useMessenger();
-
+    const { selectedChat } = useMessenger();
 
     // const { setGuests } = getActions();
 
@@ -28,11 +27,11 @@ export default function ChatList() {
     })
 
     return (
-        <div className={styles.chatList}>
-            {data ? <Chat chatList={data} />
+        <div className={`${styles.chatList} ${selectedChat ? styles.grid : ''}`}>
+            {data && data.length > 0 ? <Chat chatList={data} />
                 : <DataEmpty />}
 
-            {isSelectedChat && <ChatRoom />}
+            {selectedChat && <ChatRoom />}
         </div>
     );
 }

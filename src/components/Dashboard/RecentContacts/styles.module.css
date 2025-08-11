@@ -45,3 +45,13 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .recent_contacts_container {
+        width: 100%;
+        border: 1px solid #e8e9ef;
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+}

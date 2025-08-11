@@ -25,3 +25,67 @@ html.dark {
   --color-text: #fff;
   --color-nav-header-text: #fff;
 }
+
+/* 기본 반응형 설정 */
+html {
+  font-size: 16px;
+  /* 기본 폰트 크기 */
+}
+
+/* 컨테이너 최대 너비 설정 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* 태블릿 크기 (768px 이하) */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
+/* 모바일 크기 (480px 이하) */
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* 작은 모바일 크기 (360px 이하) */
+@media (max-width: 360px) {
+  html {
+    font-size: 13px;
+  }
+
+  .container {
+    padding: 0 0.25rem;
+  }
+}
+
+/* 터치 디바이스를 위한 설정 */
+/* @media (hover: none) and (pointer: coarse) { 
+  button,
+  a,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+} */
+
+/* 고해상도 디스플레이 대응 */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  /* 고해상도 이미지나 아이콘 설정 */
+}

@@ -60,3 +60,17 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+
+    .add_group_container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .add_group_container {
+        width: 100%;
+    }
+}

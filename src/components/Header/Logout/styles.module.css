@@ -1,0 +1,10 @@
+.logout_button {
+    font-size: .8rem;
+    font-family: "Jalnan";
+    color: var(--color-disabled);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--color-accent);
+    }
+}

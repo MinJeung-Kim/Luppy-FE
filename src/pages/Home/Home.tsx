@@ -1,8 +1,9 @@
 import { Helmet } from "react-helmet-async";
-import { HOME_PAGE_META } from "@/constants/page_messages";
 import { useSelectedMenu } from "@/stores";
-import { MenuItems } from "@/constants/menu";
+import { HOME_PAGE_META } from "@/constants/page_messages";
+import MediaMenu from '@/components/Header/MediaMenu/MediaMenu';
 import Header from "@/components/Header/Header";
+import { MenuItems } from "@/constants/menu";
 import styles from "./styles.module.css";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
       </Helmet>
 
       <div className={styles.home_container}>
+        <MediaMenu />
         <Header />
         {currentContent}
       </div>

@@ -14,7 +14,7 @@ export default function InviteUsersModal() {
     const socket = useSocket();
     const { setIsModal } = useMessenger();
     const { createChatRoom } = getActions();
-    const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+    const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
     const [isCreatingRoom, setIsCreatingRoom] = useState(false);
 
     const { data } = useQuery<User[]>({
@@ -37,14 +37,15 @@ export default function InviteUsersModal() {
     }
 
     const handleSave = () => {
-        setIsCreatingRoom(true);
+        // setIsModal(false); 
         createChatRoom(user!.id, selectedUsers);
         console.log("handleSave - 채팅방 생성 요청을 보냈습니다.");
     }
 
     // 소켓 이벤트를 직접 처리하여 정확한 roomId 확인
     useEffect(() => {
-        if (!isCreatingRoom || !socket) return;
+        // if (!isCreatingRoom || !socket) return;
+        if (!socket) return;
 
         const handleRoomCreated = (newRoomId: number) => {
             console.log("새로운 채팅방이 생성되었습니다. roomId:", newRoomId);
@@ -59,12 +60,13 @@ export default function InviteUsersModal() {
         };
     }, [isCreatingRoom, socket, setIsModal]);
 
-    const handleToggleUser = (userId: string) => {
+    const handleToggleUser = (userId: number) => {
         setSelectedUsers(prev =>
             prev.includes(userId)
                 ? prev.filter(id => id !== userId) // 체크 해제
                 : [...prev, userId]                // 체크
         );
+
     };
 
     return <Modal header='Invite people to chat' onClose={handleClose} onSave={handleSave}>
@@ -90,7 +92,7 @@ export default function InviteUsersModal() {
 
                     <CheckBox
                         checked={selectedUsers.includes(id)}
-                        name={id}
+                        name={String(id)}
                         onChange={() => handleToggleUser(id)}
                     />
 

@@ -1,5 +1,7 @@
 import { AxiosError } from "axios";
-import { axiosPrivate } from "./axios.config";
+import { axiosPrivate, refreshAccessToken } from "./axios.config";
+import { useBoundStore } from '@/stores/bound-store';
+import { AUTH_MESSAGES } from '@/constants/messages';
 import type { Inputs } from "@/context/LoginContext";
 
 export const register = async (inputs: Inputs, profile: string) => {
@@ -64,51 +66,77 @@ export const login = async (email: string, password: string) => {
   }
 };
 
-// 액세스 토큰 재발급
-export const refreshAccessToken = async () => {
-  try {
-    const response = await axiosPrivate.post(
-      "/auth/token/access",
-      {},
-      { withCredentials: true } // 쿠키에 있는 refreshToken 자동 포함
-    );
-
-    return response.data.accessToken;
-  } catch (err) {
-    console.error("Silent refresh 실패:", err);
-    return null;
-  }
-};
+// 초기화 중복 방지
+let isInitializing = false;
 
 export const initializeAuth = async () => {
+  if (isInitializing) {
+    if (import.meta.env.DEV) {
+      console.log("⚠️ 이미 인증 초기화 중입니다. 중복 호출 방지됨");
+    }
+    return { success: false, error: "Already initializing", accessToken: null };
+  }
+
+  if (import.meta.env.DEV) {
+    console.log("🔄 인증 초기화 시작 - refresh token으로 access token 재발급 시도");
+  }
+
+  isInitializing = true;
+
   try {
     // 쿠키에 refreshToken이 있다면 새로운 accessToken 발급
     const newAccessToken = await refreshAccessToken();
     if (newAccessToken) {
+      if (import.meta.env.DEV) {
+        console.log("✅ 토큰 갱신 성공");
+      }
       return { success: true, accessToken: newAccessToken };
     }
     // 리프레시 토큰도 만료된 경우
-    console.log("리프레시 토큰 만료 - 자동 로그아웃");
+    if (import.meta.env.DEV) {
+      console.log("❌ 리프레시 토큰 만료 - 로그인 필요");
+    }
     return {
       success: false,
-      error: "세션이 만료되었습니다. 로그인이 필요합니다.",
+      error: null, // 에러 메시지 제거 - 정상적인 로그아웃 상태
       accessToken: null
     };
   } catch (error) {
-    console.error("Auth initialization failed:", error);
+    if (import.meta.env.DEV) {
+      console.error("❌ Auth initialization failed:", error);
+    }
+
+    // 초기화 실패 시 알림 표시 (선택적)
+    const { setAlertMessage, setOpenAlert } = useBoundStore.getState();
+    setAlertMessage(AUTH_MESSAGES.authInitFailed);
+    setOpenAlert(true);
+
     return {
       success: false,
       error: "인증 초기화에 실패했습니다.",
       accessToken: null
     };
+  } finally {
+    isInitializing = false;
   }
 };
 
 export const logout = async () => {
   try {
     await axiosPrivate.post("/auth/logout", {}, { withCredentials: true });
+
+    // 로그아웃 성공 시 모든 저장된 데이터 정리
+    const { socketClose, clearAccessToken } = useBoundStore.getState();
+    socketClose();
+    clearAccessToken(); // 메모리에서 토큰 제거 및 사용자 정보 정리
+
     return { success: true };
   } catch (error) {
+    // 로그아웃 API 실패해도 클라이언트에서 데이터 정리
+    const { socketClose, clearAccessToken } = useBoundStore.getState();
+    socketClose();
+    clearAccessToken();
+
     if (error instanceof AxiosError) {
       const serverMessage =
         error.response?.data?.message || error.response?.data?.error;

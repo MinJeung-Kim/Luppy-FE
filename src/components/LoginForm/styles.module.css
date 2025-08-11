@@ -48,5 +48,44 @@
             }
         }
     }
+}
 
+/* 태블릿 크기 (768px 이하) */
+@media (max-width: 768px) {
+    .login_form_container {
+        width: 70%;
+        padding: 1rem;
+    }
+}
+
+/* 모바일 크기 (480px 이하) */
+@media (max-width: 480px) {
+    .login_form_container {
+        width: 90%;
+        padding: 0.75rem;
+
+        .or {
+            font-size: 0.8rem;
+        }
+
+        .change_form {
+            font-size: 0.75rem;
+        }
+    }
+}
+
+/* 작은 모바일 크기 (360px 이하) */
+@media (max-width: 360px) {
+    .login_form_container {
+        width: 95%;
+        padding: 0.5rem;
+
+        .or {
+            font-size: 0.75rem;
+        }
+
+        .change_form {
+            font-size: 0.7rem;
+        }
+    }
 }

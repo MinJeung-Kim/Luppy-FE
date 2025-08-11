@@ -1,7 +1,7 @@
-import LogoImg from "@/assets/images/logo.png";
-import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
 import UserMenu from "./UserMenu/UserMenu";
+import LogoImg from "@/assets/images/logo.png";
+import styles from "./styles.module.css";
 
 export default function Header() {
   return (
@@ -16,6 +16,7 @@ export default function Header() {
 
       <Menu />
       <UserMenu />
+
     </div>
   );
 }

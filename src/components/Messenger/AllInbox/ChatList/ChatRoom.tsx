@@ -3,6 +3,7 @@ import { getActions, useSocket, useUser } from '@/stores';
 import { useMessenger } from '@/context/MessengerContext';
 import { formatDate, formatTime } from '@/utils/time-format';
 import type { TServerChatData } from '@/stores/slice/socket';
+import type { TChatContent } from '@/api/chat';
 import TextInput from '@/components/common/TextInput/TextInput';
 import AirplaneIcon from '@/components/common/icons/AirplaneIcon';
 import Button from '@/components/common/Button/Button';
@@ -15,6 +16,19 @@ export default function ChatRoom() {
     const { sendMessage } = getActions();
     const socket = useSocket();
     const user = useUser();
+
+    const getChatDisplayInfo = (chat: TChatContent, index: number) => {
+        const isMe = user?.id && Number(user.id) === chat.author.id;
+        const currentDate = formatDate(chat.createdAt);
+        const prevDate = index > 0 ? formatDate(chatContent[index - 1].createdAt) : null;
+        const shouldShowDate = index === 0 || currentDate !== prevDate;
+
+        return {
+            isMe,
+            currentDate,
+            shouldShowDate
+        };
+    };
 
     const handleSendMessage = () => {
         if (!chatInput.trim() || !chatRoomId) return;
@@ -30,9 +44,8 @@ export default function ChatRoom() {
         const handleMessage = (message: TServerChatData) => {
             console.log("새로운 메시지가 도착했습니다:", message);
 
-            // TServerChatData를 TChatContent 형식으로 변환
             const newChatContent = {
-                id: Date.now(), // 임시 ID (서버에서 실제 ID를 받을 수 있다면 그것을 사용)
+                id: Date.now(),
                 createdAt: message.createdAt,
                 chatRoom: {
                     hostId: message.chatRoom.hostId,
@@ -46,7 +59,6 @@ export default function ChatRoom() {
                 message: message.message,
             };
 
-            // 새 메시지를 chatContent에 추가
             setChatContent(prev => [...prev, newChatContent]);
         };
         socket.on("sendMessage", handleMessage);
@@ -59,11 +71,13 @@ export default function ChatRoom() {
     return (
         <div className={styles.chatRoom}>
             <ul className={styles.chat_content_wrap}>
+                {chatContent.length === 0 && (
+                    <div className={styles.date_wrap}>
+                        <span className={styles.date}>{formatDate(new Date().toISOString())}</span>
+                    </div>
+                )}
                 {chatContent.map((chat, index) => {
-                    const isMe = user?.id && Number(user.id) === chat.author.id;
-                    const currentDate = formatDate(chat.createdAt);
-                    const prevDate = index > 0 ? formatDate(chatContent[index - 1].createdAt) : null;
-                    const shouldShowDate = index === 0 || currentDate !== prevDate;
+                    const { isMe, currentDate, shouldShowDate } = getChatDisplayInfo(chat, index);
 
                     return (
                         <div key={chat.id}>
@@ -98,8 +112,6 @@ export default function ChatRoom() {
                     onChange={(e) => setChatInput(e.target.value)} />
                 <Button Icon={AirplaneIcon} onClick={handleSendMessage} />
             </div>
-
-
         </div>
     );
 }
