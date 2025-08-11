@@ -127,3 +127,17 @@ export const filterNameInput = (value: string): string => {
   // 길이 제한만 적용하고 한글 입력은 자유롭게 허용
   return value.slice(0, 15);
 };
+
+// 전화번호 포맷팅 함수
+export const formatPhoneNumber = (phone: string): string => {
+  // 숫자만 추출
+  const numbersOnly = phone.replace(/\D/g, "");
+
+  // 11자리가 아니면 원본 반환
+  if (numbersOnly.length !== 11) {
+    return phone;
+  }
+
+  // 010-1234-5678 형식으로 포맷팅
+  return `${numbersOnly.slice(0, 3)}-${numbersOnly.slice(3, 7)}-${numbersOnly.slice(7, 11)}`;
+};

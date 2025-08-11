@@ -3,6 +3,7 @@ import { useMessenger } from '@/context/MessengerContext';
 import { getChatContent, type TChatRoom } from '@/api/chat';
 import { formatTime } from '@/utils/time-format';
 import styles from "./styles.module.css";
+import Avatar from '@/components/common/Avatar/Avatar';
 
 
 type Props = {
@@ -30,7 +31,7 @@ export default function Chat({ chatList }: Props) {
                     <li key={chat.roomId} className={`${styles.chat_item} ${selectedChat === chat.roomId ? styles.selected : ''}`} onClick={() => handleSelectChat(chat.roomId)}>
                         <div className={styles.guests_img}>
                             {chat.guests.map(({ id, name, profile }) => (
-                                <img src={profile} alt={`${name}'s avatar`} className={styles.avatar} key={id} />
+                                <Avatar src={profile} alt={`${name}'s avatar`} key={id} />
                             ))}
                         </div>
 

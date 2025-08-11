@@ -1,0 +1,30 @@
+.user_list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .user_item {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .user_info {
+        display: flex;
+        flex-direction: column;
+
+        span {
+            line-height: 18px;
+        }
+    }
+
+    .name {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .phone {
+        font-size: 0.85rem;
+        color: #9EA0B9;
+    }
+}

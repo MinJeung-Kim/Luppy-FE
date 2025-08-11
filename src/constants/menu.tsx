@@ -6,6 +6,7 @@ import CalendarIcon from "@/components/common/icons/CalendarIcon";
 import SettingIcon from "@/components/common/icons/SettingIcon";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import Messenger from "@/pages/Messenger/Messenger";
+import Conference from '@/pages/Conference/Conference';
 
 export interface MenuItem {
   name: string;
@@ -19,7 +20,7 @@ export const MenuItems: MenuItem[] = [
   {
     name: "Conference",
     Icon: ConferenceIcon,
-    content: <></>,
+    content: <Conference />,
   },
   { name: "Schedule", Icon: CalendarIcon, content: <></> },
   { name: "Management", Icon: SettingIcon, content: <></> },

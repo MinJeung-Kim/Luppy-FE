@@ -1,9 +1,9 @@
-import type { GroupList } from "@/pages/Messenger/Messenger";
+import type { TGroupList } from "@/pages/Messenger/Messenger";
 import styles from "./styles.module.css";
 
 
 type Props = {
-  groupList: GroupList[];
+  groupList: TGroupList[];
   selectedGroupId: string;
   onSelect: React.Dispatch<React.SetStateAction<string>>;
 };

@@ -1,0 +1,10 @@
+.search_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    svg {
+        position: absolute;
+        right: 12px;
+    }
+}

@@ -7,6 +7,7 @@ import type { TChatContent } from '@/api/chat';
 import TextInput from '@/components/common/TextInput/TextInput';
 import AirplaneIcon from '@/components/common/icons/AirplaneIcon';
 import Button from '@/components/common/Button/Button';
+import Avatar from '@/components/common/Avatar/Avatar';
 import styles from "./styles.module.css";
 
 
@@ -100,7 +101,7 @@ export default function ChatRoom() {
                                 </div>
                             )}
                             <li className={`${styles.chat_content} ${isMe ? styles.me : ""}`}>
-                                {!isMe && <img src={chat.author.profile} alt={chat.author.name} />}
+                                {!isMe && <Avatar src={chat.author.profile} alt={chat.author.name} />}
                                 <div className={styles.author_wrap}>
                                     <div className={styles.author_info}>
                                         {!isMe && <span className={styles.name}>{chat.author.name}</span>}

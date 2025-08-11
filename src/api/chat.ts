@@ -1,26 +1,20 @@
 import { AxiosError } from 'axios';
 import { axiosPrivate } from "./axios.config";
+import type { TUser } from '@/stores/slice/auth';
 
-
-export type TGuest = {
-    id: number;
-    name: string;
-    email: string;
-    profile: string;
-};
 
 export type TChatRoom = {
     roomId: number;
-    guests: TGuest[];
-    host: TGuest;
+    guests: TUser[];
+    host: TUser;
     createdAt: string;
 };
 
 type TServerChatRoom = {
     id: number;
     createdAt: string;
-    host: TGuest;
-    users: TGuest[];
+    host: TUser;
+    users: TUser[];
 };
 
 export type TChatContent = {

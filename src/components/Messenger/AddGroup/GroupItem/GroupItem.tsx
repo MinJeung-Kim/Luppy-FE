@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import styles from "./styles.module.css";
 
-export type GroupItemData = {
+export type TGroupItemData = {
   id: string;
   icon: ReactNode;
   title: string;
@@ -12,7 +12,7 @@ export type GroupItemData = {
 };
 
 type Props = {
-  data: GroupItemData;
+  data: TGroupItemData;
 };
 
 export default function GroupItem({ data }: Props) {

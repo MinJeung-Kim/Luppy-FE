@@ -1,13 +1,6 @@
 import { AxiosError } from 'axios';
 import { axiosPrivate } from "./axios.config";
-
-export type Users = {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    profile: string;
-}
+import type { TUser } from '@/stores/slice/auth';
 
 export const getUsers = async () => {
     try {
@@ -15,7 +8,7 @@ export const getUsers = async () => {
         const usersData = response.data[0];
         const total = response.data[1];
 
-        const users = usersData.map((user: Users) => ({
+        const users = usersData.map((user: TUser) => ({
             id: user.id,
             name: user.name,
             email: user.email,

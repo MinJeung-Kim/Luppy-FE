@@ -41,10 +41,6 @@
             align-items: center;
             gap: 0.8rem;
 
-            .avatar {
-                width: 2.5rem;
-            }
-
             .user {
                 display: flex;
                 flex-direction: column;

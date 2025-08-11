@@ -23,7 +23,6 @@ export default function ChatList() {
 
             return result?.chatList || [];
         },
-        // staleTime: 1000 * 10 // 10초
     })
 
     return (

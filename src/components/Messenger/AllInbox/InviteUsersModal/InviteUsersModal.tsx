@@ -1,14 +1,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getUsers } from '@/api/user';
-import type { TGuest } from '@/api/chat';
-import type { User } from '@/stores/slice/auth';
+import { useQueryClient } from '@tanstack/react-query';
+import type { TUser } from '@/stores/slice/auth';
 import { getActions, useSocket, useUser } from '@/stores';
 import { useMessenger } from '@/context/MessengerContext';
+import { useAvailableUsers } from '@/hooks/useAvailableUsers';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
 import Modal from '@/components/common/Modal/Modal';
 import styles from "./styles.module.css";
+import Avatar from '@/components/common/Avatar/Avatar';
 
 export default function InviteUsersModal() {
     const user = useUser();
@@ -18,20 +18,7 @@ export default function InviteUsersModal() {
     const { createChatRoom } = getActions();
     const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
 
-    const { data } = useQuery<User[]>({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const result = await getUsers();
-            if (result?.error) {
-                throw new Error(result.error);
-            }
-            return result?.users || [];
-        },
-        // staleTime: 1000 * 10 // 10초
-    })
-
-    // 현재 사용자를 제외한 사용자 목록
-    const availableUsers = data?.filter(userData => userData.id !== user?.id) || [];
+    const { availableUsers } = useAvailableUsers();
 
     const handleClose = useCallback(() => {
         setIsModal(false);
@@ -44,7 +31,7 @@ export default function InviteUsersModal() {
     useEffect(() => {
         if (!socket) return;
 
-        const handleRoomCreated = ({ host, guests }: { host: TGuest; guests: TGuest[] }) => {
+        const handleRoomCreated = ({ host, guests }: { host: TUser; guests: TUser[] }) => {
             console.log("새로운 채팅방이 생성되었습니다.", host, guests);
 
             // 채팅 룸 리스트를 실시간으로 업데이트
@@ -73,17 +60,17 @@ export default function InviteUsersModal() {
         <span className={styles.title}>Type name to invite ({selectedUsers.length})</span>
         <ul className={styles.select_users}>
             {availableUsers
-                .filter((userData: User) => selectedUsers.includes(userData.id))
-                .map((userData: User) => (
+                .filter((userData: TUser) => selectedUsers.includes(userData.id))
+                .map((userData: TUser) => (
                     <li key={userData.id} className={styles.select_name}>{userData.name}</li>
                 ))}
         </ul>
         <ul className={styles.user_container}>
             <span className={styles.title}>Invited</span>
-            {availableUsers.map(({ id, name, email, profile }: User) =>
+            {availableUsers.map(({ id, name, email, profile }: TUser) =>
                 <li className={styles.user_wrap} key={id}>
                     <div className={styles.left}>
-                        <img className={styles.avatar} src={profile} alt="profile" />
+                        <Avatar src={profile} alt="profile" />
                         <div className={styles.user}>
                             <span className={styles.name} >{name}</span>
                             <span className={styles.email} >{email}</span>

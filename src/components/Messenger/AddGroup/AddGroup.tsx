@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CircleUserIcon from "@/components/common/icons/CircleUserIcon";
 import PlusCircleIcon from "@/components/common/icons/PlusCircleIcon";
-import type { GroupItemData } from "./GroupItem/GroupItem";
+import type { TGroupItemData } from "./GroupItem/GroupItem";
 import GroupItem from "./GroupItem/GroupItem";
 import styles from "./styles.module.css";
 
@@ -36,7 +36,7 @@ export default function AddGroup() {
   };
 
   // 고정 아이템들
-  const fixedItems: GroupItemData[] = [
+  const fixedItems: TGroupItemData[] = [
     {
       id: "all-inbox",
       icon: <CircleUserIcon />,
@@ -53,7 +53,7 @@ export default function AddGroup() {
   ];
 
   // 동적 그룹 아이템들
-  const dynamicGroupItems: GroupItemData[] = groups.map((group) => ({
+  const dynamicGroupItems: TGroupItemData[] = groups.map((group) => ({
     id: group.id,
     icon: <CircleUserIcon />,
     title: group.name,
@@ -64,7 +64,7 @@ export default function AddGroup() {
   }));
 
   // 그룹 추가 버튼
-  const addGroupItem: GroupItemData = {
+  const addGroupItem: TGroupItemData = {
     id: "add-group",
     icon: <PlusCircleIcon />,
     title: "그룹 추가",

@@ -7,7 +7,7 @@ import PlusCircleIcon from "@/components/common/icons/PlusCircleIcon";
 import AllInbox from "@/components/Messenger/AllInbox/AllInbox";
 import styles from "./styles.module.css";
 
-export type GroupList = {
+export type TGroupList = {
   id: string;
   icon: ReactNode;
   title: string;

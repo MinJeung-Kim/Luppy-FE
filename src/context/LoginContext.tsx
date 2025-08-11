@@ -17,7 +17,7 @@ import {
 } from "@/utils/validation";
 
 
-export type Inputs = {
+export type TInputs = {
   name: string;
   phone: string;
   email: string;
@@ -28,10 +28,10 @@ type State = {
   isLogin: boolean;
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
 
-  inputs: Inputs;
-  setInputs: React.Dispatch<React.SetStateAction<Inputs>>;
-  inputErrors: Inputs;
-  setInputErrors: React.Dispatch<React.SetStateAction<Inputs>>;
+  inputs: TInputs;
+  setInputs: React.Dispatch<React.SetStateAction<TInputs>>;
+  inputErrors: TInputs;
+  setInputErrors: React.Dispatch<React.SetStateAction<TInputs>>;
 
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,13 +49,13 @@ const LoginContext = createContext<State>({} as State);
 export function LoginProvider({ children }: { children: React.ReactNode }) {
   const rememberedEmail = localStorage.getItem("userEmail");
   const [isLogin, setIsLogin] = useState(true);
-  const [inputs, setInputs] = useState<Inputs>({
+  const [inputs, setInputs] = useState<TInputs>({
     name: "",
     phone: "",
     email: rememberedEmail || "",
     password: "",
   });
-  const [inputErrors, setInputErrors] = useState<Inputs>({
+  const [inputErrors, setInputErrors] = useState<TInputs>({
     name: "",
     phone: "",
     email: "",

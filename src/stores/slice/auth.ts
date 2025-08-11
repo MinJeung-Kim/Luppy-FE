@@ -1,23 +1,24 @@
 import type { StateCreator } from "zustand";
 import type { BoundState } from "../bound-store";
 
-export type User = {
+export type TUser = {
   id: number;
   name: string;
   email: string;
+  phone: string;
   profile: string;
 };
 
-export type AuthSliceState = {
+export type TAuthSliceState = {
   accessToken: string | null;
   setAccessToken: (token: string) => void;
   clearAccessToken: () => void;
 
-  user: User | null;
-  setUser: (user: User) => void;
+  user: TUser | null;
+  setUser: (user: TUser) => void;
 
-  guests: User[] | null;
-  setGuests: (guests: User[]) => void;
+  guests: TUser[] | null;
+  setGuests: (guests: TUser[]) => void;
 };
 
 export const authSlice: StateCreator<
@@ -43,11 +44,11 @@ export const authSlice: StateCreator<
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   })(),
-  setUser: (user: User) => {
+  setUser: (user: TUser) => {
     localStorage.setItem('user', JSON.stringify(user));
     set({ user });
   },
 
   guests: null,
-  setGuests: (guests: User[]) => set({ guests }),
+  setGuests: (guests: TUser[]) => set({ guests }),
 });
