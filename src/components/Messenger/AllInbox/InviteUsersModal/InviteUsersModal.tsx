@@ -1,9 +1,10 @@
 
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getUsers } from '@/api/user';
+import type { TGuest } from '@/api/chat';
 import type { User } from '@/stores/slice/auth';
 import { getActions, useSocket, useUser } from '@/stores';
-import { getUsers } from '@/api/user';
 import { useMessenger } from '@/context/MessengerContext';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
 import Modal from '@/components/common/Modal/Modal';
@@ -12,10 +13,10 @@ import styles from "./styles.module.css";
 export default function InviteUsersModal() {
     const user = useUser();
     const socket = useSocket();
+    const queryClient = useQueryClient();
     const { setIsModal } = useMessenger();
     const { createChatRoom } = getActions();
     const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-    const [isCreatingRoom, setIsCreatingRoom] = useState(false);
 
     const { data } = useQuery<User[]>({
         queryKey: ['users'],
@@ -26,31 +27,30 @@ export default function InviteUsersModal() {
             }
             return result?.users || [];
         },
-        staleTime: 1000 * 10 // 10초
+        // staleTime: 1000 * 10 // 10초
     })
 
     // 현재 사용자를 제외한 사용자 목록
     const availableUsers = data?.filter(userData => userData.id !== user?.id) || [];
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setIsModal(false);
-    }
+    }, [setIsModal]);
 
     const handleSave = () => {
-        // setIsModal(false); 
         createChatRoom(user!.id, selectedUsers);
-        console.log("handleSave - 채팅방 생성 요청을 보냈습니다.");
     }
 
-    // 소켓 이벤트를 직접 처리하여 정확한 roomId 확인
     useEffect(() => {
-        // if (!isCreatingRoom || !socket) return;
         if (!socket) return;
 
-        const handleRoomCreated = (newRoomId: number) => {
-            console.log("새로운 채팅방이 생성되었습니다. roomId:", newRoomId);
-            setIsModal(false);
-            setIsCreatingRoom(false);
+        const handleRoomCreated = ({ host, guests }: { host: TGuest; guests: TGuest[] }) => {
+            console.log("새로운 채팅방이 생성되었습니다.", host, guests);
+
+            // 채팅 룸 리스트를 실시간으로 업데이트
+            queryClient.invalidateQueries({ queryKey: ['chatList'] });
+
+            handleClose();
         };
 
         socket.on("roomCreated", handleRoomCreated);
@@ -58,7 +58,7 @@ export default function InviteUsersModal() {
         return () => {
             socket.off("roomCreated", handleRoomCreated);
         };
-    }, [isCreatingRoom, socket, setIsModal]);
+    }, [socket, queryClient, handleClose]);
 
     const handleToggleUser = (userId: number) => {
         setSelectedUsers(prev =>
