@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getActions, useSocket, useUser } from '@/stores';
 import { useMessenger } from '@/context/MessengerContext';
 import { formatDate, formatTime } from '@/utils/time-format';
@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 
 export default function ChatRoom() {
     const [chatInput, setChatInput] = useState("");
+    const chatContentRef = useRef<HTMLUListElement>(null);
     const { chatRoomId, chatContent, setChatContent } = useMessenger();
     const { sendMessage } = getActions();
     const socket = useSocket();
@@ -36,6 +37,18 @@ export default function ChatRoom() {
         sendMessage(chatRoomId, chatInput);
         setChatInput("");
     }
+
+    // 스크롤을 맨 아래로 이동시키는 함수
+    const scrollToBottom = () => {
+        if (chatContentRef.current) {
+            chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+        }
+    };
+
+    // 채팅 내용이 변경될 때마다 스크롤을 아래로 이동
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatContent]);
 
 
     useEffect(() => {
@@ -70,7 +83,7 @@ export default function ChatRoom() {
 
     return (
         <div className={styles.chatRoom}>
-            <ul className={styles.chat_content_wrap}>
+            <ul ref={chatContentRef} className={styles.chat_content_wrap}>
                 {chatContent.length === 0 && (
                     <div className={styles.date_wrap}>
                         <span className={styles.date}>{formatDate(new Date().toISOString())}</span>
