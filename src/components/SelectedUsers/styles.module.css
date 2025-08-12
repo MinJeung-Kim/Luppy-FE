@@ -1,0 +1,18 @@
+.select_users {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #e8e9ef;
+
+    .select_name {
+        color: #8E91AE;
+        font-weight: 800;
+        font-size: .85rem;
+        padding: .2rem 1rem;
+        border-radius: 8px;
+        background: #F3F4F9;
+    }
+}

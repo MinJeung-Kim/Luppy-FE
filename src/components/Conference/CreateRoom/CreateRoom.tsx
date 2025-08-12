@@ -1,8 +1,17 @@
+import { useConference } from '@/context/ConferenceContext';
+import { useAvailableUsers } from '@/hooks/useAvailableUsers';
 import ConferenceImg from "@/assets/images/conference.png";
+import SelectedUsers from '@/components/SelectedUsers/SelectedUsers';
 import Button from '@/components/common/Button/Button';
 import styles from "./styles.module.css";
 
 export default function CreateRoom() {
+    const { selectedUsers } = useConference();
+    const { availableUsers } = useAvailableUsers();
+
+    const handleCreateRoom = () => {
+
+    }
 
     return (
         <div className={styles.create_room_container}>
@@ -11,7 +20,8 @@ export default function CreateRoom() {
                 <span className={styles.title}>화상 회의 시작</span>
                 <span className={styles.sub_title}>기존 연락처와 화상 회의를 시작하거나 링크를 통해 다른 사람을 초대하세요.</span>
             </div>
-            <Button text='회의 시작' onClick={() => { }} />
+            <SelectedUsers users={availableUsers} selectedUsers={selectedUsers} />
+            <Button text='회의 시작' disabled={selectedUsers.length === 0} onClick={handleCreateRoom} />
 
         </div>
     );

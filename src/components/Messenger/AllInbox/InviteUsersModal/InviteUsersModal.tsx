@@ -5,10 +5,11 @@ import type { TUser } from '@/stores/slice/auth';
 import { getActions, useSocket, useUser } from '@/stores';
 import { useMessenger } from '@/context/MessengerContext';
 import { useAvailableUsers } from '@/hooks/useAvailableUsers';
+import SelectedUsers from '@/components/SelectedUsers/SelectedUsers';
 import CheckBox from '@/components/common/CheckBox/CheckBox';
+import Avatar from '@/components/common/Avatar/Avatar';
 import Modal from '@/components/common/Modal/Modal';
 import styles from "./styles.module.css";
-import Avatar from '@/components/common/Avatar/Avatar';
 
 export default function InviteUsersModal() {
     const user = useUser();
@@ -53,18 +54,11 @@ export default function InviteUsersModal() {
                 ? prev.filter(id => id !== userId) // 체크 해제
                 : [...prev, userId]                // 체크
         );
-
     };
 
     return <Modal header='Invite people to chat' onClose={handleClose} onSave={handleSave}>
         <span className={styles.title}>Type name to invite ({selectedUsers.length})</span>
-        <ul className={styles.select_users}>
-            {availableUsers
-                .filter((userData: TUser) => selectedUsers.includes(userData.id))
-                .map((userData: TUser) => (
-                    <li key={userData.id} className={styles.select_name}>{userData.name}</li>
-                ))}
-        </ul>
+        <SelectedUsers users={availableUsers} selectedUsers={selectedUsers} />
         <ul className={styles.user_container}>
             <span className={styles.title}>Invited</span>
             {availableUsers.map(({ id, name, email, profile }: TUser) =>
