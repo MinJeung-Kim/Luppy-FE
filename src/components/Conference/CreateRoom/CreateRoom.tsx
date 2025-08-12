@@ -1,17 +1,40 @@
+import { v4 as uuidv4 } from 'uuid';
+import { getActions, useSocket, useUser } from '@/stores';
 import { useConference } from '@/context/ConferenceContext';
 import { useAvailableUsers } from '@/hooks/useAvailableUsers';
 import ConferenceImg from "@/assets/images/conference.png";
 import SelectedUsers from '@/components/SelectedUsers/SelectedUsers';
 import Button from '@/components/common/Button/Button';
 import styles from "./styles.module.css";
+import { useEffect } from 'react';
 
 export default function CreateRoom() {
+    const user = useUser();
+    const socket = useSocket();
     const { selectedUsers } = useConference();
     const { availableUsers } = useAvailableUsers();
+    const { createConferenceRoom } = getActions();
 
     const handleCreateRoom = () => {
-
+        const roomId = uuidv4();
+        createConferenceRoom(roomId, user!.id, selectedUsers)
     }
+
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleCreatedRoom = ({ message }: { message: string }) => {
+            console.log("handleRoomCreated - message : ", message);
+        };
+
+        socket.on("createConferenceRoom", handleCreatedRoom);
+
+        return () => {
+            socket.off("createConferenceRoom", handleCreatedRoom);
+        };
+    }, [socket]);
+
 
     return (
         <div className={styles.create_room_container}>

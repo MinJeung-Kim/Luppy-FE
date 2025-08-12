@@ -18,7 +18,7 @@ export function ConferenceProvider({ children }: { children: React.ReactNode }) 
         <ConferenceContext.Provider
             value={{
                 selectedUsers,
-                setSelectedUsers
+                setSelectedUsers,
             }}
         >
             {children}

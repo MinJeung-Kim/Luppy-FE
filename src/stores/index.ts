@@ -8,6 +8,7 @@ const accessTokenSelector = (state: BoundState) => state.accessToken;
 const openAlertSelector = (state: BoundState) => state.openAlert;
 const alertMessageSelector = (state: BoundState) => state.alertMessage;
 const selectedMenuSelector = (state: BoundState) => state.selectedMenu;
+const isGlobalModalSelector = (state: BoundState) => state.isGlobalModal;
 
 export const useGuests = () => useBoundStore(guestsSelector);
 export const useUser = () => useBoundStore(userSelector);
@@ -18,6 +19,7 @@ export const useOpenAlert = () => useBoundStore(openAlertSelector);
 export const useAlertMessage = () => useBoundStore(alertMessageSelector);
 export const useSelectedMenu = () =>
   useBoundStore(selectedMenuSelector);
+export const useIsGlobalModal = () => useBoundStore(isGlobalModalSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -37,10 +39,12 @@ export const getActions = () => ({
   setOpenAlert: useBoundStore.getState().setOpenAlert,
   setAlertMessage: useBoundStore.getState().setAlertMessage,
   setSelectedMenu: useBoundStore.getState().setSelectedMenu,
+  setIsGlobalModal: useBoundStore.getState().setIsGlobalModal,
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,
   socketClose: useBoundStore.getState().socketClose,
   sendMessage: useBoundStore.getState().sendMessage,
   createChatRoom: useBoundStore.getState().createChatRoom,
+  createConferenceRoom: useBoundStore.getState().createConferenceRoom
 });
