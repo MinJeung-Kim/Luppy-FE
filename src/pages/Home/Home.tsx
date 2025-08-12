@@ -18,16 +18,16 @@ export default function Home() {
   useEffect(() => {
     if (!socket) return;
 
-    const handleRoomCreated = ({ hostName }: { hostName: string }) => {
+    const handleConferenceInvitation = ({ hostName }: { hostName: string }) => {
       console.log("handleRoomCreated - hostName : ", hostName);
       setModalText(hostName);
       setIsGlobalModal(true);
     };
 
-    socket.on("conferenceInvitation", handleRoomCreated);
+    socket.on("conferenceInvitation", handleConferenceInvitation);
 
     return () => {
-      socket.off("conferenceInvitation", handleRoomCreated);
+      socket.off("conferenceInvitation", handleConferenceInvitation);
     };
   }, [socket]);
 

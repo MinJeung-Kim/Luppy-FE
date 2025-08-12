@@ -1,5 +1,5 @@
-import { MdCall } from "react-icons/md";
+import { MdCallEnd } from "react-icons/md";
 
 export default function CallIcon() {
-  return <MdCall />;
+  return <MdCallEnd />;
 }

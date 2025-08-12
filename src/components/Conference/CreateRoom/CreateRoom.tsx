@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getActions, useSocket, useUser } from '@/stores';
 import { useConference } from '@/context/ConferenceContext';
@@ -6,11 +7,12 @@ import ConferenceImg from "@/assets/images/conference.png";
 import SelectedUsers from '@/components/SelectedUsers/SelectedUsers';
 import Button from '@/components/common/Button/Button';
 import styles from "./styles.module.css";
-import { useEffect } from 'react';
+
 
 export default function CreateRoom() {
     const user = useUser();
     const socket = useSocket();
+    const { setIsCreatedRoom } = useConference();
     const { selectedUsers } = useConference();
     const { availableUsers } = useAvailableUsers();
     const { createConferenceRoom } = getActions();
@@ -20,12 +22,12 @@ export default function CreateRoom() {
         createConferenceRoom(roomId, user!.id, selectedUsers)
     }
 
-
     useEffect(() => {
         if (!socket) return;
 
         const handleCreatedRoom = ({ message }: { message: string }) => {
             console.log("handleRoomCreated - message : ", message);
+            setIsCreatedRoom(true)
         };
 
         socket.on("createConferenceRoom", handleCreatedRoom);
@@ -45,7 +47,6 @@ export default function CreateRoom() {
             </div>
             <SelectedUsers users={availableUsers} selectedUsers={selectedUsers} />
             <Button text='회의 시작' disabled={selectedUsers.length === 0} onClick={handleCreateRoom} />
-
         </div>
     );
 }

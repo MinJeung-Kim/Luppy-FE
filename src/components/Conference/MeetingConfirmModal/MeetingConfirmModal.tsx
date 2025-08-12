@@ -9,7 +9,12 @@ type Props = {
 export default function MeetingConfirmModal({ text }: Props) {
     const { setIsGlobalModal } = getActions();
 
-    return <Modal header='화상 회의 초대' onClose={() => { setIsGlobalModal(false) }} onSave={() => { }}  >
+    const handleSave = () => { }
+
+    return <Modal
+        header='화상 회의 초대'
+        onClose={() => { setIsGlobalModal(false) }}
+        onSave={handleSave}  >
         <div className={styles.meeting_modal_container}>
             <div className={styles.host_wrap}>
                 <span className={styles.host_name}>{text}</span>

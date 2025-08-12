@@ -1,0 +1,13 @@
+.conference_container {
+    .create_room_wrap {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+
+        .user_list_wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+}
