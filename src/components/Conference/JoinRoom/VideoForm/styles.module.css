@@ -1,9 +1,11 @@
 .video_form {
     position: relative;
-    width: 100%;
-    height: 80%;
+    width: 400px;
+    height: 400px;
     display: flex;
-    padding: .5rem;
+    align-items: center;
+    justify-content: center;
+    background: #000;
 
     .error_message {
         background-color: #fee2e2;
@@ -16,63 +18,17 @@
         font-size: 14px;
     }
 
-    .video_container {
+
+    video {
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #000;
-
-        video {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            display: block;
-        }
-
-        img {
-            width: min(200px, 50%);
-            height: min(200px, 50%);
-        }
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        display: block;
     }
 
-
-    .button_container {
-        position: absolute;
-        bottom: 15px;
-        z-index: 99;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: .5rem;
-
-        button {
-            background: #fff;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: .85rem;
-            cursor: pointer;
-
-            svg {
-                color: var(--color-accent);
-            }
-        }
-
-        .microphone_button {}
-
-        .call_button {
-            background: var(--color-accent);
-
-            svg {
-                color: #fff;
-            }
-        }
-
-        .video_cam_button {}
+    img {
+        width: min(200px, 50%);
+        height: min(200px, 50%);
     }
-
 }

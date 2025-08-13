@@ -1,4 +1,4 @@
-import { getActions } from '@/stores';
+import { getActions, useConferenceId, useUser } from '@/stores';
 import Modal from '@/components/common/Modal/Modal';
 import styles from "./styles.module.css";
 
@@ -7,9 +7,15 @@ type Props = {
 }
 
 export default function MeetingConfirmModal({ text }: Props) {
-    const { setIsGlobalModal } = getActions();
+    const user = useUser();
+    const conferenceId = useConferenceId();
+    const { setIsGlobalModal, joinConferenceRoom } = getActions();
 
-    const handleSave = () => { }
+    const handleSave = () => {
+        console.log("회의실에 참여합니다.", conferenceId, user!.id);
+
+        joinConferenceRoom(conferenceId!, user!.id);
+    }
 
     return <Modal
         header='화상 회의 초대'

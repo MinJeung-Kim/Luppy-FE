@@ -12,15 +12,16 @@ export default function Home() {
   const socket = useSocket();
   const selectedMenu = useSelectedMenu();
   const isGlobalModal = useIsGlobalModal();
-  const { setIsGlobalModal } = getActions();
+  const { setIsGlobalModal, setConferenceId } = getActions();
   const [modalText, setModalText] = useState('');
 
   useEffect(() => {
     if (!socket) return;
 
-    const handleConferenceInvitation = ({ hostName }: { hostName: string }) => {
+    const handleConferenceInvitation = ({ hostName, roomId }: { hostName: string, roomId: string | null }) => {
       console.log("handleRoomCreated - hostName : ", hostName);
       setModalText(hostName);
+      setConferenceId(roomId);
       setIsGlobalModal(true);
     };
 

@@ -9,6 +9,7 @@ const openAlertSelector = (state: BoundState) => state.openAlert;
 const alertMessageSelector = (state: BoundState) => state.alertMessage;
 const selectedMenuSelector = (state: BoundState) => state.selectedMenu;
 const isGlobalModalSelector = (state: BoundState) => state.isGlobalModal;
+const conferenceIdSelector = (state: BoundState) => state.conferenceId;
 
 export const useGuests = () => useBoundStore(guestsSelector);
 export const useUser = () => useBoundStore(userSelector);
@@ -20,6 +21,7 @@ export const useAlertMessage = () => useBoundStore(alertMessageSelector);
 export const useSelectedMenu = () =>
   useBoundStore(selectedMenuSelector);
 export const useIsGlobalModal = () => useBoundStore(isGlobalModalSelector);
+export const useConferenceId = () => useBoundStore(conferenceIdSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -29,7 +31,8 @@ export const getAccessToken = () => accessTokenSelector(useBoundStore.getState()
 export const getOpenAlert = () => openAlertSelector(useBoundStore.getState());
 export const getAlertMessage = () => alertMessageSelector(useBoundStore.getState());
 export const getSelectedMenu = () => selectedMenuSelector(useBoundStore.getState());
-
+export const getIsGlobalModal = () => isGlobalModalSelector(useBoundStore.getState());
+export const getConferenceId = () => conferenceIdSelector(useBoundStore.getState());
 
 export const getActions = () => ({
   setGuests: useBoundStore.getState().setGuests,
@@ -40,11 +43,13 @@ export const getActions = () => ({
   setAlertMessage: useBoundStore.getState().setAlertMessage,
   setSelectedMenu: useBoundStore.getState().setSelectedMenu,
   setIsGlobalModal: useBoundStore.getState().setIsGlobalModal,
+  setConferenceId: useBoundStore.getState().setConferenceId,
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,
   socketClose: useBoundStore.getState().socketClose,
   sendMessage: useBoundStore.getState().sendMessage,
   createChatRoom: useBoundStore.getState().createChatRoom,
-  createConferenceRoom: useBoundStore.getState().createConferenceRoom
+  createConferenceRoom: useBoundStore.getState().createConferenceRoom,
+  joinConferenceRoom: useBoundStore.getState().joinConferenceRoom
 });

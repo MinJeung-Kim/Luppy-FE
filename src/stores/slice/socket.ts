@@ -21,6 +21,7 @@ export interface SocketSliceState {
     createChatRoom: (host: number, guest: number[]) => void;
     sendMessage: (roomId: number, message: string) => void;
     createConferenceRoom: (roomId: string, host: number, guests: number[]) => void;
+    joinConferenceRoom: (roomId: string, userId: number) => void;
 }
 
 export const socketSlice: StateCreator<
@@ -106,6 +107,12 @@ export const socketSlice: StateCreator<
             console.log("createConferenceRoom - guests : ", guests);
 
             currentSocket.emit("createConferenceRoom", { roomId, host, guests });
+        }
+    },
+    joinConferenceRoom: (roomId: string, host: number) => {
+        const currentSocket = get().socket;
+        if (currentSocket) {
+            currentSocket.emit("joinConferenceRoom", { roomId, host });
         }
     }
 })

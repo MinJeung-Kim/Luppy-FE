@@ -1,4 +1,44 @@
 .join_room_container {
     width: 100%;
     height: 100vh;
+    display: flex;
+
+
+    .button_container {
+        position: absolute;
+        bottom: 15px;
+        z-index: 99;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+
+        button {
+            background: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: .85rem;
+            cursor: pointer;
+
+            svg {
+                color: var(--color-accent);
+            }
+        }
+
+        .microphone_button {}
+
+        .call_button {
+            background: var(--color-accent);
+
+            svg {
+                color: #fff;
+            }
+        }
+
+        .video_cam_button {}
+    }
+
 }

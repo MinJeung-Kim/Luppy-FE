@@ -19,6 +19,7 @@ export default function CreateRoom() {
 
     const handleCreateRoom = () => {
         const roomId = uuidv4();
+        if (user == null) return;
         createConferenceRoom(roomId, user!.id, selectedUsers)
     }
 
