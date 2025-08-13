@@ -3,6 +3,20 @@
     height: 100vh;
     display: flex;
 
+    .video_form {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+
+        img {
+            width: min(200px, 50%);
+            height: min(200px, 50%);
+        }
+    }
 
     .button_container {
         position: absolute;
@@ -40,5 +54,7 @@
 
         .video_cam_button {}
     }
+
+
 
 }

@@ -9,7 +9,6 @@ export default function VideoForm({ isMicOn }: Props) {
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const [stream, setStream] = useState<MediaStream | null>(null);
-    const [error, setError] = useState<string>('');
 
     useEffect(() => {
         const getMediaStream = async () => {
@@ -26,7 +25,7 @@ export default function VideoForm({ isMicOn }: Props) {
                 }
             } catch (err) {
                 console.error('미디어 스트림을 가져오는데 실패했습니다:', err);
-                setError('카메라와 마이크에 접근할 수 없습니다. 권한을 확인해주세요.');
+                // setError('카메라와 마이크에 접근할 수 없습니다. 권한을 확인해주세요.');
             }
         };
 
@@ -43,9 +42,9 @@ export default function VideoForm({ isMicOn }: Props) {
     }, [stream]);
 
     return <div className={styles.video_form}>
-        {error && <div className={styles.error_message}>{error}</div>}
 
         <video
+            className={styles.video}
             ref={videoRef}
             autoPlay
             playsInline // 모바일에서 인라인 재생

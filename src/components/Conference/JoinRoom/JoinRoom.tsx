@@ -48,9 +48,11 @@ export default function JoinRoom() {
     }, [socket, setJoinUsers]);
 
     return <div className={styles.join_room_container}>
-
-        {isVideoOn ? <VideoForm isMicOn={isMicOn} /> :
-            <Avatar src={user!.profile} alt='' />}
+        <div className={styles.video_form}>
+            {isVideoOn ?
+                <VideoForm isMicOn={isMicOn} />
+                : <Avatar src={user!.profile} alt='' />}
+        </div>
 
         {/* {joinUsers.map(user => (
             <VideoForm key={user.id} user={user} />
