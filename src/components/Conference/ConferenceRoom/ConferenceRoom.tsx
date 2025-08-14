@@ -1,4 +1,5 @@
 import { useConference } from '@/context/ConferenceContext';
+import { useIsCreatedRoom } from '@/stores';
 import CallSetting from '../JoinRoom/CallSetting/CallSetting';
 import CreateRoom from '../CreateRoom/CreateRoom';
 import JoinRoom from '../JoinRoom/JoinRoom';
@@ -7,7 +8,8 @@ import Search from '../Search/Search';
 import styles from "./styles.module.css";
 
 export default function ConferenceRoom() {
-    const { isCreatedRoom, isCallSetting, setIsCallSetting } = useConference();
+    const { isCallSetting, setIsCallSetting } = useConference();
+    const isCreatedRoom = useIsCreatedRoom();
 
     return <div className={styles.conference_container}>
         {!isCreatedRoom ?

@@ -9,17 +9,24 @@ type Props = {
 export default function MeetingConfirmModal({ text }: Props) {
     const user = useUser();
     const conferenceId = useConferenceId();
-    const { setIsGlobalModal, joinConferenceRoom } = getActions();
+    const { setIsGlobalModal, joinConferenceRoom, setSelectedMenu, setIsCreatedRoom } = getActions();
+
+    const handleClose = () => {
+        setIsGlobalModal(false);
+    };
 
     const handleSave = () => {
         console.log("회의실에 참여합니다.", conferenceId, user!.id);
 
         joinConferenceRoom(conferenceId!, user!.id);
+        setIsCreatedRoom(true); // 회의실 참여 상태로 변경
+        setSelectedMenu('Conference'); // Conference 페이지로 이동
+        handleClose()
     }
 
     return <Modal
         header='화상 회의 초대'
-        onClose={() => { setIsGlobalModal(false) }}
+        onClose={handleClose}
         onSave={handleSave}  >
         <div className={styles.meeting_modal_container}>
             <div className={styles.host_wrap}>

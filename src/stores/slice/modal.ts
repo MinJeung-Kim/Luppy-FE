@@ -6,6 +6,9 @@ export interface ModalSliceState {
 
     conferenceId: string | null;
     setConferenceId: (conferenceId: string | null) => void;
+
+    isCreatedRoom: boolean;
+    setIsCreatedRoom: (isCreated: boolean) => void;
 }
 
 export const modalSlice: StateCreator<ModalSliceState> = (set) => ({
@@ -13,5 +16,8 @@ export const modalSlice: StateCreator<ModalSliceState> = (set) => ({
     setIsGlobalModal: (isOpen: boolean) => set({ isGlobalModal: isOpen }),
 
     conferenceId: null,
-    setConferenceId: (conferenceId: string | null) => set({ conferenceId })
+    setConferenceId: (conferenceId: string | null) => set({ conferenceId }),
+
+    isCreatedRoom: false,
+    setIsCreatedRoom: (isCreated: boolean) => set({ isCreatedRoom: isCreated })
 });

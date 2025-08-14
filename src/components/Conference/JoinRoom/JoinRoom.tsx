@@ -9,6 +9,7 @@ import VideoCamOffIcon from '@/components/common/icons/VideoCamOffIcon';
 import VideoCamIcon from '@/components/common/icons/VideoCamIcon';
 import SettingIcon from '@/components/common/icons/SettingIcon';
 import MicOffIcon from '@/components/common/icons/MicOffIcon';
+import UsersIcon from '@/components/common/icons/UsersIcon';
 import CallIcon from '@/components/common/icons/CallIcon';
 import Avatar from '@/components/common/Avatar/Avatar';
 import VideoForm from './VideoForm/VideoForm';
@@ -79,6 +80,9 @@ export default function JoinRoom() {
         ))} */}
 
             <div className={styles.button_container}>
+                <button className={styles.call_setting_button} onClick={() => { }}>
+                    <UsersIcon />
+                </button>
                 <div className={styles.video_controls}>
                     <button className={styles.microphone_button} onClick={handleMuteToggle}>
                         {isMicOn ? <MicOffIcon /> : <MicrophoneIcon />}

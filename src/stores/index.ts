@@ -10,6 +10,7 @@ const alertMessageSelector = (state: BoundState) => state.alertMessage;
 const selectedMenuSelector = (state: BoundState) => state.selectedMenu;
 const isGlobalModalSelector = (state: BoundState) => state.isGlobalModal;
 const conferenceIdSelector = (state: BoundState) => state.conferenceId;
+const isCreatedRoomSelector = (state: BoundState) => state.isCreatedRoom;
 
 export const useGuests = () => useBoundStore(guestsSelector);
 export const useUser = () => useBoundStore(userSelector);
@@ -22,6 +23,7 @@ export const useSelectedMenu = () =>
   useBoundStore(selectedMenuSelector);
 export const useIsGlobalModal = () => useBoundStore(isGlobalModalSelector);
 export const useConferenceId = () => useBoundStore(conferenceIdSelector);
+export const useIsCreatedRoom = () => useBoundStore(isCreatedRoomSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -33,6 +35,7 @@ export const getAlertMessage = () => alertMessageSelector(useBoundStore.getState
 export const getSelectedMenu = () => selectedMenuSelector(useBoundStore.getState());
 export const getIsGlobalModal = () => isGlobalModalSelector(useBoundStore.getState());
 export const getConferenceId = () => conferenceIdSelector(useBoundStore.getState());
+export const getIsCreatedRoom = () => isCreatedRoomSelector(useBoundStore.getState());
 
 export const getActions = () => ({
   setGuests: useBoundStore.getState().setGuests,
@@ -44,6 +47,7 @@ export const getActions = () => ({
   setSelectedMenu: useBoundStore.getState().setSelectedMenu,
   setIsGlobalModal: useBoundStore.getState().setIsGlobalModal,
   setConferenceId: useBoundStore.getState().setConferenceId,
+  setIsCreatedRoom: useBoundStore.getState().setIsCreatedRoom,
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,

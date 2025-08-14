@@ -1,7 +1,6 @@
 .join_room_container {
     position: relative;
     width: 100%;
-    height: 100vh;
     display: flex;
 
     .video_form {

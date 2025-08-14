@@ -12,10 +12,9 @@ import styles from "./styles.module.css";
 export default function CreateRoom() {
     const user = useUser();
     const socket = useSocket();
-    const { setIsCreatedRoom } = useConference();
     const { selectedUsers } = useConference();
     const { availableUsers } = useAvailableUsers();
-    const { createConferenceRoom } = getActions();
+    const { createConferenceRoom, setIsCreatedRoom } = getActions();
 
     const handleCreateRoom = () => {
         const roomId = uuidv4();
@@ -36,7 +35,7 @@ export default function CreateRoom() {
         return () => {
             socket.off("createConferenceRoom", handleCreatedRoom);
         };
-    }, [socket]);
+    }, [socket, setIsCreatedRoom]);
 
 
     return (
