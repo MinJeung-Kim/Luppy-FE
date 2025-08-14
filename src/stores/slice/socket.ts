@@ -22,6 +22,9 @@ export interface SocketSliceState {
     sendMessage: (roomId: number, message: string) => void;
     createConferenceRoom: (roomId: string, host: number, guests: number[]) => void;
     joinConferenceRoom: (roomId: string, userId: number) => void;
+    sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => void;
+    sendAnswer: (roomId: string, answer: RTCSessionDescriptionInit) => void;
+    sendIceCandidate: (roomId: string, candidate: RTCIceCandidateInit) => void;
 }
 
 export const socketSlice: StateCreator<
@@ -34,8 +37,6 @@ export const socketSlice: StateCreator<
     socketOpen: () => {
         const token = get().accessToken;
         if (token) {
-            console.log("Connecting to socket with token:", token);
-            console.log("Socket server URL:", baseURL);
 
             const newSocket = io(baseURL, {
                 withCredentials: true,
@@ -104,8 +105,6 @@ export const socketSlice: StateCreator<
         const currentSocket = get().socket;
         if (currentSocket) {
 
-            console.log("createConferenceRoom - guests : ", guests);
-
             currentSocket.emit("createConferenceRoom", { roomId, host, guests });
         }
     },
@@ -113,6 +112,24 @@ export const socketSlice: StateCreator<
         const currentSocket = get().socket;
         if (currentSocket) {
             currentSocket.emit("joinConferenceRoom", { roomId, host });
+        }
+    },
+    sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => {
+        const currentSocket = get().socket;
+        if (currentSocket) {
+            currentSocket.emit("sendOffer", { roomId, offer });
+        }
+    },
+    sendAnswer: (roomId: string, answer: RTCSessionDescriptionInit) => {
+        const currentSocket = get().socket;
+        if (currentSocket) {
+            currentSocket.emit("sendAnswer", { roomId, answer });
+        }
+    },
+    sendIceCandidate: (roomId: string, candidate: RTCIceCandidateInit) => {
+        const currentSocket = get().socket;
+        if (currentSocket) {
+            currentSocket.emit("sendIceCandidate", { roomId, candidate });
         }
     }
 })

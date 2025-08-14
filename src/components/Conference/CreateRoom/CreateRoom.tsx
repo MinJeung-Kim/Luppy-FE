@@ -14,10 +14,11 @@ export default function CreateRoom() {
     const socket = useSocket();
     const { selectedUsers } = useConference();
     const { availableUsers } = useAvailableUsers();
-    const { createConferenceRoom, setIsCreatedRoom } = getActions();
+    const { createConferenceRoom, setIsCreatedRoom, setConferenceId } = getActions();
 
     const handleCreateRoom = () => {
         const roomId = uuidv4();
+        setConferenceId(roomId)
         if (user == null) return;
         createConferenceRoom(roomId, user!.id, selectedUsers)
     }
