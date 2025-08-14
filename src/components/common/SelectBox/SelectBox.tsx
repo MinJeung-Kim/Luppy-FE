@@ -2,22 +2,23 @@ import { useState } from 'react';
 import ArrowRightIcon from '../icons/ArrowRightIcon';
 import styles from "./styles.module.css";
 
-type Props = {
+export type TMenuItem = {
+    deviceId: string;
     label: string;
-    menu: {
-        deviceId: string;
-        label: string;
-    }[];
 };
 
-export default function SelectBox({ label, menu }: Props) {
-    const [isMenuToggle, setIsMenuToggle] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(menu[0]?.label || '');
+type Props = {
+    label: string;
+    menu: TMenuItem[];
 
-    const handleItemClick = (item: { deviceId: string; label: string }) => {
-        setSelectedItem(item.label);
-        setIsMenuToggle(false);
-    };
+    selected: TMenuItem;
+
+    onClick: (item: TMenuItem) => void;
+};
+
+export default function SelectBox({ label, menu, selected, onClick }: Props) {
+    const [isMenuToggle, setIsMenuToggle] = useState(false);
+
 
     return (
         <div className={styles.select_box}>
@@ -25,14 +26,14 @@ export default function SelectBox({ label, menu }: Props) {
             <div className={styles.selected_item}
                 onClick={() => setIsMenuToggle(!isMenuToggle)}
             >
-                <span className={styles.selected_item_name}>{selectedItem || menu[0]?.label}</span>
+                <span className={styles.selected_item_name}>{selected.label || menu[0]?.label}</span>
                 <ArrowRightIcon />
 
                 <ul className={`${styles.select} ${isMenuToggle ? styles.open : ''}`}>
                     {menu.map(item => (
                         <li key={item.deviceId}
                             className={styles.menu_item}
-                            onClick={() => handleItemClick(item)}
+                            onClick={() => onClick(item)}
                         >
                             <span className={styles.item_name}>{item.label}</span>
                         </li>

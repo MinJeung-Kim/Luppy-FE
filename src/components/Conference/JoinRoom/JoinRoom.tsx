@@ -4,7 +4,7 @@ import { useSocket, useUser } from '@/stores';
 import type { TUser } from '@/stores/slice/auth';
 import { useMediaStream } from '@/hooks/useMediaStream';
 import { useConference } from '@/context/ConferenceContext';
-import SelectBox from '@/components/common/SelectBox/SelectBox';
+import SelectBox, { type TMenuItem } from '@/components/common/SelectBox/SelectBox';
 import MicrophoneIcon from '@/components/common/icons/MicrophoneIcon';
 import VideoCamOffIcon from '@/components/common/icons/VideoCamOffIcon';
 import VideoCamIcon from '@/components/common/icons/VideoCamIcon';
@@ -16,16 +16,22 @@ import styles from "./styles.module.css";
 
 
 export default function JoinRoom() {
+    const [isMicOn, setIsMicOn] = useState<boolean>(true);
+    const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
+    const [selectedVideo, setSelectedVideo] = useState<TMenuItem>({ deviceId: '', label: '' });
+
     const user = useUser()
     const socket = useSocket();
     const {
         // joinUsers, 
         setJoinUsers } = useConference();
-    const { stream, videos } = useMediaStream();
+    const { stream, videos, getMediaStream } = useMediaStream();
 
-    const [isMicOn, setIsMicOn] = useState<boolean>(true);
-    const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
-    const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+    const handleItemClick = async (item: { deviceId: string; label: string }) => {
+        setSelectedVideo(item);
+        // setIsMenuToggle(false);
+        await getMediaStream(item.deviceId);
+    };
 
     const handleMuteToggle = () => {
         stream?.getAudioTracks().forEach(track => {
@@ -74,9 +80,17 @@ export default function JoinRoom() {
         </div>
 
         <ul className={styles.call_settings}>
-            <SelectBox label="Video" menu={videos} />
+            <SelectBox label="Video" menu={videos}
+                selected={selectedVideo}
+                onClick={handleItemClick} />
 
+            <SelectBox label="Microphone" menu={videos}
+                selected={selectedVideo}
+                onClick={handleItemClick} />
 
+            <SelectBox label="Speakers" menu={videos}
+                selected={selectedVideo}
+                onClick={handleItemClick} />
         </ul>
 
 

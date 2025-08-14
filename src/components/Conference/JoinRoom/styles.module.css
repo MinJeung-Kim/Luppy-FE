@@ -18,6 +18,13 @@
         }
     }
 
+    .call_settings {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        padding: 1rem;
+    }
+
     .button_container {
         position: absolute;
         bottom: 15px;

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface UseMediaStreamReturn {
     stream: MediaStream | null;
@@ -11,8 +11,8 @@ interface UseMediaStreamReturn {
 }
 
 export const useMediaStream = (
-    video: boolean | MediaTrackConstraints = true,
-    audio: boolean | MediaTrackConstraints = true
+    // video: boolean | MediaTrackConstraints = true,
+    // audio: boolean | MediaTrackConstraints = true
 ): UseMediaStreamReturn => {
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -20,7 +20,6 @@ export const useMediaStream = (
     const [videos, setVideos] = useState<MediaDeviceInfo[]>([]);
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
-    const options = useMemo(() => ({ video: { facingMode: "user" }, audio }), [video, audio]);
 
     const getVideos = async () => {
         try {
@@ -40,8 +39,17 @@ export const useMediaStream = (
         setIsLoading(true);
         setError(null);
 
+
+        const initialConstraints = { facingMode: "user" };
+        const cameraConstraints = {
+            deviceId: { exact: deviceId }
+        };
+
         try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia(options);
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: deviceId ? cameraConstraints : initialConstraints
+            });
             setStream(mediaStream);
 
             if (videoRef.current) {
@@ -55,15 +63,10 @@ export const useMediaStream = (
         }
     };
 
-    // 초기 카메라 목록 로드
-    useEffect(() => {
-    }, []);
-
     useEffect(() => {
         getVideos();
-
         getMediaStream();
-    }, [options]);
+    }, []);
 
     // 컴포넌트 언마운트 시 스트림 정리
     useEffect(() => {
