@@ -19,7 +19,6 @@ type Props = {
 export default function SelectBox({ label, menu, selected, onClick }: Props) {
     const [isMenuToggle, setIsMenuToggle] = useState(false);
 
-
     return (
         <div className={styles.select_box}>
             <span className={styles.label}>{label}</span>
@@ -35,7 +34,7 @@ export default function SelectBox({ label, menu, selected, onClick }: Props) {
                             className={styles.menu_item}
                             onClick={() => onClick(label, item)}
                         >
-                            <span className={styles.item_name}>{item.label}</span>
+                            <span className={styles.item_name} title={item.label}>{item.label}</span>
                         </li>
                     ))}
                 </ul>

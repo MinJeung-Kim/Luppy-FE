@@ -3,7 +3,8 @@
     flex-direction: column;
 
     .label {
-        font-size: 0.85rem;
+        font-weight: 600;
+        font-size: 0.8rem;
         color: var(--color-disabled);
     }
 
@@ -16,10 +17,14 @@
         gap: 0.5rem;
 
         .selected_item_name {
-            min-width: 159px;
+            width: 159px;
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            display: block;
         }
 
         svg {
@@ -49,9 +54,19 @@
                 justify-content: flex-start;
                 padding: 8px;
 
+                &:hover {
+                    background-color: #e8e9ef;
+                }
+
                 .item_name {
-                    font-size: 0.9rem;
+                    font-size: 0.8rem;
+                    line-height: 20px;
                     cursor: pointer;
+
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    display: block;
                 }
             }
         }

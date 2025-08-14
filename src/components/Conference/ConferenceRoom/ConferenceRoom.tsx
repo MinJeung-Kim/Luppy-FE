@@ -1,4 +1,5 @@
 import { useConference } from '@/context/ConferenceContext';
+import CallSetting from '../JoinRoom/CallSetting/CallSetting';
 import CreateRoom from '../CreateRoom/CreateRoom';
 import JoinRoom from '../JoinRoom/JoinRoom';
 import UserList from '../UserList/UserList';
@@ -6,7 +7,7 @@ import Search from '../Search/Search';
 import styles from "./styles.module.css";
 
 export default function ConferenceRoom() {
-    const { isCreatedRoom } = useConference();
+    const { isCreatedRoom, isCallSetting, setIsCallSetting } = useConference();
 
     return <div className={styles.conference_container}>
         {!isCreatedRoom ?
@@ -17,6 +18,10 @@ export default function ConferenceRoom() {
                 </div>
                 <CreateRoom />
             </div>
-            : <JoinRoom />}
+            : <div className={styles.join_room_wrap}>
+                {isCallSetting && <CallSetting onClose={() => setIsCallSetting(false)} />}
+
+                <JoinRoom />
+            </div>}
     </div>
 }

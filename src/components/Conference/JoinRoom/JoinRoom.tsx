@@ -4,39 +4,26 @@ import { useSocket, useUser } from '@/stores';
 import type { TUser } from '@/stores/slice/auth';
 import { useMediaStream } from '@/hooks/useMediaStream';
 import { useConference } from '@/context/ConferenceContext';
-import SelectBox, { type TMenuItem } from '@/components/common/SelectBox/SelectBox';
 import MicrophoneIcon from '@/components/common/icons/MicrophoneIcon';
 import VideoCamOffIcon from '@/components/common/icons/VideoCamOffIcon';
 import VideoCamIcon from '@/components/common/icons/VideoCamIcon';
+import SettingIcon from '@/components/common/icons/SettingIcon';
 import MicOffIcon from '@/components/common/icons/MicOffIcon';
 import CallIcon from '@/components/common/icons/CallIcon';
 import Avatar from '@/components/common/Avatar/Avatar';
 import VideoForm from './VideoForm/VideoForm';
 import styles from "./styles.module.css";
 
-
 export default function JoinRoom() {
     const [isMicOn, setIsMicOn] = useState<boolean>(true);
     const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
-    const [selectedVideo, setSelectedVideo] = useState<TMenuItem>({ deviceId: '', label: '' });
-    const [selectedMicrophone, setSelectedMicrophone] = useState<TMenuItem>({ deviceId: '', label: '' });
 
     const user = useUser()
     const socket = useSocket();
     const {
         // joinUsers, 
-        setJoinUsers } = useConference();
-    const { stream, videos, microphones, getMediaStream } = useMediaStream();
-
-    const handleItemClick = async (label: string, item: { deviceId: string; label: string }) => {
-        if (label === "Video") {
-            setSelectedVideo(item);
-            await getMediaStream(item.deviceId);
-        } else if (label === "Microphone") {
-            setSelectedMicrophone(item);
-            await getMediaStream(item.deviceId);
-        }
-    };
+        setJoinUsers, setIsCallSetting } = useConference();
+    const { stream } = useMediaStream();
 
     const handleMuteToggle = () => {
         stream?.getAudioTracks().forEach(track => {
@@ -77,41 +64,35 @@ export default function JoinRoom() {
         };
     }, [socket, setJoinUsers]);
 
-    return <div className={styles.join_room_container}>
-        <div className={styles.video_form}>
-            {isVideoOn ?
-                <VideoForm isMicOn={isMicOn} />
-                : <Avatar src={user!.profile} alt='' />}
-        </div>
+    return (
+        <div className={styles.join_room_container}>
 
-        <ul className={styles.call_settings}>
-            <SelectBox label="Video" menu={videos}
-                selected={selectedVideo}
-                onClick={handleItemClick} />
+            <div className={styles.video_form}>
+                {isVideoOn
+                    ? <VideoForm isMicOn={isMicOn} />
+                    : <Avatar src={user!.profile} alt='' />
+                }
+            </div>
 
-            <SelectBox label="Microphone" menu={microphones}
-                selected={selectedMicrophone}
-                onClick={handleItemClick} />
-
-            <SelectBox label="Speakers" menu={videos}
-                selected={selectedVideo}
-                onClick={handleItemClick} />
-        </ul>
-
-
-        {/* {joinUsers.map(user => (
+            {/* {joinUsers.map(user => (
             <VideoForm key={user.id} user={user} />
         ))} */}
 
-        <div className={styles.button_container}>
-            <button className={styles.microphone_button} onClick={handleMuteToggle}>
-                {isMicOn ? <MicOffIcon /> : <MicrophoneIcon />}
-            </button>
-            <button className={styles.call_button}><CallIcon /></button>
-            <button className={styles.video_cam_button} onClick={handleVideoToggle}>
-                {isVideoOn ? <VideoCamIcon /> : <VideoCamOffIcon />}
-            </button>
-        </div>
-    </div>;
+            <div className={styles.button_container}>
+                <div className={styles.video_controls}>
+                    <button className={styles.microphone_button} onClick={handleMuteToggle}>
+                        {isMicOn ? <MicOffIcon /> : <MicrophoneIcon />}
+                    </button>
+                    <button className={styles.call_button}><CallIcon /></button>
+                    <button className={styles.video_cam_button} onClick={handleVideoToggle}>
+                        {isVideoOn ? <VideoCamIcon /> : <VideoCamOffIcon />}
+                    </button>
+                </div>
 
+                <button className={styles.call_setting_button} onClick={() => setIsCallSetting(true)}>
+                    <SettingIcon />
+                </button>
+            </div>
+        </div>
+    );
 }

@@ -21,6 +21,9 @@ type State = {
 
     joinUsers: TJoinUser[];
     setJoinUsers: React.Dispatch<React.SetStateAction<TJoinUser[]>>;
+
+    isCallSetting: boolean;
+    setIsCallSetting: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ConferenceContext = createContext<State>({} as State);
@@ -29,6 +32,7 @@ export function ConferenceProvider({ children }: { children: React.ReactNode }) 
     const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
     const [isCreatedRoom, setIsCreatedRoom] = useState<boolean>(false);
     const [joinUsers, setJoinUsers] = useState<TJoinUser[]>([]);
+    const [isCallSetting, setIsCallSetting] = useState<boolean>(false);
 
 
     return (
@@ -37,7 +41,7 @@ export function ConferenceProvider({ children }: { children: React.ReactNode }) 
                 selectedUsers,
                 setSelectedUsers,
                 isCreatedRoom,
-                setIsCreatedRoom, joinUsers, setJoinUsers
+                setIsCreatedRoom, joinUsers, setJoinUsers, isCallSetting, setIsCallSetting
             }}
         >
             {children}

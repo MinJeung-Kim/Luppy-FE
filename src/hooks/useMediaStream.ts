@@ -12,8 +12,6 @@ interface UseMediaStreamReturn {
 }
 
 export const useMediaStream = (
-    // video: boolean | MediaTrackConstraints = true,
-    // audio: boolean | MediaTrackConstraints = true
 ): UseMediaStreamReturn => {
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -48,11 +46,9 @@ export const useMediaStream = (
         }
     };
 
-
     const getMediaStream = async (deviceId?: string) => {
         setIsLoading(true);
         setError(null);
-
 
         const initialConstraints = { facingMode: "user" };
         const cameraConstraints = {
