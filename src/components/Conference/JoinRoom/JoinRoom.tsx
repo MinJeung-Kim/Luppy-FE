@@ -4,6 +4,7 @@ import { useSocket, useUser } from '@/stores';
 import type { TUser } from '@/stores/slice/auth';
 import { useMediaStream } from '@/hooks/useMediaStream';
 import { useConference } from '@/context/ConferenceContext';
+import SelectBox from '@/components/common/SelectBox/SelectBox';
 import MicrophoneIcon from '@/components/common/icons/MicrophoneIcon';
 import VideoCamOffIcon from '@/components/common/icons/VideoCamOffIcon';
 import VideoCamIcon from '@/components/common/icons/VideoCamIcon';
@@ -20,11 +21,11 @@ export default function JoinRoom() {
     const {
         // joinUsers, 
         setJoinUsers } = useConference();
-    const { stream } = useMediaStream();
+    const { stream, videos } = useMediaStream();
 
     const [isMicOn, setIsMicOn] = useState<boolean>(true);
     const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
-
+    const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
     const handleMuteToggle = () => {
         stream?.getAudioTracks().forEach(track => {
@@ -71,6 +72,13 @@ export default function JoinRoom() {
                 <VideoForm isMicOn={isMicOn} />
                 : <Avatar src={user!.profile} alt='' />}
         </div>
+
+        <ul className={styles.call_settings}>
+            <SelectBox label="Video" menu={videos} />
+
+
+        </ul>
+
 
         {/* {joinUsers.map(user => (
             <VideoForm key={user.id} user={user} />

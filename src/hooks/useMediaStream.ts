@@ -5,6 +5,9 @@ interface UseMediaStreamReturn {
     videoRef: React.RefObject<HTMLVideoElement | null>;
     error: string | null;
     isLoading: boolean;
+    videos: MediaDeviceInfo[];
+
+    getMediaStream: (deviceId?: string) => Promise<void>;
 }
 
 export const useMediaStream = (
@@ -14,29 +17,50 @@ export const useMediaStream = (
     const [stream, setStream] = useState<MediaStream | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [videos, setVideos] = useState<MediaDeviceInfo[]>([]);
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
-    const options = useMemo(() => ({ video, audio }), [video, audio]);
+    const options = useMemo(() => ({ video: { facingMode: "user" }, audio }), [video, audio]);
+
+    const getVideos = async () => {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            setVideos(videoDevices);
+            return videoDevices;
+        } catch (error) {
+            console.error('Error getting videos:', error);
+            setVideos([]);
+            return [];
+        }
+    };
+
+
+    const getMediaStream = async (deviceId?: string) => {
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const mediaStream = await navigator.mediaDevices.getUserMedia(options);
+            setStream(mediaStream);
+
+            if (videoRef.current) {
+                videoRef.current.srcObject = mediaStream;
+            }
+        } catch (err) {
+            console.error('미디어 스트림을 가져오는데 실패했습니다:', err);
+            setError('카메라와 마이크에 접근할 수 없습니다. 권한을 확인해주세요.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // 초기 카메라 목록 로드
+    useEffect(() => {
+    }, []);
 
     useEffect(() => {
-        const getMediaStream = async () => {
-            setIsLoading(true);
-            setError(null);
-
-            try {
-                const mediaStream = await navigator.mediaDevices.getUserMedia(options);
-                setStream(mediaStream);
-
-                if (videoRef.current) {
-                    videoRef.current.srcObject = mediaStream;
-                }
-            } catch (err) {
-                console.error('미디어 스트림을 가져오는데 실패했습니다:', err);
-                setError('카메라와 마이크에 접근할 수 없습니다. 권한을 확인해주세요.');
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        getVideos();
 
         getMediaStream();
     }, [options]);
@@ -54,6 +78,8 @@ export const useMediaStream = (
         stream,
         videoRef,
         error,
-        isLoading
+        isLoading,
+        videos,
+        getMediaStream
     };
 };

@@ -1,5 +1,5 @@
-import styles from "./styles.module.css";
 import { useMediaStream } from '@/hooks/useMediaStream';
+import styles from "./styles.module.css";
 
 type Props = {
     isMicOn: boolean;
@@ -17,14 +17,12 @@ export default function VideoForm({ isMicOn }: Props) {
     }
 
     return (
-        <div className={styles.video_form}>
-            <video
-                className={styles.video}
-                ref={videoRef}
-                autoPlay
-                playsInline // 모바일에서 인라인 재생
-                muted={isMicOn} // 자신의 비디오는 음소거
-            />
-        </div>
+        <video
+            className={styles.video}
+            ref={videoRef}
+            autoPlay
+            playsInline // 모바일에서 인라인 재생
+            muted={isMicOn} // 자신의 비디오는 음소거
+        />
     );
 }

@@ -1,4 +1,6 @@
 .conference_container {
+    padding: 1rem;
+
     .create_room_wrap {
         display: flex;
         gap: 1rem;
