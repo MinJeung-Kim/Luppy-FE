@@ -19,18 +19,23 @@ export default function JoinRoom() {
     const [isMicOn, setIsMicOn] = useState<boolean>(true);
     const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
     const [selectedVideo, setSelectedVideo] = useState<TMenuItem>({ deviceId: '', label: '' });
+    const [selectedMicrophone, setSelectedMicrophone] = useState<TMenuItem>({ deviceId: '', label: '' });
 
     const user = useUser()
     const socket = useSocket();
     const {
         // joinUsers, 
         setJoinUsers } = useConference();
-    const { stream, videos, getMediaStream } = useMediaStream();
+    const { stream, videos, microphones, getMediaStream } = useMediaStream();
 
-    const handleItemClick = async (item: { deviceId: string; label: string }) => {
-        setSelectedVideo(item);
-        // setIsMenuToggle(false);
-        await getMediaStream(item.deviceId);
+    const handleItemClick = async (label: string, item: { deviceId: string; label: string }) => {
+        if (label === "Video") {
+            setSelectedVideo(item);
+            await getMediaStream(item.deviceId);
+        } else if (label === "Microphone") {
+            setSelectedMicrophone(item);
+            await getMediaStream(item.deviceId);
+        }
     };
 
     const handleMuteToggle = () => {
@@ -84,8 +89,8 @@ export default function JoinRoom() {
                 selected={selectedVideo}
                 onClick={handleItemClick} />
 
-            <SelectBox label="Microphone" menu={videos}
-                selected={selectedVideo}
+            <SelectBox label="Microphone" menu={microphones}
+                selected={selectedMicrophone}
                 onClick={handleItemClick} />
 
             <SelectBox label="Speakers" menu={videos}

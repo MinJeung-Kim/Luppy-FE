@@ -6,6 +6,7 @@ interface UseMediaStreamReturn {
     error: string | null;
     isLoading: boolean;
     videos: MediaDeviceInfo[];
+    microphones: MediaDeviceInfo[];
 
     getMediaStream: (deviceId?: string) => Promise<void>;
 }
@@ -18,8 +19,21 @@ export const useMediaStream = (
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [videos, setVideos] = useState<MediaDeviceInfo[]>([]);
+    const [microphones, setMicrophones] = useState<MediaDeviceInfo[]>([]);
     const videoRef = useRef<HTMLVideoElement | null>(null);
 
+    const getMicrophone = async () => {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const microphone = devices.filter(device => device.kind === 'audioinput');
+            setMicrophones(microphone);
+            return microphone;
+        } catch (error) {
+            console.error('Error getting microphone:', error);
+            setMicrophones([]);
+            return [];
+        }
+    };
 
     const getVideos = async () => {
         try {
@@ -64,6 +78,7 @@ export const useMediaStream = (
     };
 
     useEffect(() => {
+        getMicrophone();
         getVideos();
         getMediaStream();
     }, []);
@@ -83,6 +98,7 @@ export const useMediaStream = (
         error,
         isLoading,
         videos,
+        microphones,
         getMediaStream
     };
 };

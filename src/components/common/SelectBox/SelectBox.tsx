@@ -13,7 +13,7 @@ type Props = {
 
     selected: TMenuItem;
 
-    onClick: (item: TMenuItem) => void;
+    onClick: (label: string, item: TMenuItem) => void;
 };
 
 export default function SelectBox({ label, menu, selected, onClick }: Props) {
@@ -22,7 +22,7 @@ export default function SelectBox({ label, menu, selected, onClick }: Props) {
 
     return (
         <div className={styles.select_box}>
-            <span className={styles.label}>{label || menu[0].label}</span>
+            <span className={styles.label}>{label}</span>
             <div className={styles.selected_item}
                 onClick={() => setIsMenuToggle(!isMenuToggle)}
             >
@@ -33,7 +33,7 @@ export default function SelectBox({ label, menu, selected, onClick }: Props) {
                     {menu.map(item => (
                         <li key={item.deviceId}
                             className={styles.menu_item}
-                            onClick={() => onClick(item)}
+                            onClick={() => onClick(label, item)}
                         >
                             <span className={styles.item_name}>{item.label}</span>
                         </li>
