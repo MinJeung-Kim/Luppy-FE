@@ -85,7 +85,7 @@ export default function JoinRoom() {
             peerConnection.current?.setRemoteDescription(answer);
         };
 
-        const handleIceCandidate = async ({ candidate }: { candidate: RTCIceCandidateInit }) => {
+        const handleIcecandidate = async ({ candidate }: { candidate: RTCIceCandidateInit }) => {
             peerConnection.current?.addIceCandidate(candidate);
             console.log("received the candidate ");
         };
@@ -93,13 +93,13 @@ export default function JoinRoom() {
         socket.on("userJoined", handleJoinedConference);
         socket.on("offer", handleOffer);
         socket.on("answer", handleAnswer);
-        socket.on("iceCandidate", handleIceCandidate);
+        socket.on("icecandidate", handleIcecandidate);
 
         return () => {
             socket.off("userJoined", handleJoinedConference);
             socket.off("offer", handleOffer);
             socket.off("answer", handleAnswer);
-            socket.off("iceCandidate", handleIceCandidate);
+            socket.off("icecandidate", handleIcecandidate);
         };
     }, [socket, setJoinUsers]);
 

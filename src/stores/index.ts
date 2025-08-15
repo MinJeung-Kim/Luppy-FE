@@ -58,5 +58,5 @@ export const getActions = () => ({
   joinConferenceRoom: useBoundStore.getState().joinConferenceRoom,
   sendOffer: useBoundStore.getState().sendOffer,
   sendAnswer: useBoundStore.getState().sendAnswer,
-  sendIceCandidate: useBoundStore.getState().sendIceCandidate
+  sendIcecandidate: useBoundStore.getState().sendIcecandidate
 });

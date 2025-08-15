@@ -24,7 +24,7 @@ export interface SocketSliceState {
     joinConferenceRoom: (roomId: string, userId: number) => void;
     sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => void;
     sendAnswer: (roomId: string, answer: RTCSessionDescriptionInit) => void;
-    sendIceCandidate: (roomId: string, candidate: RTCIceCandidateInit) => void;
+    sendIcecandidate: (roomId: string, candidate: RTCIceCandidateInit) => void;
 }
 
 export const socketSlice: StateCreator<
@@ -126,10 +126,10 @@ export const socketSlice: StateCreator<
             currentSocket.emit("sendAnswer", { roomId, answer });
         }
     },
-    sendIceCandidate: (roomId: string, candidate: RTCIceCandidateInit) => {
+    sendIcecandidate: (roomId: string, candidate: RTCIceCandidateInit) => {
         const currentSocket = get().socket;
         if (currentSocket) {
-            currentSocket.emit("sendIceCandidate", { roomId, candidate });
+            currentSocket.emit("sendIcecandidate", { roomId, candidate });
         }
     }
 })

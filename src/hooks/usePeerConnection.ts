@@ -4,7 +4,7 @@ import { getActions, useConferenceId } from '@/stores';
 
 export const usePeerConnection = () => {
     const { stream } = useMediaStream();
-    const { sendIceCandidate } = getActions();
+    const { sendIcecandidate } = getActions();
     const conferenceId = useConferenceId();
     const peerConnection = useRef<RTCPeerConnection | null>(null);
 
@@ -26,7 +26,7 @@ export const usePeerConnection = () => {
 
             if (event.candidate && conferenceId) {
                 console.log("sent the candidate ", event);
-                sendIceCandidate(conferenceId, event.candidate);
+                sendIcecandidate(conferenceId, event.candidate);
             } else if (!conferenceId) {
                 console.log('❌ conferenceId가 없음');
             }
@@ -48,7 +48,7 @@ export const usePeerConnection = () => {
         return () => {
             peerConnection.current?.close();
         };
-    }, [stream, conferenceId, sendIceCandidate]);
+    }, [stream, conferenceId, sendIcecandidate]);
 
     return { peerConnection };
 };
