@@ -1,12 +1,22 @@
 import { useMediaStream } from '@/hooks/useMediaStream';
 import styles from "./styles.module.css";
+import { useEffect } from 'react';
 
 type Props = {
     isMicOn: boolean;
+    targetStream: MediaStream | null;
 };
 
-export default function VideoForm({ isMicOn }: Props) {
+export default function VideoForm({ isMicOn, targetStream }: Props) {
     const { videoRef, error, isLoading } = useMediaStream();
+
+
+
+    useEffect(() => {
+        if (videoRef && targetStream && videoRef.current) {
+            videoRef.current.srcObject = targetStream;
+        }
+    }, [targetStream, videoRef]);
 
     if (error) {
         return <div className={styles.error}>{error}</div>;

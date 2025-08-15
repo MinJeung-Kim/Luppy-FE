@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMediaStream } from './useMediaStream';
 import { getActions, useConferenceId } from '@/stores';
 
@@ -7,6 +7,7 @@ export const usePeerConnection = () => {
     const { sendIcecandidate } = getActions();
     const conferenceId = useConferenceId();
     const peerConnection = useRef<RTCPeerConnection | null>(null);
+    const [peerStream, setPeerStream] = useState<MediaStream | null>(null);
 
     useEffect(() => {
 
@@ -22,8 +23,6 @@ export const usePeerConnection = () => {
 
         // ICE candidate 이벤트 리스너 추가
         peerConnection.current.onicecandidate = (event) => {
-
-
             if (event.candidate && conferenceId) {
                 console.log("sent the candidate ", event);
                 sendIcecandidate(conferenceId, event.candidate);
@@ -34,8 +33,8 @@ export const usePeerConnection = () => {
         };
 
         peerConnection.current.ontrack = (event) => {
-            console.log("received the track ", event.streams);
-
+            console.log("Peer's Stream : ", event.streams);
+            setPeerStream(event.streams[0]);
         };
 
         if (stream) {
@@ -50,5 +49,5 @@ export const usePeerConnection = () => {
         };
     }, [stream, conferenceId, sendIcecandidate]);
 
-    return { peerConnection };
+    return { peerConnection, peerStream };
 };

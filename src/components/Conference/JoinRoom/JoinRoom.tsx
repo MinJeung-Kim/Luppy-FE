@@ -24,11 +24,11 @@ export default function JoinRoom() {
     const socket = useSocket();
     const conferenceId = useConferenceId();
     const {
-        // joinUsers, 
+        joinUsers,
         setJoinUsers, setIsCallSetting } = useConference();
     const { stream } = useMediaStream();
     const { sendOffer, sendAnswer } = getActions()
-    const { peerConnection } = usePeerConnection()
+    const { peerConnection, peerStream } = usePeerConnection()
 
 
     const handleMuteToggle = () => {
@@ -108,9 +108,12 @@ export default function JoinRoom() {
 
             <div className={styles.video_form}>
                 {isVideoOn
-                    ? <VideoForm isMicOn={isMicOn} />
+                    ? <VideoForm isMicOn={isMicOn} targetStream={stream} />
                     : <Avatar src={user!.profile} alt='' />
                 }
+            </div>
+            <div className={styles.video_form}>
+                <VideoForm isMicOn={isMicOn} targetStream={peerStream} />
             </div>
 
             {/* {joinUsers.map(user => (
