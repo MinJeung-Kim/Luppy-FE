@@ -29,7 +29,7 @@ export default function JoinRoom() {
         setIsCallSetting } = useConference();
     const { stream } = useMediaStream();
     const { sendOffer, sendAnswer, sendMediaState, setJoinUser } = getActions()
-    const { peerConnection, peerStream } = usePeerConnection()
+    const { peerConnection } = usePeerConnection()
 
 
     const handleMuteToggle = () => {
