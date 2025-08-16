@@ -1,0 +1,66 @@
+.join_room_container {
+    position: relative;
+    width: 100%;
+    display: flex;
+
+    .video_form {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+
+        img {
+            width: 50%;
+        }
+    }
+
+    .button_container {
+        position: absolute;
+        bottom: 15px;
+        z-index: 99;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: .5rem;
+
+        .video_controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+        }
+
+        .microphone_button {}
+
+        .call_button {
+            background: var(--color-accent);
+
+            svg {
+                color: #fff;
+            }
+        }
+
+        .video_cam_button {}
+    }
+
+    .call_setting_button {}
+
+
+    button {
+        background: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .85rem;
+        cursor: pointer;
+        border: 1px solid var(--color-accent);
+
+        svg {
+            color: var(--color-accent);
+        }
+    }
+}

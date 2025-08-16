@@ -1,13 +1,12 @@
-import Search from '@/components/Conference/Search/Search';
-import UserList from '@/components/Conference/UserList/UserList';
-import styles from "./styles.module.css";
+import { ConferenceProvider } from '@/context/ConferenceContext';
+import ConferenceRoom from '@/components/Conference/ConferenceRoom/ConferenceRoom';
+// import styles from "./styles.module.css";
 
 export default function Conference() {
 
     return (
-        <div className={styles.conference_container}>
-            <Search />
-            <UserList />
-        </div>
+        <ConferenceProvider>
+            <ConferenceRoom />
+        </ConferenceProvider>
     );
 }

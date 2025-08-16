@@ -2,9 +2,9 @@ import { AxiosError } from "axios";
 import { axiosPrivate, refreshAccessToken } from "./axios.config";
 import { useBoundStore } from '@/stores/bound-store';
 import { AUTH_MESSAGES } from '@/constants/messages';
-import type { Inputs } from "@/context/LoginContext";
+import type { TInputs } from "@/context/LoginContext";
 
-export const register = async (inputs: Inputs, profile: string) => {
+export const register = async (inputs: TInputs, profile: string) => {
   const { name, phone, email, password } = inputs;
   try {
     const response = await axiosPrivate.post(

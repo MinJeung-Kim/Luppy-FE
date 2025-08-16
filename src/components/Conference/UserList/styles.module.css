@@ -3,11 +3,18 @@
     flex-direction: column;
     gap: 1.5rem;
 
-    .user_item {
+    .user {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        justify-content: space-between;
+
+        .user_item {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
     }
+
 
     .user_info {
         display: flex;

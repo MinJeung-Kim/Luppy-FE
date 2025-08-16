@@ -1,0 +1,30 @@
+.create_room_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    img {
+        width: 70%;
+    }
+
+    .title_wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .sub_title {
+            font-size: .8rem;
+            color: #9EA0B9;
+            text-align: center;
+        }
+    }
+
+}

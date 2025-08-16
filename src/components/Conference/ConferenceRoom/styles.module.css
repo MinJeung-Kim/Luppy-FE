@@ -1,0 +1,20 @@
+.conference_container {
+    height: calc(100% - 75px);
+
+    .create_room_wrap {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+
+        .user_list_wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+
+    .join_room_wrap {
+        display: flex;
+        height: 100%;
+    }
+}
