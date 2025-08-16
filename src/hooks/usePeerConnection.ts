@@ -24,7 +24,7 @@ export const usePeerConnection = () => {
         // ICE candidate 이벤트 리스너 추가
         peerConnection.current.onicecandidate = (event) => {
             if (event.candidate && conferenceId) {
-                console.log("sent the candidate ", event);
+                // console.log("sent the candidate ", event);
                 sendIcecandidate(conferenceId, event.candidate);
             } else if (!conferenceId) {
                 console.log('❌ conferenceId가 없음');

@@ -7,6 +7,7 @@ import { HOME_PAGE_META } from "@/constants/page_messages";
 import Header from "@/components/Header/Header";
 import { MenuItems } from "@/constants/menu";
 import styles from "./styles.module.css";
+import type { TUser } from '@/stores/slice/auth';
 
 export default function Home() {
   const socket = useSocket();
@@ -18,9 +19,9 @@ export default function Home() {
   useEffect(() => {
     if (!socket) return;
 
-    const handleConferenceInvitation = ({ hostName, roomId }: { hostName: string, roomId: string | null }) => {
-      console.log("handleRoomCreated - hostName : ", hostName);
-      setModalText(hostName);
+    const handleConferenceInvitation = ({ host, roomId }: { host: TUser, roomId: string | null }) => {
+      console.log("handleConferenceInvitation - hostName : ", host);
+      setModalText(host.name);
       setConferenceId(roomId);
       setIsGlobalModal(true);
     };

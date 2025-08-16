@@ -27,7 +27,7 @@ export default function CreateRoom() {
         if (!socket) return;
 
         const handleCreatedRoom = ({ message }: { message: string }) => {
-            console.log("handleRoomCreated - message : ", message);
+            console.log("handleRoomCreated - message  : ", message);
             setIsCreatedRoom(true)
         };
 

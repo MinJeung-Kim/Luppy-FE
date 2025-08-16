@@ -2,6 +2,7 @@ import type { StateCreator } from 'zustand';
 import { io, Socket } from "socket.io-client";
 import { baseURL } from '@/api/axios.config';
 import type { BoundState } from '../bound-store';
+import type { TJoinUser } from '@/context/ConferenceContext';
 
 export type TServerChatData = {
     author: { id: number, email: string, name: string, profile: string },
@@ -25,7 +26,7 @@ export interface SocketSliceState {
     sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => void;
     sendAnswer: (roomId: string, answer: RTCSessionDescriptionInit) => void;
     sendIcecandidate: (roomId: string, candidate: RTCIceCandidateInit) => void;
-    sendMediaState: (roomId: string, cameraOn: boolean, micOn: boolean) => void;
+    sendMediaState: (roomId: string, joinUser: TJoinUser) => void;
 }
 
 export const socketSlice: StateCreator<
@@ -133,10 +134,10 @@ export const socketSlice: StateCreator<
             currentSocket.emit("sendIcecandidate", { roomId, candidate });
         }
     },
-    sendMediaState: (roomId: string, cameraOn: boolean, micOn: boolean) => {
+    sendMediaState: (roomId: string, user: TJoinUser) => {
         const currentSocket = get().socket;
         if (currentSocket) {
-            currentSocket.emit("sendMediaState", { roomId, cameraOn, micOn });
+            currentSocket.emit("sendMediaState", { roomId, user });
         }
     }
 })

@@ -1,6 +1,7 @@
+import type { TJoinUser } from '@/context/ConferenceContext';
 import type { StateCreator } from "zustand";
 
-export interface ModalSliceState {
+export interface ConferenceSliceState {
     isGlobalModal: boolean;
     setIsGlobalModal: (isOpen: boolean) => void;
 
@@ -9,9 +10,13 @@ export interface ModalSliceState {
 
     isCreatedRoom: boolean;
     setIsCreatedRoom: (isCreated: boolean) => void;
+
+
+    joinUser: TJoinUser | null;
+    setJoinUser: (joinUser: TJoinUser | null) => void;
 }
 
-export const modalSlice: StateCreator<ModalSliceState> = (set) => ({
+export const conferenceSlice: StateCreator<ConferenceSliceState> = (set) => ({
     isGlobalModal: false,
     setIsGlobalModal: (isOpen: boolean) => set({ isGlobalModal: isOpen }),
 
@@ -19,5 +24,9 @@ export const modalSlice: StateCreator<ModalSliceState> = (set) => ({
     setConferenceId: (conferenceId: string | null) => set({ conferenceId }),
 
     isCreatedRoom: false,
-    setIsCreatedRoom: (isCreated: boolean) => set({ isCreatedRoom: isCreated })
+    setIsCreatedRoom: (isCreated: boolean) => set({ isCreatedRoom: isCreated }),
+
+    joinUser: null,
+    setJoinUser: (joinUser: TJoinUser | null) => set({ joinUser })
+
 });
