@@ -47,7 +47,7 @@ export const usePeerConnection = () => {
         return () => {
             peerConnection.current?.close();
         };
-    }, [stream, conferenceId, sendIcecandidate]);
+    }, [stream, conferenceId, peerConnection, sendIcecandidate]);
 
     return { peerConnection, peerStream };
 };

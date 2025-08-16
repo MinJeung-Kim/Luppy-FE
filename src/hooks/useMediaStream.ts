@@ -61,6 +61,7 @@ export const useMediaStream = (
                 video: deviceId ? cameraConstraints : initialConstraints
             });
             setStream(mediaStream);
+            console.log("미디어 스트림을 가져왔습니다:", mediaStream);
 
             if (videoRef.current) {
                 videoRef.current.srcObject = mediaStream;
@@ -73,6 +74,8 @@ export const useMediaStream = (
         }
     };
 
+
+    // 컴포넌트 마운트 시 초기화
     useEffect(() => {
         getMicrophone();
         getVideos();

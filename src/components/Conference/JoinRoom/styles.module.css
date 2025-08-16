@@ -13,8 +13,7 @@
         background: #000;
 
         img {
-            width: min(200px, 50%);
-            height: min(200px, 50%);
+            width: 50%;
         }
     }
 

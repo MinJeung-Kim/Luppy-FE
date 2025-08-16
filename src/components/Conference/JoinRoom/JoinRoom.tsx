@@ -20,6 +20,9 @@ export default function JoinRoom() {
     const [isMicOn, setIsMicOn] = useState<boolean>(true);
     const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
 
+    const [isPeerMicOn, setIsPeerMicOn] = useState<boolean>(true);
+    const [isPeerVideoOn, setIsPeerVideoOn] = useState<boolean>(true);
+
     const user = useUser()
     const socket = useSocket();
     const conferenceId = useConferenceId();
@@ -27,33 +30,33 @@ export default function JoinRoom() {
         joinUsers,
         setJoinUsers, setIsCallSetting } = useConference();
     const { stream } = useMediaStream();
-    const { sendOffer, sendAnswer } = getActions()
+    const { sendOffer, sendAnswer, sendMediaState } = getActions()
     const { peerConnection, peerStream } = usePeerConnection()
 
 
     const handleMuteToggle = () => {
-        stream?.getAudioTracks().forEach(track => {
-            track.enabled = !track.enabled;
-        });
-        setIsMicOn(prev => !prev);
+        const next = !isMicOn;
+        stream?.getAudioTracks().forEach(track => { track.enabled = next; });
+        setIsMicOn(next);
+        if (!conferenceId) return; // 회의 ID 없으면 전송 안 함
+        sendMediaState(conferenceId, isVideoOn, next);
+
     };
 
     const handleVideoToggle = () => {
-        stream?.getVideoTracks().forEach(track => {
-            track.enabled = !track.enabled;
-        });
-        setIsVideoOn(prev => !prev);
+        const next = !isVideoOn;
+        stream?.getVideoTracks().forEach(track => { track.enabled = next; });
+        setIsVideoOn(next);
+        if (!conferenceId) return;
+        sendMediaState(conferenceId, next, isMicOn);
     };
 
     useEffect(() => {
         if (!socket) return;
 
-        const handleJoinedConference = async ({ message, joinUser }: { message: string, joinUser: TUser }) => {
-            // console.log("handleJoinedConference : ", message, joinUser);
+        const handleJoinedConference = async ({ joinUser }: { message: string, joinUser: TUser }) => {
             const offer = await peerConnection.current?.createOffer();
             peerConnection.current?.setLocalDescription(offer!);
-            // console.log("handleJoinedConference : ", conferenceId, offer);
-
             console.log("sent the offer ");
             sendOffer(conferenceId!, offer!)
 
@@ -67,6 +70,9 @@ export default function JoinRoom() {
                     isVideoOn: true
                 }
             ]);
+            if (conferenceId) {
+                sendMediaState(conferenceId, isVideoOn, isMicOn);
+            }
         };
 
         const handleOffer = async ({ offer }: { offer: RTCSessionDescriptionInit }) => {
@@ -90,16 +96,24 @@ export default function JoinRoom() {
             console.log("received the candidate ");
         };
 
+        const handleMediaState = ({ cameraOn, micOn }: { cameraOn: boolean; micOn: boolean }) => {
+            setIsPeerVideoOn(cameraOn);
+            setIsPeerMicOn(micOn);
+            console.log("[signal] peer media state:", { cameraOn, micOn });
+        };
+
         socket.on("userJoined", handleJoinedConference);
         socket.on("offer", handleOffer);
         socket.on("answer", handleAnswer);
         socket.on("icecandidate", handleIcecandidate);
+        socket.on("mediaState", handleMediaState);
 
         return () => {
             socket.off("userJoined", handleJoinedConference);
             socket.off("offer", handleOffer);
             socket.off("answer", handleAnswer);
             socket.off("icecandidate", handleIcecandidate);
+            socket.off("mediaState", handleMediaState);
         };
     }, [socket, setJoinUsers]);
 
@@ -108,12 +122,15 @@ export default function JoinRoom() {
 
             <div className={styles.video_form}>
                 {isVideoOn
-                    ? <VideoForm isMicOn={isMicOn} targetStream={stream} />
+                    ? <VideoForm isMicOn={isMicOn} />
                     : <Avatar src={user!.profile} alt='' />
                 }
             </div>
             <div className={styles.video_form}>
-                <VideoForm isMicOn={isMicOn} targetStream={peerStream} />
+                {isPeerVideoOn
+                    ? <VideoForm isMicOn={isPeerMicOn} /* 필요 시 props로 peerStream 전달 */ />
+                    : <Avatar src={joinUsers[0]?.profile} alt='' />
+                }
             </div>
 
             {/* {joinUsers.map(user => (

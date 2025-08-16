@@ -25,6 +25,7 @@ export interface SocketSliceState {
     sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => void;
     sendAnswer: (roomId: string, answer: RTCSessionDescriptionInit) => void;
     sendIcecandidate: (roomId: string, candidate: RTCIceCandidateInit) => void;
+    sendMediaState: (roomId: string, cameraOn: boolean, micOn: boolean) => void;
 }
 
 export const socketSlice: StateCreator<
@@ -130,6 +131,12 @@ export const socketSlice: StateCreator<
         const currentSocket = get().socket;
         if (currentSocket) {
             currentSocket.emit("sendIcecandidate", { roomId, candidate });
+        }
+    },
+    sendMediaState: (roomId: string, cameraOn: boolean, micOn: boolean) => {
+        const currentSocket = get().socket;
+        if (currentSocket) {
+            currentSocket.emit("sendMediaState", { roomId, cameraOn, micOn });
         }
     }
 })
