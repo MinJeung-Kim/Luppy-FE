@@ -50,7 +50,7 @@ export default function AddGroupForm() {
       >
         {selectedEmoji ? selectedEmoji : <EmojiIcon />}
         {emojiPickerOpen && (
-          <div className={styles.emoji_picker_container}>
+          <div className={styles.emoji_picker_container} onClick={(e) => e.stopPropagation()}>
             <Emoji setSelectedEmoji={setSelectedEmoji} />
           </div>
         )}
