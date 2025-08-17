@@ -5,6 +5,7 @@ import Button from "@/components/common/Button/Button";
 import EmojiIcon from "@/components/common/icons/EmojiIcon";
 import Emoji from "@/components/common/Emoji/Emoji";
 import styles from "./styles.module.css";
+import { createGroup } from '@/api/chat';
 
 
 export default function AddGroupForm() {
@@ -31,6 +32,8 @@ export default function AddGroupForm() {
       setOpenAlert(true);
       return;
     }
+    createGroup(inputs.name, inputs.description, selectedEmoji)
+
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

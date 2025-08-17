@@ -20,7 +20,8 @@ export default function Emoji({ setSelectedEmoji }: Props) {
 
   return (
     <div className={styles.emoji_container}>
-      <Picker data={data}
+      <Picker
+        data={data}
         onEmojiSelect={handleEmojiClick}
       />
     </div>

@@ -32,6 +32,13 @@ export type TChatContent = {
     message: string;
 };
 
+export type TGroup = {
+    id: number;
+    name: string;
+    description: string;
+    emoji: string;
+};
+
 export const getChatList = async () => {
     try {
         const response = await axiosPrivate.get("/chat/list");
@@ -78,6 +85,46 @@ export const getChatContent = async (roomId: number) => {
 
         return chatContent;
 
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            const serverMessage =
+                error.response?.data?.message || error.response?.data?.error;
+            console.log('getChatRoom error : ', serverMessage);
+
+            return {
+                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
+            };
+        }
+    }
+}
+
+export const createGroup = async (name: string, description: string, emoji: string) => {
+    try {
+        const response = await axiosPrivate.post("/chat/group", {
+            name,
+            description,
+            emoji,
+        });
+        return response.data;
+
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            const serverMessage =
+                error.response?.data?.message || error.response?.data?.error;
+            console.log('getGroupList error : ', serverMessage);
+
+            return {
+                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
+            };
+        }
+    }
+}
+
+export const getGroupList = async () => {
+    try {
+        const response = await axiosPrivate.get(`/chat/group`);
+        console.log("getGroupList groupList:", response.data);
+        return response.data;
     } catch (error) {
         if (error instanceof AxiosError) {
             const serverMessage =
