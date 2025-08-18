@@ -1,9 +1,0 @@
-.add_group_container {}
-
-
-@media (max-width: 768px) {
-    .add_group_container {
-        height: 50vh;
-        overflow-x: hidden;
-    }
-}

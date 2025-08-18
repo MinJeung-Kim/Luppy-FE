@@ -3,7 +3,6 @@ import CircleUserIcon from "@/components/common/icons/CircleUserIcon";
 import PlusCircleIcon from "@/components/common/icons/PlusCircleIcon";
 import type { TGroupItemData } from "./GroupItem/GroupItem";
 import GroupItem from "./GroupItem/GroupItem";
-import styles from "./styles.module.css";
 
 type Group = {
   id: string;
@@ -81,10 +80,10 @@ export default function AddGroup() {
   const allItems = [...fixedItems, ...dynamicGroupItems, addGroupItem];
 
   return (
-    <div className={styles.add_group_container}>
+    < >
       {allItems.map((item) => (
         <GroupItem key={item.id} data={item} />
       ))}
-    </div>
+    </>
   );
 }

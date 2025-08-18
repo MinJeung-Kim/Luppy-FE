@@ -3,7 +3,6 @@
     position: fixed;
     top: 30%;
     left: 0;
-    z-index: 9999;
 
     .media_menu_list {
         background: #fff;
@@ -110,6 +109,7 @@
         box-shadow: 1px 1px 4px 0px #d0d9e7;
         padding: 0.5rem;
         cursor: pointer;
+        z-index: 9999;
 
         /* 부드러운 애니메이션 효과 */
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -166,7 +166,7 @@
 
 @media (max-width: 768px) {
     .media_menu {
-        /* display: block; */
+        display: block;
 
         .media_menu_list {
 
@@ -178,8 +178,15 @@
             }
         }
 
+        &.menu_open {
+            z-index: 99;
+        }
+
+
+
         .menu_button {
             display: flex;
         }
     }
+
 }
