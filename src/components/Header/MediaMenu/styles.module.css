@@ -166,7 +166,7 @@
 
 @media (max-width: 768px) {
     .media_menu {
-        display: block;
+        /* display: block; */
 
         .media_menu_list {
 

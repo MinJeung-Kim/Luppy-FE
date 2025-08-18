@@ -64,6 +64,8 @@
 
     .add_group_container {
         width: 100%;
+        height: 50vh;
+        overflow-x: hidden;
     }
 }
 
