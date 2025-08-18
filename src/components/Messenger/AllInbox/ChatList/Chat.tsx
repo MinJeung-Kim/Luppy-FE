@@ -1,9 +1,11 @@
-// import { useGuests } from '@/stores';
-import { useMessenger } from '@/context/MessengerContext';
+import { useState } from 'react';
 import { getChatContent, type TChatRoom } from '@/api/chat';
+import { useMessenger } from '@/context/MessengerContext';
 import { formatTime } from '@/utils/time-format';
-import styles from "./styles.module.css";
 import Avatar from '@/components/common/Avatar/Avatar';
+import MenuIcon from '@/components/common/icons/MenuIcon';
+import styles from "./styles.module.css";
+
 
 
 type Props = {
@@ -11,17 +13,19 @@ type Props = {
 }
 
 export default function Chat({ chatList }: Props) {
-    // const guests = useGuests();
+    const [isOpen, setIsOpen] = useState(false);
     const { setChatContent, selectedChat, setSelectedChat, setChatRoomId } = useMessenger();
-
 
     const handleSelectChat = async (roomId: number) => {
 
         const result = await getChatContent(roomId);
-        console.log('chatContent', result);
         setChatContent(result);
         setChatRoomId(roomId);
         setSelectedChat(roomId);
+    }
+
+    const handleOpenMenu = () => {
+        setIsOpen(true)
     }
 
     return (
@@ -50,6 +54,11 @@ export default function Chat({ chatList }: Props) {
 
                             <span className={styles.last_message}>대화를 시작해보세요</span>
                         </div>
+
+                        <button className={styles.menu_button} onClick={handleOpenMenu}>
+                            <MenuIcon />
+                        </button>
+                        {isOpen && <div className={styles.menu}>Menu Content</div>}
                     </li>
                 ))
             }

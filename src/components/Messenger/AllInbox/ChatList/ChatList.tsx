@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { getChatList, type TChatRoom } from '@/api/chat';
-// import { getActions } from '@/stores';
 import { useMessenger } from '@/context/MessengerContext';
 import DataEmpty from '../DataEmpty/DataEmpty';
 import Chat from './Chat';
@@ -10,8 +9,6 @@ import styles from "./styles.module.css";
 export default function ChatList() {
     const { selectedChat } = useMessenger();
 
-    // const { setGuests } = getActions();
-
     const { data } = useQuery<TChatRoom[]>({
         queryKey: ['chatList'],
         queryFn: async () => {
@@ -19,8 +16,6 @@ export default function ChatList() {
             if (result?.error) {
                 throw new Error(result.error);
             }
-            // setGuests(data!.guests || []); 
-
             return result?.chatList || [];
         },
     })

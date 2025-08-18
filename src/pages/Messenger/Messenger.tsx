@@ -33,6 +33,7 @@ const GROUP_LIST = [
     content: <AddGroupForm />,
   },
 ];
+
 export default function Messenger() {
   const [selectedGroupId, setSelectedGroupId] = useState("all-inbox");
 
