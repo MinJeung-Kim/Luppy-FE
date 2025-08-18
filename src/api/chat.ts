@@ -123,8 +123,14 @@ export const createGroup = async (name: string, description: string, emoji: stri
 export const getGroupList = async () => {
     try {
         const response = await axiosPrivate.get(`/chat/group`);
-        console.log("getGroupList groupList:", response.data);
-        return response.data;
+        console.log("getGroupList raw response:", response.data);
+
+        // 서버가 배열을 직접 주는지, { groupList: [...] } 형태로 주는지 모두 대응
+        const groupList = Array.isArray(response.data)
+            ? response.data
+            : (response.data?.groupList || []);
+
+        return { groupList };
     } catch (error) {
         if (error instanceof AxiosError) {
             const serverMessage =

@@ -23,10 +23,10 @@ export default function GroupList({
           key={group.id}
           onClick={() => { onSelect(group.id) }}
         >
-          {group.icon}
+          {group.emoji}
           <div className={styles.text_container}>
-            <span className={styles.title}>{group.title}</span>
-            <span className={styles.sub_title}>{group.subTitle}</span>
+            <span className={styles.title}>{group.name}</span>
+            <span className={styles.description}>{group.description}</span>
           </div>
         </div>
       ))}
