@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
 import { axiosPrivate } from "./axios.config";
 import type { TUser } from '@/stores/slice/auth';
+import { handleAxiosError } from '@/utils/error';
 
 export const getUsers = async () => {
     try {
@@ -19,15 +19,6 @@ export const getUsers = async () => {
         return { users, total };
 
     } catch (error) {
-        if (error instanceof AxiosError) {
-            const serverMessage =
-                error.response?.data?.message || error.response?.data?.error;
-            console.log('getUsers error : ', serverMessage);
-
-            return {
-                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
-            };
-        }
-
+        handleAxiosError(error);
     }
 }

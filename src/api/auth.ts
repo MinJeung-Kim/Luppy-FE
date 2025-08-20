@@ -3,6 +3,7 @@ import { axiosPrivate, refreshAccessToken } from "./axios.config";
 import { useBoundStore } from '@/stores/bound-store';
 import { AUTH_MESSAGES } from '@/constants/messages';
 import type { TInputs } from "@/context/LoginContext";
+import { handleAxiosError } from '@/utils/error';
 
 export const register = async (inputs: TInputs, profile: string) => {
   const { name, phone, email, password } = inputs;
@@ -51,14 +52,7 @@ export const login = async (email: string, password: string) => {
 
     return { user, accessToken };
   } catch (error) {
-    if (error instanceof AxiosError) {
-      const serverMessage =
-        error.response?.data?.message || error.response?.data?.error;
-
-      return {
-        error: serverMessage || "로그인에 실패했습니다.",
-      };
-    }
+    handleAxiosError(error);
 
     return {
       error: "알 수 없는 오류가 발생했습니다.",

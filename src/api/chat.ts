@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
 import { axiosPrivate } from "./axios.config";
 import type { TUser } from '@/stores/slice/auth';
+import { handleAxiosError } from '@/utils/error';
 
 
 export type TChatRoom = {
@@ -39,6 +39,7 @@ export type TGroup = {
     emoji: string;
 };
 
+
 export const getChatList = async () => {
     try {
         const response = await axiosPrivate.get("/chat/list");
@@ -54,16 +55,7 @@ export const getChatList = async () => {
         return { chatList };
 
     } catch (error) {
-        if (error instanceof AxiosError) {
-            const serverMessage =
-                error.response?.data?.message || error.response?.data?.error;
-            console.log('getUsers error : ', serverMessage);
-
-            return {
-                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
-            };
-        }
-
+        return handleAxiosError(error);
     }
 }
 
@@ -86,15 +78,7 @@ export const getChatContent = async (roomId: number) => {
         return chatContent;
 
     } catch (error) {
-        if (error instanceof AxiosError) {
-            const serverMessage =
-                error.response?.data?.message || error.response?.data?.error;
-            console.log('getChatRoom error : ', serverMessage);
-
-            return {
-                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
-            };
-        }
+        return handleAxiosError(error);
     }
 }
 
@@ -108,15 +92,7 @@ export const createGroup = async (name: string, description: string, emoji: stri
         return response.data;
 
     } catch (error) {
-        if (error instanceof AxiosError) {
-            const serverMessage =
-                error.response?.data?.message || error.response?.data?.error;
-            console.log('getGroupList error : ', serverMessage);
-
-            return {
-                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
-            };
-        }
+        return handleAxiosError(error);
     }
 }
 
@@ -132,15 +108,7 @@ export const getGroupList = async () => {
 
         return { groupList };
     } catch (error) {
-        if (error instanceof AxiosError) {
-            const serverMessage =
-                error.response?.data?.message || error.response?.data?.error;
-            console.log('getChatRoom error : ', serverMessage);
-
-            return {
-                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
-            };
-        }
+        handleAxiosError(error);
     }
 }
 
@@ -152,14 +120,7 @@ export const moveChatToGroup = async (id: number, groupId: number) => {
         return response.data;
 
     } catch (error) {
-        if (error instanceof AxiosError) {
-            const serverMessage =
-                error.response?.data?.message || error.response?.data?.error;
-            console.log('moveChatToGroup error : ', serverMessage);
 
-            return {
-                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
-            };
-        }
+        handleAxiosError(error);
     }
 }

@@ -43,9 +43,6 @@ export default function Messenger() {
     queryKey: ['groupList'],
     queryFn: async () => {
       const result = await getGroupList();
-      if (result?.error) {
-        throw new Error(result.error);
-      }
 
       return result?.groupList || [];
     },
