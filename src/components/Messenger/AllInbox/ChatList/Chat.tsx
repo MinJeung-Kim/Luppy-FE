@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useChatGroupList } from '@/stores';
 import { formatTime } from '@/utils/time-format';
 import { useMessenger } from '@/context/MessengerContext';
 import { getChatContent, moveChatToGroup, type TChatRoom } from '@/api/chat';
+import StarLineIcon from '@/components/common/icons/StarLineIcon';
 import SelectBox from '@/components/common/SelectBox/SelectBox';
 // import StarIcon from '@/components/common/icons/StarIcon';
 import Avatar from '@/components/common/Avatar/Avatar';
 import styles from "./styles.module.css";
-import StarLineIcon from '@/components/common/icons/StarLineIcon';
-import { useChatGroupList } from '@/stores';
 
 type Props = {
     chatList: TChatRoom[];
