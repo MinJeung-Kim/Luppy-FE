@@ -1,6 +1,7 @@
-import { useState, useMemo, type ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import { useQuery } from '@tanstack/react-query';
 import { getGroupList, type TGroup } from '@/api/chat';
+import { getActions, useSelectedGroupId } from '@/stores';
 import { MessengerProvider } from '@/context/MessengerContext';
 import GroupList from "@/components/Messenger/GroupList/GroupList";
 import AddGroupForm from "@/components/Messenger/AddGroupForm/AddGroupForm";
@@ -8,7 +9,6 @@ import CircleUserIcon from "@/components/common/icons/CircleUserIcon";
 import PlusCircleIcon from "@/components/common/icons/PlusCircleIcon";
 import AllInbox from "@/components/Messenger/AllInbox/AllInbox";
 import styles from "./styles.module.css";
-import { getActions } from '@/stores';
 
 export type TGroupList = {
   id: string;
@@ -36,7 +36,7 @@ const GROUP_LIST = [
 ];
 
 export default function Messenger() {
-  const [selectedGroupId, setSelectedGroupId] = useState("all-inbox");
+  const selectedGroupId = useSelectedGroupId();
   const { setChatGroupList } = getActions()
 
   const { data } = useQuery<TGroup[]>({
@@ -54,7 +54,7 @@ export default function Messenger() {
       emoji: <span>{g.emoji}</span>,
       name: g.name,
       description: g.description,
-      content: <div>{g.name}</div>, // TODO: 그룹 상세/채팅 컴포넌트로 교체
+      content: <AllInbox />,
     }));
 
     if (GROUP_LIST.length < 2) return [...GROUP_LIST, ...dynamicGroups];
@@ -71,8 +71,6 @@ export default function Messenger() {
       <MessengerProvider>
         <GroupList
           groupList={mergedGroupList}
-          selectedGroupId={selectedGroupId}
-          onSelect={setSelectedGroupId}
         />
         <div className={styles.content_area}>{selectedGroup?.content}</div>
       </MessengerProvider>

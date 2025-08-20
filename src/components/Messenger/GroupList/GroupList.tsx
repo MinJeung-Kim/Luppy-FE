@@ -1,18 +1,18 @@
+import { getActions, useSelectedGroupId } from '@/stores';
 import type { TGroupList } from "@/pages/Messenger/Messenger";
 import styles from "./styles.module.css";
 
 
+
 type Props = {
   groupList: TGroupList[];
-  selectedGroupId: string;
-  onSelect: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function GroupList({
   groupList,
-  selectedGroupId,
-  onSelect,
 }: Props) {
+  const selectedGroupId = useSelectedGroupId();
+  const { setSelectedGroupId } = getActions()
 
   return (
     <div className={styles.add_group_container}>
@@ -21,7 +21,7 @@ export default function GroupList({
           className={`${styles.init_group} ${selectedGroupId === group.id ? styles.selected : ""
             }`}
           key={group.id}
-          onClick={() => { onSelect(group.id) }}
+          onClick={() => { setSelectedGroupId(group.id) }}
         >
           {group.emoji}
           <div className={styles.text_container}>

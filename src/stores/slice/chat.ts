@@ -7,6 +7,8 @@ export type ChatSliceState = {
     setRoomId: (id: number | null) => void;
     chatGroupList: TGroupList[];
     setChatGroupList: (list: TGroupList[]) => void;
+    selectedGroupId: string;
+    setSelectedGroupId: (id: string) => void;
 };
 
 export const chatSlice: StateCreator<
@@ -20,4 +22,7 @@ export const chatSlice: StateCreator<
 
     chatGroupList: [],
     setChatGroupList: (list: TGroupList[]) => set({ chatGroupList: list }),
+
+    selectedGroupId: "all-inbox",
+    setSelectedGroupId: (id: string) => set({ selectedGroupId: id }),
 });

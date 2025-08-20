@@ -40,9 +40,9 @@ export type TGroup = {
 };
 
 
-export const getChatList = async () => {
+export const getChatList = async (id: string) => {
     try {
-        const response = await axiosPrivate.get("/chat/list");
+        const response = await axiosPrivate.get(`/chat/list?groupId=${id}`);
         console.log("getChatList chatList:", response.data);
 
         const chatList: TChatRoom[] = response.data[0].map((room: TServerChatRoom) => ({
@@ -55,7 +55,7 @@ export const getChatList = async () => {
         return { chatList };
 
     } catch (error) {
-        return handleAxiosError(error);
+        handleAxiosError(error);
     }
 }
 
