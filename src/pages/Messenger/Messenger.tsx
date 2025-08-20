@@ -8,6 +8,7 @@ import CircleUserIcon from "@/components/common/icons/CircleUserIcon";
 import PlusCircleIcon from "@/components/common/icons/PlusCircleIcon";
 import AllInbox from "@/components/Messenger/AllInbox/AllInbox";
 import styles from "./styles.module.css";
+import { getActions } from '@/stores';
 
 export type TGroupList = {
   id: string;
@@ -36,6 +37,7 @@ const GROUP_LIST = [
 
 export default function Messenger() {
   const [selectedGroupId, setSelectedGroupId] = useState("all-inbox");
+  const { setChatGroupList } = getActions()
 
   const { data } = useQuery<TGroup[]>({
     queryKey: ['groupList'],
@@ -51,7 +53,7 @@ export default function Messenger() {
 
   const mergedGroupList: TGroupList[] = useMemo(() => {
     const dynamicGroups: TGroupList[] = (data || []).map(g => ({
-      id: `group-${g.id}`,
+      id: `${g.id}`,
       emoji: <span>{g.emoji}</span>,
       name: g.name,
       description: g.description,
@@ -59,6 +61,7 @@ export default function Messenger() {
     }));
 
     if (GROUP_LIST.length < 2) return [...GROUP_LIST, ...dynamicGroups];
+    setChatGroupList(dynamicGroups);
     return [GROUP_LIST[0], ...dynamicGroups, ...GROUP_LIST.slice(1)];
   }, [data]);
 

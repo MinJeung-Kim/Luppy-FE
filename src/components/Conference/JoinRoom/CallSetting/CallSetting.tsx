@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMediaStream } from '@/hooks/useMediaStream';
 import Button from '@/components/common/Button/Button';
-import SelectBox, { type TMenuItem } from '@/components/common/SelectBox/SelectBox';
+import CallSelectBox, { type TMenuItem } from '@/components/Conference/JoinRoom/CallSelectBox/CallSelectBox';
 import styles from "./styles.module.css";
 
 type Props = {
@@ -26,15 +26,15 @@ export default function CallSetting({ onClose }: Props) {
     return (
         <div className={styles.call_settings_container}>
             <ul className={styles.call_settings}>
-                <SelectBox label="Video" menu={videos}
+                <CallSelectBox label="Video" menu={videos}
                     selected={selectedVideo}
                     onClick={handleItemClick} />
 
-                <SelectBox label="Microphone" menu={microphones}
+                <CallSelectBox label="Microphone" menu={microphones}
                     selected={selectedMicrophone}
                     onClick={handleItemClick} />
 
-                <SelectBox label="Speakers" menu={videos}
+                <CallSelectBox label="Speakers" menu={videos}
                     selected={selectedVideo}
                     onClick={handleItemClick} />
             </ul>

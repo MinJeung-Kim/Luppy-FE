@@ -143,3 +143,23 @@ export const getGroupList = async () => {
         }
     }
 }
+
+export const moveChatToGroup = async (id: number, groupId: number) => {
+    try {
+        const response = await axiosPrivate.patch(`/chat/group/${id}`, {
+            groupId,
+        });
+        return response.data;
+
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            const serverMessage =
+                error.response?.data?.message || error.response?.data?.error;
+            console.log('moveChatToGroup error : ', serverMessage);
+
+            return {
+                error: serverMessage || "세션이 만료되었습니다. 로그인이 필요합니다.",
+            };
+        }
+    }
+}

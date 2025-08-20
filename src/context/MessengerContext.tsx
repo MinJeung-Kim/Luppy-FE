@@ -17,6 +17,7 @@ type State = {
 
     chatContent: TChatContent[];
     setChatContent: React.Dispatch<React.SetStateAction<TChatContent[]>>;
+
 };
 
 const MessengerContext = createContext<State>({} as State);
@@ -32,7 +33,8 @@ export function MessengerProvider({ children }: { children: React.ReactNode }) {
             value={{
                 isModal,
                 setIsModal,
-                selectedChat, setSelectedChat,
+                selectedChat,
+                setSelectedChat,
                 chatRoomId,
                 setChatRoomId,
                 chatContent,

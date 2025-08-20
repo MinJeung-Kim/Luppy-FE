@@ -12,6 +12,7 @@ const isGlobalModalSelector = (state: BoundState) => state.isGlobalModal;
 const conferenceIdSelector = (state: BoundState) => state.conferenceId;
 const isCreatedRoomSelector = (state: BoundState) => state.isCreatedRoom;
 const joinUserSelector = (state: BoundState) => state.joinUser;
+const chatGroupListSelector = (state: BoundState) => state.chatGroupList;
 
 export const useGuests = () => useBoundStore(guestsSelector);
 export const useUser = () => useBoundStore(userSelector);
@@ -25,6 +26,7 @@ export const useIsGlobalModal = () => useBoundStore(isGlobalModalSelector);
 export const useConferenceId = () => useBoundStore(conferenceIdSelector);
 export const useIsCreatedRoom = () => useBoundStore(isCreatedRoomSelector);
 export const useJoinUser = () => useBoundStore(joinUserSelector);
+export const useChatGroupList = () => useBoundStore(chatGroupListSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -38,6 +40,7 @@ export const getIsGlobalModal = () => isGlobalModalSelector(useBoundStore.getSta
 export const getConferenceId = () => conferenceIdSelector(useBoundStore.getState());
 export const getIsCreatedRoom = () => isCreatedRoomSelector(useBoundStore.getState());
 export const getJoinUser = () => joinUserSelector(useBoundStore.getState());
+export const getChatGroupList = () => chatGroupListSelector(useBoundStore.getState());
 
 export const getActions = () => ({
   setGuests: useBoundStore.getState().setGuests,
@@ -51,6 +54,7 @@ export const getActions = () => ({
   setConferenceId: useBoundStore.getState().setConferenceId,
   setIsCreatedRoom: useBoundStore.getState().setIsCreatedRoom,
   setJoinUser: useBoundStore.getState().setJoinUser,
+  setChatGroupList: useBoundStore.getState().setChatGroupList,
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,

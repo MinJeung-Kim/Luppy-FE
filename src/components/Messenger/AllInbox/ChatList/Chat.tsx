@@ -1,33 +1,53 @@
-import { useState } from 'react';
-import { getChatContent, type TChatRoom } from '@/api/chat';
-import { useMessenger } from '@/context/MessengerContext';
+import { useEffect, useState } from 'react';
 import { formatTime } from '@/utils/time-format';
+import { useMessenger } from '@/context/MessengerContext';
+import { getChatContent, moveChatToGroup, type TChatRoom } from '@/api/chat';
+import SelectBox from '@/components/common/SelectBox/SelectBox';
+// import StarIcon from '@/components/common/icons/StarIcon';
 import Avatar from '@/components/common/Avatar/Avatar';
-import MenuIcon from '@/components/common/icons/MenuIcon';
 import styles from "./styles.module.css";
+import StarLineIcon from '@/components/common/icons/StarLineIcon';
+import { useChatGroupList } from '@/stores';
 
 type Props = {
     chatList: TChatRoom[];
 }
 
 export default function Chat({ chatList }: Props) {
-    // roomId 기준으로 어떤 채팅 아이템의 메뉴가 열려있는지 추적
-    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+    const chatGroupList = useChatGroupList();
     const { setChatContent, selectedChat, setSelectedChat, setChatRoomId } = useMessenger();
+    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+    const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
 
     const handleSelectChat = async (roomId: number) => {
         const result = await getChatContent(roomId);
         setChatContent(result);
         setChatRoomId(roomId);
         setSelectedChat(roomId);
-        // 채팅 선택 시 열려있는 메뉴 닫기
         setOpenMenuId(null);
     };
 
     const handleToggleMenu = (e: React.MouseEvent, roomId: number) => {
         e.stopPropagation(); // 상위 onClick (채팅 선택) 방지
         setOpenMenuId(prev => (prev === roomId ? null : roomId));
+        console.log('handleToggleMenu : ', roomId);
+
+        setSelectedChat(roomId);
     };
+
+    const handleMoveGroup = (groupId: string) => {
+        // 그룹 이동 로직
+        console.log('handleMoveGroup : ', selectedChat, groupId);
+        moveChatToGroup(selectedChat!, Number(groupId))
+    };
+
+    useEffect(() => {
+        const newOptions = chatGroupList.map(({ id, name }) => ({
+            label: name,
+            value: id,
+        }));
+        setOptions(newOptions);
+    }, [chatGroupList]);
 
     return (
         <ul className={styles.chat}>
@@ -59,12 +79,11 @@ export default function Chat({ chatList }: Props) {
                         </div>
 
                         <button className={styles.menu_button} onClick={(e) => handleToggleMenu(e, chat.roomId)} aria-expanded={openMenuId === chat.roomId}>
-                            <MenuIcon />
+                            {/* <StarIcon /> */}
+                            <StarLineIcon />
                         </button>
                         {openMenuId === chat.roomId && (
-                            <div className={styles.menu} role="menu">
-                                Menu Content
-                            </div>
+                            <SelectBox options={options} onClick={handleMoveGroup} />
                         )}
                     </li>
                 ))

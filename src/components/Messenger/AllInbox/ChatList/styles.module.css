@@ -5,11 +5,12 @@
         flex-direction: column;
 
         .chat_item {
+            position: relative;
             display: grid;
             grid-template-columns: 12% 78% 10%;
             align-items: center;
             padding: 1rem 0.5rem;
-            gap: 1rem;
+            /* gap: 1rem; */
 
             &:hover {
                 background-color: #F5F6FA;
@@ -62,6 +63,22 @@
                 }
 
             }
+
+            .menu_button {
+                width: 1.2rem;
+                height: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                    color: rgb(244 235 14);
+                    cursor: pointer;
+                }
+            }
+
         }
 
         .selected {
