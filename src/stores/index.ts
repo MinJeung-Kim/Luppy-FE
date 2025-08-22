@@ -1,3 +1,4 @@
+import fabric from "fabric";
 import { useBoundStore, type BoundState } from "./bound-store";
 
 const guestsSelector = (state: BoundState) => state.guests;
@@ -15,6 +16,9 @@ const joinUserSelector = (state: BoundState) => state.joinUser;
 const chatGroupListSelector = (state: BoundState) => state.chatGroupList;
 const selectedGroupIdSelector = (state: BoundState) => state.selectedGroupId;
 
+const canvasSelector = (state: BoundState) => state.canvas;
+const colorSelector = (state: BoundState) => state.color;
+
 export const useGuests = () => useBoundStore(guestsSelector);
 export const useUser = () => useBoundStore(userSelector);
 export const useChat = () => useBoundStore(chatSelector);
@@ -29,6 +33,9 @@ export const useIsCreatedRoom = () => useBoundStore(isCreatedRoomSelector);
 export const useJoinUser = () => useBoundStore(joinUserSelector);
 export const useChatGroupList = () => useBoundStore(chatGroupListSelector);
 export const useSelectedGroupId = () => useBoundStore(selectedGroupIdSelector);
+
+export const useCanvas = () => useBoundStore(canvasSelector);
+export const useColor = () => useBoundStore(colorSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -45,6 +52,10 @@ export const getJoinUser = () => joinUserSelector(useBoundStore.getState());
 export const getChatGroupList = () => chatGroupListSelector(useBoundStore.getState());
 export const getSelectedGroupId = () => selectedGroupIdSelector(useBoundStore.getState());
 
+export const getCanvas = () => canvasSelector(useBoundStore.getState());
+export const getColor = () => colorSelector(useBoundStore.getState());
+
+
 export const getActions = () => ({
   setGuests: useBoundStore.getState().setGuests,
   setUser: useBoundStore.getState().setUser,
@@ -59,6 +70,9 @@ export const getActions = () => ({
   setJoinUser: useBoundStore.getState().setJoinUser,
   setChatGroupList: useBoundStore.getState().setChatGroupList,
   setSelectedGroupId: useBoundStore.getState().setSelectedGroupId,
+
+  setCanvas: (canvas: fabric.Canvas | null) => useBoundStore.getState().setCanvas(canvas),
+  setColor: (color: string) => useBoundStore.getState().setColor(color),
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,

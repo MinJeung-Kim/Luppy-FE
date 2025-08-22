@@ -1,43 +1,74 @@
+import * as fabric from "fabric";
+import { useCanvas, useColor } from '@/stores';
+import ColorIcon from '@/components/common/icons/ColorIcon';
+import ColorTextIcon from '@/components/common/icons/ColorTextIcon';
 import ToolTipButton from '@/components/common/ToolTipButton/ToolTipButton';
 import PencilIcon from '@/components/common/icons/PencilIcon';
 import EraserIcon from '@/components/common/icons/EraserIcon';
 import CursorIcon from '@/components/common/icons/CursorIcon';
-import ColorTextIcon from '@/components/common/icons/ColorTextIcon';
-import ColorIcon from '@/components/common/icons/ColorIcon';
 import DeleteIcon from '@/components/common/icons/DeleteIcon';
 import styles from "./styles.module.css";
 
-export default function ControllerButton() {
+type Props = {
+    setSelectedTool: (tool: string) => void;
+}
+
+export default function ControllerButton({ setSelectedTool }: Props) {
+    const canvas = useCanvas();
+    const color = useColor();
+
+    const switchButton = (tool: string) => {
+        if (!(canvas instanceof fabric.Canvas)) return;
+
+        switch (tool) {
+            case "그리기":
+                console.log("그리기");
+
+                const brush = new fabric.PencilBrush(canvas);
+                canvas.freeDrawingBrush = brush;
+                canvas.freeDrawingBrush.color = color;
+                // canvas.freeDrawingBrush.width = stroke;
+
+                canvas.isDrawingMode = true;
+                // canvas.defaultCursor = `url(${PenCursor}) 0 32, auto`;
+                return;
+            case "지우기":
+                console.log("지우기");
+                return;
+            case "수정":
+                return;
+            case "텍스트":
+                return;
+            case "색상":
+                return;
+            case "전체 삭제":
+                return;
+            default:
+                break;
+        }
+    }
+
+    const handleToolChange = (tool: string) => {
+        setSelectedTool(tool);
+        switchButton(tool)
+    };
+
+    const TOOLS = [
+        { Icon: <PencilIcon />, title: "그리기" },
+        { Icon: <EraserIcon />, title: "지우기" },
+        { Icon: <CursorIcon />, title: "수정" },
+        { Icon: <ColorTextIcon />, title: "텍스트" },
+        { Icon: <ColorIcon />, title: "색상" },
+        { Icon: <DeleteIcon />, title: "전체 삭제" },
+    ]
 
     return <div className={styles.controller_button}>
-        <ToolTipButton
-            Icon={<PencilIcon />}
-            onClick={() => { }}
-            title="그리기" />
-
-        <ToolTipButton
-            Icon={<EraserIcon />}
-            onClick={() => { }}
-            title="지우기" />
-
-        <ToolTipButton
-            Icon={<CursorIcon />}
-            onClick={() => { }}
-            title="수정" />
-
-        <ToolTipButton
-            Icon={<ColorTextIcon />}
-            onClick={() => { }}
-            title="텍스트" />
-
-        <ToolTipButton
-            Icon={<ColorIcon />}
-            onClick={() => { }}
-            title="색상" />
-
-        <ToolTipButton
-            Icon={<DeleteIcon />}
-            onClick={() => { }}
-            title="전체 삭제" />
+        {TOOLS.map(({ Icon, title }) => (
+            <ToolTipButton
+                Icon={Icon}
+                onClick={() => handleToolChange(title)}
+                title={title}
+            />
+        ))}
     </div>;
 }
