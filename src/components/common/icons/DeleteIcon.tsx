@@ -1,0 +1,6 @@
+import { RiDeleteBin5Fill } from "react-icons/ri";
+
+export default function DeleteIcon() {
+
+    return <RiDeleteBin5Fill />;
+}

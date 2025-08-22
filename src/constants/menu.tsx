@@ -7,6 +7,7 @@ import Dashboard from "@/pages/Dashboard/Dashboard";
 import Messenger from "@/pages/Messenger/Messenger";
 import Conference from '@/pages/Conference/Conference';
 import BoardIcon from '@/components/common/icons/BoardIcon';
+import AiWBoard from '@/pages/AiWBoard/AiWBoard';
 
 export interface MenuItem {
   name: string;
@@ -22,6 +23,6 @@ export const MenuItems: MenuItem[] = [
     Icon: ConferenceIcon,
     content: <Conference />,
   },
-  { name: "AI W-Board", Icon: BoardIcon, content: <></> },
+  { name: "AI W-Board", Icon: BoardIcon, content: <AiWBoard /> },
   { name: "Management", Icon: SettingIcon, content: <></> },
 ];

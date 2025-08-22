@@ -37,7 +37,7 @@ export default function Chat({ chatList }: Props) {
 
     const handleMoveGroup = (groupId: string) => {
         // 그룹 이동 로직
-        console.log('handleMoveGroup : ', selectedChat, groupId);
+        console.log('handleMoveGroup selectedChat, groupId  :', selectedChat, groupId);
         moveChatToGroup(selectedChat!, Number(groupId))
     };
 
