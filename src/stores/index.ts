@@ -1,4 +1,4 @@
-import fabric from "fabric";
+import * as fabric from "fabric";
 import { useBoundStore, type BoundState } from "./bound-store";
 
 const guestsSelector = (state: BoundState) => state.guests;

@@ -21,7 +21,7 @@ export default function ControllerButton({ setSelectedTool }: Props) {
         if (!(canvas instanceof fabric.Canvas)) return;
 
         switch (tool) {
-            case "그리기":
+            case "그리기": {
                 console.log("그리기");
 
                 const brush = new fabric.PencilBrush(canvas);
@@ -32,6 +32,7 @@ export default function ControllerButton({ setSelectedTool }: Props) {
                 canvas.isDrawingMode = true;
                 // canvas.defaultCursor = `url(${PenCursor}) 0 32, auto`;
                 return;
+            }
             case "지우기":
                 console.log("지우기");
                 return;
@@ -65,6 +66,7 @@ export default function ControllerButton({ setSelectedTool }: Props) {
     return <div className={styles.controller_button}>
         {TOOLS.map(({ Icon, title }) => (
             <ToolTipButton
+                key={title}
                 Icon={Icon}
                 onClick={() => handleToolChange(title)}
                 title={title}

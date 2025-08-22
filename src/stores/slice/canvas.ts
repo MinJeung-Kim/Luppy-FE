@@ -1,5 +1,5 @@
 import type { StateCreator } from "zustand";
-import fabric from "fabric";
+import * as fabric from "fabric";
 import type { BoundState } from "../bound-store";
 
 export type CanvasSliceState = {
