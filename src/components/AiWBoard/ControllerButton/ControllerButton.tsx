@@ -36,7 +36,7 @@ export default function ControllerButton({ setSelectedTool }: Props) {
             }
             case "지우기": {
                 canvas.selection = true;
-
+                canvas.isDrawingMode = false;
                 const handleMouseUp = (target: fabric.Object | undefined) => {
                     if (!target) return;
                     canvas.remove(target);
