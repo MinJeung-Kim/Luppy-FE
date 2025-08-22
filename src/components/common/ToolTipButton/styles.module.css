@@ -13,8 +13,9 @@
         background: rgb(235, 240, 255);
     }
 
-    img {
+    svg {
         width: 1.58rem;
         cursor: pointer;
+        color: var(--color-disabled);
     }
 }

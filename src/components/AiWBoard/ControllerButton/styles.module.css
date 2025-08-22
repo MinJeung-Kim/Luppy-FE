@@ -1,7 +1,7 @@
 .controller_button {
-    position: absolute;
+    position: fixed;
     right: 2%;
-    top: 2%;
-    background: aliceblue;
+    top: 15%;
     border-radius: 15px;
+    box-shadow: 2px 1px 7px 1px #765bd430;
 }
