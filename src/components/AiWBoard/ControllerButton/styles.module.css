@@ -4,4 +4,6 @@
     top: 15%;
     border-radius: 15px;
     box-shadow: 2px 1px 7px 1px #765bd430;
+    background: #fff;
+    z-index: 99;
 }

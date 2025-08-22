@@ -30,20 +30,54 @@ export default function ControllerButton({ setSelectedTool }: Props) {
                 // canvas.freeDrawingBrush.width = stroke;
 
                 canvas.isDrawingMode = true;
+                canvas.defaultCursor = "default";
                 // canvas.defaultCursor = `url(${PenCursor}) 0 32, auto`;
                 return;
             }
-            case "지우기":
-                console.log("지우기");
+            case "지우기": {
+                canvas.selection = true;
+
+                const handleMouseUp = (target: fabric.Object | undefined) => {
+                    if (!target) return;
+                    canvas.remove(target);
+                };
+
+                const handleSelectionCreated = (selected: fabric.Object[] | undefined) => {
+
+                    selected?.forEach((object) => canvas.remove(object));
+                    canvas.discardActiveObject();
+                    canvas.renderAll();
+                };
+
+                canvas.on("mouse:up", ({ target }) => handleMouseUp(target));
+
+                canvas.on("selection:created", ({ selected }) =>
+                    handleSelectionCreated(selected)
+                );
                 return;
-            case "수정":
+            }
+            case "수정": {
+                canvas.selection = true;
                 return;
-            case "텍스트":
+            }
+            case "텍스트": {
+                const text = new fabric.IText("텍스트를 입력하세요", {
+                    left: 100,
+                    top: 100,
+                    fontFamily: "arial",
+                    fill: color,
+                    fontSize: 20,
+                });
+                canvas.add(text);
+                canvas.setActiveObject(text);
                 return;
+            }
             case "색상":
                 return;
-            case "전체 삭제":
+            case "전체 삭제": {
+                canvas.clear();
                 return;
+            }
             default:
                 break;
         }

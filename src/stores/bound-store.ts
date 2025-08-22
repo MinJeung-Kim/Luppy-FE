@@ -6,7 +6,7 @@ import { authSlice, type TAuthSliceState } from "./slice/auth";
 import { menuSlice, type MenuSliceState } from "./slice/menu";
 import { chatSlice, type ChatSliceState } from './slice/chat';
 import { conferenceSlice, type ConferenceSliceState } from './slice/conference';
-import type { CanvasSliceState } from './slice/canvas';
+import { canvasSlice, type CanvasSliceState } from './slice/canvas';
 
 export type BoundState = TAuthSliceState
   & AlertSliceState
@@ -28,7 +28,8 @@ export const useBoundStore = create<BoundState>()(
         ...alertSlice(...a),
         ...menuSlice(...a),
         ...socketSlice(...a),
-        ...conferenceSlice(...a)
+        ...conferenceSlice(...a),
+        ...canvasSlice(...a)
       } as BoundState)
 
     ),
