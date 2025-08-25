@@ -17,7 +17,8 @@ const chatGroupListSelector = (state: BoundState) => state.chatGroupList;
 const selectedGroupIdSelector = (state: BoundState) => state.selectedGroupId;
 
 const canvasSelector = (state: BoundState) => state.canvas;
-const colorSelector = (state: BoundState) => state.color;
+const colorSelector = (state: BoundState) => state.activeColor;
+const strokeSelector = (state: BoundState) => state.activeStroke;
 
 export const useGuests = () => useBoundStore(guestsSelector);
 export const useUser = () => useBoundStore(userSelector);
@@ -36,6 +37,7 @@ export const useSelectedGroupId = () => useBoundStore(selectedGroupIdSelector);
 
 export const useCanvas = () => useBoundStore(canvasSelector);
 export const useColor = () => useBoundStore(colorSelector);
+export const useStroke = () => useBoundStore(strokeSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -54,6 +56,7 @@ export const getSelectedGroupId = () => selectedGroupIdSelector(useBoundStore.ge
 
 export const getCanvas = () => canvasSelector(useBoundStore.getState());
 export const getColor = () => colorSelector(useBoundStore.getState());
+export const getStroke = () => strokeSelector(useBoundStore.getState());
 
 
 export const getActions = () => ({
@@ -72,7 +75,8 @@ export const getActions = () => ({
   setSelectedGroupId: useBoundStore.getState().setSelectedGroupId,
 
   setCanvas: (canvas: fabric.Canvas | null) => useBoundStore.getState().setCanvas(canvas),
-  setColor: (color: string) => useBoundStore.getState().setColor(color),
+  setActiveColor: (activeColor: string) => useBoundStore.getState().setActiveColor(activeColor),
+  setActiveStroke: (activeStroke: number) => useBoundStore.getState().setActiveStroke(activeStroke),
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,

@@ -1,5 +1,5 @@
 import * as fabric from "fabric";
-import { useCanvas, useColor } from '@/stores';
+import { useCanvas, useColor, useStroke } from '@/stores';
 import ColorIcon from '@/components/common/icons/ColorIcon';
 import ColorTextIcon from '@/components/common/icons/ColorTextIcon';
 import ToolTipButton from '@/components/common/ToolTipButton/ToolTipButton';
@@ -7,27 +7,29 @@ import PencilIcon from '@/components/common/icons/PencilIcon';
 import EraserIcon from '@/components/common/icons/EraserIcon';
 import CursorIcon from '@/components/common/icons/CursorIcon';
 import DeleteIcon from '@/components/common/icons/DeleteIcon';
+import ColorPanel from '../ColorPanel/ColorPanel';
 import styles from "./styles.module.css";
 
 type Props = {
+    selectedTool: string;
     setSelectedTool: (tool: string) => void;
 }
 
-export default function ControllerButton({ setSelectedTool }: Props) {
+export default function ControllerButton({ selectedTool, setSelectedTool }: Props) {
     const canvas = useCanvas();
-    const color = useColor();
+    const activeColor = useColor();
+    const activeStroke = useStroke();
 
     const switchButton = (tool: string) => {
         if (!(canvas instanceof fabric.Canvas)) return;
 
         switch (tool) {
             case "그리기": {
-                console.log("그리기");
 
                 const brush = new fabric.PencilBrush(canvas);
                 canvas.freeDrawingBrush = brush;
-                canvas.freeDrawingBrush.color = color;
-                // canvas.freeDrawingBrush.width = stroke;
+                canvas.freeDrawingBrush.color = activeColor;
+                canvas.freeDrawingBrush.width = activeStroke;
 
                 canvas.isDrawingMode = true;
                 canvas.defaultCursor = "default";
@@ -65,7 +67,7 @@ export default function ControllerButton({ setSelectedTool }: Props) {
                     left: 100,
                     top: 100,
                     fontFamily: "arial",
-                    fill: color,
+                    fill: activeColor,
                     fontSize: 20,
                 });
                 canvas.add(text);
@@ -97,14 +99,18 @@ export default function ControllerButton({ setSelectedTool }: Props) {
         { Icon: <DeleteIcon />, title: "전체 삭제" },
     ]
 
-    return <div className={styles.controller_button}>
-        {TOOLS.map(({ Icon, title }) => (
-            <ToolTipButton
-                key={title}
-                Icon={Icon}
-                onClick={() => handleToolChange(title)}
-                title={title}
-            />
-        ))}
-    </div>;
+    return (
+        <div className={styles.controller_button}>
+            {TOOLS.map(({ Icon, title }) => (
+                <div key={title} className={selectedTool === title ? styles.selected : ""}>
+                    <ToolTipButton
+                        Icon={Icon}
+                        onClick={() => handleToolChange(title)}
+                        title={title}
+                    />
+                </div>
+            ))}
+            <ColorPanel />
+        </div>
+    );
 }

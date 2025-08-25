@@ -4,7 +4,6 @@ import { getActions, useCanvas } from '@/stores';
 import ControllerButton from '@/components/AiWBoard/ControllerButton/ControllerButton';
 import styles from "./styles.module.css";
 
-
 export default function AiWBoard() {
     const canvasContainerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -70,6 +69,6 @@ export default function AiWBoard() {
 
     return <div className={styles.ai_w_board} ref={canvasContainerRef}>
         <canvas ref={canvasRef} />
-        <ControllerButton setSelectedTool={setSelectedTool} />
+        <ControllerButton selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
     </div>;
 }

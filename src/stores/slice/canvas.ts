@@ -1,13 +1,17 @@
 import type { StateCreator } from "zustand";
 import * as fabric from "fabric";
 import type { BoundState } from "../bound-store";
+import { COLORS, STROKES } from '@/utils/color-panel';
 
 export type CanvasSliceState = {
     canvas: fabric.Canvas | null;
     setCanvas: (canvas: fabric.Canvas | null) => void;
 
-    color: string;
-    setColor: (color: string) => void;
+    activeColor: string;
+    setActiveColor: (color: string) => void;
+
+    activeStroke: number;
+    setActiveStroke: (stroke: number) => void;
 };
 
 export const canvasSlice: StateCreator<
@@ -19,6 +23,9 @@ export const canvasSlice: StateCreator<
     canvas: null,
     setCanvas: (canvas: fabric.Canvas | null) => set({ canvas }),
 
-    color: "#000000",
-    setColor: (color: string) => set({ color }),
+    activeColor: COLORS[0],
+    setActiveColor: (color: string) => set({ activeColor: color }),
+
+    activeStroke: STROKES[0],
+    setActiveStroke: (stroke: number) => set({ activeStroke: stroke }),
 });
