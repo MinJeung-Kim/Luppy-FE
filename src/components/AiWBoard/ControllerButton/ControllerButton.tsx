@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import * as fabric from "fabric";
 import { useCanvas, useColor, useStroke } from '@/stores';
 import ColorIcon from '@/components/common/icons/ColorIcon';
@@ -10,6 +11,7 @@ import DeleteIcon from '@/components/common/icons/DeleteIcon';
 import ColorPanel from '../ColorPanel/ColorPanel';
 import styles from "./styles.module.css";
 
+
 type Props = {
     selectedTool: string;
     setSelectedTool: (tool: string) => void;
@@ -20,12 +22,14 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
     const activeColor = useColor();
     const activeStroke = useStroke();
 
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
+
     const switchButton = (tool: string) => {
         if (!(canvas instanceof fabric.Canvas)) return;
 
         switch (tool) {
             case "그리기": {
-
+                setIsPanelOpen(prev => !prev)
                 const brush = new fabric.PencilBrush(canvas);
                 canvas.freeDrawingBrush = brush;
                 canvas.freeDrawingBrush.color = activeColor;
@@ -110,7 +114,7 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
                     />
                 </div>
             ))}
-            <ColorPanel />
+            {isPanelOpen && <ColorPanel />}
         </div>
     );
 }

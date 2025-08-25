@@ -2,7 +2,6 @@ import { getActions, useCanvas, useColor, useStroke } from '@/stores';
 import { COLORS, STROKE_ICONS, STROKES } from '@/utils/color-panel';
 import styles from "./styles.module.css";
 
-
 export default function ColorPanel() {
     const canvas = useCanvas();
     const activeColor = useColor();
