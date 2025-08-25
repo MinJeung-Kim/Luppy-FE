@@ -29,7 +29,6 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
 
         switch (tool) {
             case "그리기": {
-                setIsPanelOpen(prev => !prev)
                 const brush = new fabric.PencilBrush(canvas);
                 canvas.freeDrawingBrush = brush;
                 canvas.freeDrawingBrush.color = activeColor;
@@ -38,7 +37,8 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
                 canvas.isDrawingMode = true;
                 canvas.defaultCursor = "default";
                 // canvas.defaultCursor = `url(${PenCursor}) 0 32, auto`;
-                return;
+                setIsPanelOpen(prev => !prev)
+                break;
             }
             case "지우기": {
                 canvas.selection = true;
@@ -60,11 +60,11 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
                 canvas.on("selection:created", ({ selected }) =>
                     handleSelectionCreated(selected)
                 );
-                return;
+                break;
             }
             case "수정": {
                 canvas.selection = true;
-                return;
+                break;
             }
             case "텍스트": {
                 const text = new fabric.IText("텍스트를 입력하세요", {
@@ -76,13 +76,13 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
                 });
                 canvas.add(text);
                 canvas.setActiveObject(text);
-                return;
+                break;
             }
             case "색상":
-                return;
+                break;
             case "전체 삭제": {
                 canvas.clear();
-                return;
+                break;
             }
             default:
                 break;
