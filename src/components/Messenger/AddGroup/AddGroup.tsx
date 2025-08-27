@@ -30,8 +30,6 @@ export default function AddGroup() {
 
   const handleGroupClick = (groupId: string) => {
     setActiveItemId(groupId);
-    // TODO: 그룹 선택 기능 구현
-    console.log(`Group ${groupId} clicked`);
   };
 
   // 고정 아이템들
@@ -45,8 +43,6 @@ export default function AddGroup() {
       isActive: activeItemId === "all-inbox",
       onClick: () => {
         setActiveItemId("all-inbox");
-        // TODO: All Inbox 기능 구현
-        console.log("All Inbox clicked");
       },
     },
   ];
