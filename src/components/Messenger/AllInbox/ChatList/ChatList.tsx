@@ -16,8 +16,6 @@ export default function ChatList() {
         queryFn: async () => {
             const result = await getChatList(selectedGroupId);
 
-            console.log("getChatList result:", result);
-
             return result?.chatList || [];
         },
     })

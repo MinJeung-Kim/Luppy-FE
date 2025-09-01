@@ -4,7 +4,7 @@ import { AUTH_MESSAGES } from '@/constants/messages';
 
 
 function normalizeBase(url?: string) {
-  if (!url) return 'http://localhost:8080';                 // 로컬 개발 기본값
+  if (!url) return 'http://localhost:5173';                 // 로컬 개발 기본값
   if (/^https?:\/\//i.test(url)) return url;                // 이미 절대 URL
   if (url.startsWith('//')) return `https:${url}`;          // 프로토콜 상대 → https 붙이기
   return `https://${url}`;                                  // 호스트만 온 경우

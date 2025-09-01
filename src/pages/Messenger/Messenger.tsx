@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from "react";
+import { useEffect, useMemo, type ReactNode } from "react";
 import { useQuery } from '@tanstack/react-query';
 import { getGroupList, type TGroup } from '@/api/chat';
 import { getActions, useSelectedGroupId } from '@/stores';
@@ -48,23 +48,34 @@ export default function Messenger() {
     },
   })
 
-  const mergedGroupList: TGroupList[] = useMemo(() => {
-    const dynamicGroups: TGroupList[] = (data || []).map(g => ({
-      id: `${g.id}`,
-      emoji: <span>{g.emoji}</span>,
-      name: g.name,
-      description: g.description,
-      content: <AllInbox />,
-    }));
+  const dynamicGroups: TGroupList[] = (data || []).map(g => ({
+    id: `${g.id}`,
+    emoji: <span>{g.emoji}</span>,
+    name: g.name,
+    description: g.description,
+    content: <AllInbox />,
+  }));
 
-    if (GROUP_LIST.length < 2) return [...GROUP_LIST, ...dynamicGroups];
-    setChatGroupList(dynamicGroups);
+  const mergedGroupList: TGroupList[] = useMemo(() => {
+
+    if (GROUP_LIST.length < 2) {
+      return [...GROUP_LIST, ...dynamicGroups];
+    }
+
     return [GROUP_LIST[0], ...dynamicGroups, ...GROUP_LIST.slice(1)];
   }, [data]);
+
+  useEffect(() => {
+    if (data) {
+
+      setChatGroupList(dynamicGroups);
+    }
+  }, [data, setChatGroupList]);
 
   const selectedGroup = mergedGroupList.find(
     (group) => group.id === selectedGroupId
   );
+
 
   return (
     <div className={styles.messenger_container}>

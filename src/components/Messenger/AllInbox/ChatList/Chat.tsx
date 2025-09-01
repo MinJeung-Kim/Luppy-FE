@@ -30,14 +30,12 @@ export default function Chat({ chatList }: Props) {
     const handleToggleMenu = (e: React.MouseEvent, roomId: number) => {
         e.stopPropagation(); // 상위 onClick (채팅 선택) 방지
         setOpenMenuId(prev => (prev === roomId ? null : roomId));
-        console.log('handleToggleMenu : ', roomId);
-
         setSelectedChat(roomId);
     };
 
     const handleMoveGroup = (groupId: string) => {
-        // 그룹 이동 로직
-        console.log('handleMoveGroup selectedChat, groupId  :', selectedChat, groupId);
+        console.log('handleMoveGroup : ', groupId);
+
         moveChatToGroup(selectedChat!, Number(groupId))
     };
 

@@ -43,7 +43,6 @@ export type TGroup = {
 export const getChatList = async (id: string) => {
     try {
         const response = await axiosPrivate.get(`/chat/list?groupId=${id}`);
-        console.log("getChatList chatList:", response.data);
 
         const chatList: TChatRoom[] = response.data[0].map((room: TServerChatRoom) => ({
             roomId: room.id,
@@ -62,7 +61,6 @@ export const getChatList = async (id: string) => {
 export const getChatContent = async (roomId: number) => {
     try {
         const response = await axiosPrivate.get(`/chat/room/${roomId}`);
-        console.log("getChatRoom chatRoom:", response.data);
 
         const chatContent = response.data.map((chat: TChatContent) => ({
             id: chat.id,
@@ -99,7 +97,6 @@ export const createGroup = async (name: string, description: string, emoji: stri
 export const getGroupList = async () => {
     try {
         const response = await axiosPrivate.get(`/chat/group`);
-        console.log("getGroupList raw response:", response.data);
 
         // 서버가 배열을 직접 주는지, { groupList: [...] } 형태로 주는지 모두 대응
         const groupList = Array.isArray(response.data)
