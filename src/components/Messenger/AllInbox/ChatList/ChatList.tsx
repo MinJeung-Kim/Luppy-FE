@@ -25,7 +25,7 @@ export default function ChatList() {
             {data && data.length > 0 ? <Chat chatList={data} />
                 : <DataEmpty />}
 
-            {selectedChat && <ChatRoom />}
+            {selectedChat !== null && <ChatRoom />}
         </div>
     );
 }

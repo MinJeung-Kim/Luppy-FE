@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useChatGroupList } from '@/stores';
+import { getActions, useChatGroupList } from '@/stores';
 import { formatTime } from '@/utils/time-format';
 import { useMessenger } from '@/context/MessengerContext';
 import { getChatContent, moveChatToGroup, type TChatRoom } from '@/api/chat';
@@ -18,6 +18,7 @@ export default function Chat({ chatList }: Props) {
     const { setChatContent, selectedChat, setSelectedChat, setChatRoomId } = useMessenger();
     const [openMenuId, setOpenMenuId] = useState<number | null>(null);
     const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
+    const { setAlertMessage, setOpenAlert } = getActions();
 
     const handleSelectChat = async (roomId: number) => {
         const result = await getChatContent(roomId);
@@ -34,9 +35,9 @@ export default function Chat({ chatList }: Props) {
     };
 
     const handleMoveGroup = (groupId: string) => {
-        console.log('handleMoveGroup : ', groupId);
-
-        moveChatToGroup(selectedChat!, Number(groupId))
+        moveChatToGroup(selectedChat!, Number(groupId));
+        setAlertMessage(`Chat moved to group ${groupId}`);
+        setOpenAlert(true);
     };
 
     useEffect(() => {

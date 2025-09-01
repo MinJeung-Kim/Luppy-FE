@@ -5,9 +5,7 @@ import styles from "./styles.module.css";
 
 export default function Logout() {
 
-    const { clearAccessToken,
-        setAlertMessage,
-        setOpenAlert } = getActions();
+    const { clearAccessToken, setAlertMessage, setOpenAlert } = getActions();
 
     const handleLogout = async () => {
         const result = await logout();
