@@ -66,12 +66,7 @@ export default function Chat({ chatList }: Props) {
                             onClick={() => handleSelectChat(chat.roomId)}>
                             <div className={styles.guests_wrap} >
                                 <div className={styles.guests_name}>
-                                    {chat.guests.map(({ id, name }, index) => (
-                                        <span key={id}>
-                                            {name}
-                                            {index < chat.guests.length - 1 && ', '}
-                                        </span>
-                                    ))}
+                                    {chat.guests.map(({ name }) => name).join(', ')}
                                 </div>
                                 <span className={styles.time}>{formatTime(chat.createdAt)}</span>
                             </div>
