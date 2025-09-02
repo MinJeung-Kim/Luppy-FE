@@ -41,6 +41,7 @@ export default function Chat({ chatList }: Props) {
     };
 
     useEffect(() => {
+
         const newOptions = chatGroupList.map(({ id, name }) => ({
             label: name,
             value: id,

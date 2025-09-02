@@ -56,6 +56,8 @@ export const getChatList = async (id: string) => {
             },
         }));
 
+        console.log('getChatList: ', response.data);
+
         return { chatList };
 
     } catch (error) {
