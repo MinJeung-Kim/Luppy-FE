@@ -15,10 +15,10 @@ type Props = {
 
 export default function Chat({ chatList }: Props) {
     const chatGroupList = useChatGroupList();
+    const { setAlertMessage, setOpenAlert } = getActions();
     const { setChatContent, selectedChat, setSelectedChat, setChatRoomId } = useMessenger();
     const [openMenuId, setOpenMenuId] = useState<number | null>(null);
     const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
-    const { setAlertMessage, setOpenAlert } = getActions();
 
     const handleSelectChat = async (roomId: number) => {
         const result = await getChatContent(roomId);
@@ -81,7 +81,7 @@ export default function Chat({ chatList }: Props) {
                             {/* <StarIcon /> */}
                             <StarLineIcon />
                         </button>
-                        {openMenuId === chat.roomId && (
+                        {openMenuId && openMenuId === chat.roomId && (
                             <SelectBox options={options} onClick={handleMoveGroup} />
                         )}
                     </li>
