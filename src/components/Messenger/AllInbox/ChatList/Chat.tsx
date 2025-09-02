@@ -5,7 +5,7 @@ import { useMessenger } from '@/context/MessengerContext';
 import { getChatContent, moveChatToGroup, type TChatRoom } from '@/api/chat';
 import StarLineIcon from '@/components/common/icons/StarLineIcon';
 import SelectBox from '@/components/common/SelectBox/SelectBox';
-// import StarIcon from '@/components/common/icons/StarIcon';
+import StarIcon from '@/components/common/icons/StarIcon';
 import Avatar from '@/components/common/Avatar/Avatar';
 import styles from "./styles.module.css";
 
@@ -48,6 +48,7 @@ export default function Chat({ chatList }: Props) {
         setOptions(newOptions);
     }, [chatGroupList]);
 
+
     return (
         <ul className={styles.chat}>
             {
@@ -78,8 +79,7 @@ export default function Chat({ chatList }: Props) {
                         </div>
 
                         <button className={styles.menu_button} onClick={(e) => handleToggleMenu(e, chat.roomId)} aria-expanded={openMenuId === chat.roomId}>
-                            {/* <StarIcon /> */}
-                            <StarLineIcon />
+                            {chat.chatGroup.id ? <StarIcon /> : <StarLineIcon />}
                         </button>
                         {openMenuId && openMenuId === chat.roomId && (
                             <SelectBox options={options} onClick={handleMoveGroup} />

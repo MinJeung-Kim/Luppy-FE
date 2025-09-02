@@ -8,6 +8,7 @@ export type TChatRoom = {
     guests: TUser[];
     host: TUser;
     createdAt: string;
+    chatGroup: { id: number, name: string }
 };
 
 type TServerChatRoom = {
@@ -15,6 +16,7 @@ type TServerChatRoom = {
     createdAt: string;
     host: TUser;
     users: TUser[];
+    chatGroup: { id: number, name: string }
 };
 
 export type TChatContent = {
@@ -43,12 +45,15 @@ export type TGroup = {
 export const getChatList = async (id: string) => {
     try {
         const response = await axiosPrivate.get(`/chat/list?groupId=${id}`);
-
         const chatList: TChatRoom[] = response.data[0].map((room: TServerChatRoom) => ({
             roomId: room.id,
             guests: room.users,
             host: room.host,
             createdAt: room.createdAt,
+            chatGroup: {
+                id: room.chatGroup.id,
+                name: room.chatGroup.name,
+            },
         }));
 
         return { chatList };
