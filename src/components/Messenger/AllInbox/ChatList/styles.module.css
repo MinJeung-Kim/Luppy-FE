@@ -7,7 +7,7 @@
         .chat_item {
             position: relative;
             display: grid;
-            grid-template-columns: 12% 78% 10%;
+            grid-template-columns: 1fr 2fr 1fr;
             align-items: center;
             padding: 1rem 0.5rem;
             /* gap: 1rem; */

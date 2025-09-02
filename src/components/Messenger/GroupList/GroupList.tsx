@@ -2,8 +2,6 @@ import { getActions, useSelectedGroupId } from '@/stores';
 import type { TGroupList } from "@/pages/Messenger/Messenger";
 import styles from "./styles.module.css";
 
-
-
 type Props = {
   groupList: TGroupList[];
 };

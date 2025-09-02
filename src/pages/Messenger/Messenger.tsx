@@ -67,7 +67,6 @@ export default function Messenger() {
 
   useEffect(() => {
     if (data) {
-
       setChatGroupList(dynamicGroups);
     }
   }, [data, setChatGroupList]);
@@ -75,7 +74,6 @@ export default function Messenger() {
   const selectedGroup = mergedGroupList.find(
     (group) => group.id === selectedGroupId
   );
-
 
   return (
     <div className={styles.messenger_container}>
