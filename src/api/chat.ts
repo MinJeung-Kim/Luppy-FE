@@ -2,13 +2,17 @@ import { axiosPrivate } from "./axios.config";
 import type { TUser } from '@/stores/slice/auth';
 import { handleAxiosError } from '@/utils/error';
 
+export type TChatGroup = {
+    id: number | null;
+    name: string;
+};
 
 export type TChatRoom = {
     roomId: number;
     guests: TUser[];
     host: TUser;
     createdAt: string;
-    chatGroup: { id: number, name: string }
+    chatGroup: TChatGroup
 };
 
 type TServerChatRoom = {
@@ -16,7 +20,7 @@ type TServerChatRoom = {
     createdAt: string;
     host: TUser;
     users: TUser[];
-    chatGroup: { id: number, name: string }
+    chatGroup: TChatGroup
 };
 
 export type TChatContent = {
@@ -45,21 +49,27 @@ export type TGroup = {
 export const getChatList = async (id: string) => {
     try {
         const response = await axiosPrivate.get(`/chat/list?groupId=${id}`);
-        const chatList: TChatRoom[] = response.data[0].map((room: TServerChatRoom) => ({
-            roomId: room.id,
-            guests: room.users,
-            host: room.host,
-            createdAt: room.createdAt,
-            chatGroup: {
-                id: room.chatGroup.id,
-                name: room.chatGroup.name,
-            },
-        }));
+        console.log('1-getChatList: ', response.data[0]);
+        response.data[0].forEach((room: TServerChatRoom, idx: number) => {
+            console.log(`room[${idx}]:`, room);
+        });
+        try {
+            const chatList: TChatRoom[] = response.data[0].map((room: TServerChatRoom) => {
 
-        console.log('getChatList: ', response.data);
-
-        return { chatList };
-
+                return {
+                    roomId: room.id,
+                    guests: room.users,
+                    host: room.host,
+                    createdAt: room.createdAt,
+                    chatGroup: room.chatGroup
+                        ? { id: room.chatGroup.id, name: room.chatGroup.name }
+                        : { id: 0, name: '' },
+                };
+            });
+            return { chatList };
+        } catch (e) {
+            console.error('map error:', e);
+        }
     } catch (error) {
         handleAxiosError(error);
     }
