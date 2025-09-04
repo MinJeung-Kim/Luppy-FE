@@ -49,10 +49,7 @@ export type TGroup = {
 export const getChatList = async (id: string) => {
     try {
         const response = await axiosPrivate.get(`/chat/list?groupId=${id}`);
-        console.log('1-getChatList: ', response.data[0]);
-        response.data[0].forEach((room: TServerChatRoom, idx: number) => {
-            console.log(`room[${idx}]:`, room);
-        });
+
         try {
             const chatList: TChatRoom[] = response.data[0].map((room: TServerChatRoom) => {
 
