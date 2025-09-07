@@ -71,7 +71,7 @@ export default function Chat({ chatList }: Props) {
                                 <span className={styles.time}>{formatTime(chat.createdAt)}</span>
                             </div>
 
-                            <span className={styles.last_message}>대화를 시작해보세요</span>
+                            <span className={styles.last_message}>{chat.lastMessage}</span>
                         </div>
 
                         <button className={styles.menu_button} onClick={(e) => handleToggleMenu(e, chat.roomId)} aria-expanded={openMenuId === chat.roomId}>

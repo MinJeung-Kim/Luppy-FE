@@ -12,7 +12,8 @@ export type TChatRoom = {
     guests: TUser[];
     host: TUser;
     createdAt: string;
-    chatGroup: TChatGroup
+    chatGroup: TChatGroup;
+    lastMessage: string;
 };
 
 type TServerChatRoom = {
@@ -20,7 +21,8 @@ type TServerChatRoom = {
     createdAt: string;
     host: TUser;
     users: TUser[];
-    chatGroup: TChatGroup
+    chatGroup: TChatGroup;
+    lastMessage: string;
 };
 
 export type TChatContent = {
@@ -61,6 +63,7 @@ export const getChatList = async (id: string) => {
                     chatGroup: room.chatGroup
                         ? { id: room.chatGroup.id, name: room.chatGroup.name }
                         : { id: 0, name: '' },
+                    lastMessage: room.lastMessage,
                 };
             });
             return { chatList };
