@@ -1,8 +1,8 @@
 
-import { useState, useEffect, useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useState, useCallback } from 'react';
 import type { TUser } from '@/stores/slice/auth';
-import { getActions, useSocket, useUser } from '@/stores';
+import { useUser } from '@/stores';
+import { createChatRoom } from '@/api/chat';
 import { useMessenger } from '@/context/MessengerContext';
 import { useAvailableUsers } from '@/hooks/useAvailableUsers';
 import SelectedUsers from '@/components/SelectedUsers/SelectedUsers';
@@ -13,12 +13,8 @@ import styles from "./styles.module.css";
 
 export default function InviteUsersModal() {
     const user = useUser();
-    const socket = useSocket();
-    const queryClient = useQueryClient();
     const { setIsModal } = useMessenger();
-    const { createChatRoom } = getActions();
     const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-
     const { availableUsers } = useAvailableUsers();
 
     const handleClose = useCallback(() => {
@@ -26,27 +22,11 @@ export default function InviteUsersModal() {
     }, [setIsModal]);
 
     const handleSave = () => {
-        createChatRoom(user!.id, selectedUsers);
+        const members = [user!.id, ...selectedUsers];
+
+        createChatRoom(members);
+        setIsModal(false);
     }
-
-    useEffect(() => {
-        if (!socket) return;
-
-        const handleRoomCreated = ({ host, guests }: { host: TUser; guests: TUser[] }) => {
-            console.log("새로운 채팅방이 생성되었습니다.", host, guests);
-
-            // 채팅 룸 리스트를 실시간으로 업데이트
-            queryClient.invalidateQueries({ queryKey: ['chatList'] });
-
-            handleClose();
-        };
-
-        socket.on("roomCreated", handleRoomCreated);
-
-        return () => {
-            socket.off("roomCreated", handleRoomCreated);
-        };
-    }, [socket, queryClient, handleClose]);
 
     const handleToggleUser = (userId: number) => {
         setSelectedUsers(prev =>

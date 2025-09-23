@@ -15,9 +15,8 @@ type State = {
     chatRoomId: number | null;
     setChatRoomId: React.Dispatch<React.SetStateAction<number | null>>;
 
-    chatContent: TChatContent[];
-    setChatContent: React.Dispatch<React.SetStateAction<TChatContent[]>>;
-
+    chatContent: TChatContent[] | null;
+    setChatContent: React.Dispatch<React.SetStateAction<TChatContent[] | null>>;
 };
 
 const MessengerContext = createContext<State>({} as State);
@@ -26,7 +25,7 @@ export function MessengerProvider({ children }: { children: React.ReactNode }) {
     const [isModal, setIsModal] = useState(false);
     const [selectedChat, setSelectedChat] = useState<number | null>(null);
     const [chatRoomId, setChatRoomId] = useState<number | null>(null);
-    const [chatContent, setChatContent] = useState<TChatContent[]>([]);
+    const [chatContent, setChatContent] = useState<TChatContent[] | null>(null);
 
     return (
         <MessengerContext.Provider

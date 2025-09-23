@@ -1,6 +1,6 @@
 import { useEffect, useMemo, type ReactNode } from "react";
 import { useQuery } from '@tanstack/react-query';
-import { getGroupList, type TGroup } from '@/api/chat';
+import { getChatGroups, type TGroup } from '@/api/chat';
 import { getActions, useSelectedGroupId } from '@/stores';
 import { MessengerProvider } from '@/context/MessengerContext';
 import GroupList from "@/components/Messenger/GroupList/GroupList";
@@ -14,7 +14,7 @@ export type TGroupList = {
   id: string;
   emoji: ReactNode;
   name: string;
-  description: string;
+  desc: string;
   content: ReactNode;
 };
 
@@ -23,14 +23,14 @@ const GROUP_LIST = [
     id: "all-inbox",
     emoji: <CircleUserIcon />,
     name: "All Inbox",
-    description: "모든 메세지를 보여줍니다.",
+    desc: "모든 메세지를 보여줍니다.",
     content: <AllInbox />,
   },
   {
     id: "add-group",
     emoji: <PlusCircleIcon />,
     name: "그룹 추가",
-    description: "새로운 그룹을 추가합니다.",
+    desc: "새로운 그룹을 추가합니다.",
     content: <AddGroupForm />,
   },
 ];
@@ -42,8 +42,9 @@ export default function Messenger() {
   const { data } = useQuery<TGroup[]>({
     queryKey: ['groupList'],
     queryFn: async () => {
-      const result = await getGroupList();
-      return result?.groupList || [];
+      const result = await getChatGroups();
+
+      return result;
     },
   })
 
@@ -51,7 +52,7 @@ export default function Messenger() {
     id: `${g.id}`,
     emoji: <span>{g.emoji}</span>,
     name: g.name,
-    description: g.description,
+    desc: g.desc,
     content: <AllInbox />,
   }));
 

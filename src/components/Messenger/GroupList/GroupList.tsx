@@ -24,7 +24,7 @@ export default function GroupList({
           {group.emoji}
           <div className={styles.text_container}>
             <span className={styles.title}>{group.name}</span>
-            <span className={styles.description}>{group.description}</span>
+            <span className={styles.description}>{group.desc}</span>
           </div>
         </div>
       ))}

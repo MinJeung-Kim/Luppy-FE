@@ -17,13 +17,13 @@ export default function AddGroupForm() {
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
   const [inputs, setInputs] = useState({
     name: "",
-    description: "",
+    desc: "",
   });
 
   const handleReset = () => {
     setInputs({
       name: "",
-      description: "",
+      desc: "",
     });
     setSelectedEmoji(null);
   };
@@ -31,7 +31,7 @@ export default function AddGroupForm() {
   const { mutate: mutateCreateGroup, isPending } = useMutation({
     mutationFn: async () => {
       if (!selectedEmoji) throw new Error('이모지가 없습니다.');
-      return await createGroup(inputs.name, inputs.description, selectedEmoji);
+      return await createGroup(inputs.name, inputs.desc, selectedEmoji);
     },
     onSuccess: () => {
       setAlertMessage('그룹이 생성되었습니다.');
@@ -84,9 +84,9 @@ export default function AddGroupForm() {
         onChange={handleChange}
       />
       <TextInput
-        name="description"
+        name="desc"
         placeholder="그룹에 대해 간단히 설명해주세요."
-        value={inputs.description}
+        value={inputs.desc}
         onChange={handleChange}
       />
 

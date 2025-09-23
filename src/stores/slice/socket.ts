@@ -3,15 +3,12 @@ import { io, Socket } from "socket.io-client";
 import { baseURL } from '@/api/axios.config';
 import type { BoundState } from '../bound-store';
 import type { TJoinUser } from '@/context/ConferenceContext';
+import type { TChatContent } from '@/api/chat';
 
 export type TServerChatData = {
-    author: { id: number, email: string, name: string, profile: string },
-    message: string,
-    chatRoom: {
-        id: number,
-        hostId: number,
-        createdAt: string,
-    },
+    sender: { id: number, email: string, name: string, profile: string },
+    msg: string,
+    chatRoom: number,
     createdAt: string,
 }
 
@@ -19,8 +16,8 @@ export interface SocketSliceState {
     socket: Socket | null;
     socketOpen: () => void;
     socketClose: () => void;
-    createChatRoom: (host: number, guest: number[]) => void;
-    sendMessage: (roomId: number, message: string) => void;
+    sendMessage: (chatRoomId: number, msg: string) => void;
+    joinChatRoom: (roomId: number) => void;
     createConferenceRoom: (roomId: string, host: number, guests: number[]) => void;
     joinConferenceRoom: (roomId: string, userId: number) => void;
     sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => void;
@@ -43,7 +40,8 @@ export const socketSlice: StateCreator<
             const newSocket = io(baseURL, {
                 withCredentials: true,
                 auth: {
-                    token: `Bearer ${token}`
+                    token: `Bearer ${token}`,
+                    roomId: get().roomId
                 },
                 transports: ['websocket', 'polling'], // transport 옵션 명시
                 upgrade: true,
@@ -69,12 +67,12 @@ export const socketSlice: StateCreator<
                 }
             });
 
-            newSocket.on('sendMessage', (chatData: TServerChatData) => {
-                console.log('새 메시지 받음:', chatData);
-                const messageReceivedEvent = new CustomEvent('messageReceived', {
-                    detail: chatData
-                });
-                window.dispatchEvent(messageReceivedEvent);
+            newSocket.on('sendMessage', ({ newChat }: { newChat: TChatContent }) => {
+                console.log('새 메시지 받음:', newChat);
+                // const messageReceivedEvent = new CustomEvent('messageReceived', {
+                //     detail: chatData
+                // });
+                // window.dispatchEvent(messageReceivedEvent);
             });
 
             newSocket.on('disconnect', (reason) => {
@@ -91,16 +89,17 @@ export const socketSlice: StateCreator<
             set({ socket: null });
         }
     },
-    createChatRoom: (host: number, guests: number[]) => {
+
+    sendMessage: (chatRoomId: number, msg: string) => {
         const currentSocket = get().socket;
         if (currentSocket) {
-            currentSocket.emit("createChatRoom", { host, guests });
+            currentSocket.emit("sendMessage", { roomId: chatRoomId, msg });
         }
     },
-    sendMessage: (roomId: number, message: string) => {
+    joinChatRoom: (roomId: number) => {
         const currentSocket = get().socket;
         if (currentSocket) {
-            currentSocket.emit("sendMessage", { roomId, message });
+            currentSocket.emit("joinChatRoom", roomId);
         }
     },
     createConferenceRoom: (roomId: string, host: number, guests: number[]) => {

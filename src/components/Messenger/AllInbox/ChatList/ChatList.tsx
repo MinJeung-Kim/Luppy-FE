@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSelectedGroupId } from '@/stores';
-import { getChatList, type TChatRoom } from '@/api/chat';
+import { getChatRooms, type TChatRoom } from '@/api/chat';
 import { useMessenger } from '@/context/MessengerContext';
 import DataEmpty from '../DataEmpty/DataEmpty';
 import Chat from './Chat';
@@ -14,9 +14,10 @@ export default function ChatList() {
     const { data } = useQuery<TChatRoom[]>({
         queryKey: ['chatList', selectedGroupId],
         queryFn: async () => {
-            const result = await getChatList(selectedGroupId);
+            const result = await getChatRooms(selectedGroupId);
+            // console.log('getChatRooms result : ', result);
 
-            return result?.chatList || [];
+            return result;
         },
     })
 

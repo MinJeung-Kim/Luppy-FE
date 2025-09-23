@@ -10,7 +10,7 @@ export default function Login() {
     <>
       <Helmet>
         <title>{LOGIN_PAGE_META.title}</title>
-        <meta name="description" content={LOGIN_PAGE_META.description} />
+        <meta name="desc" content={LOGIN_PAGE_META.desc} />
         <meta property="og:title" content={LOGIN_PAGE_META.ogTitle} />
         <meta property="og:type" content="website" />
       </Helmet>

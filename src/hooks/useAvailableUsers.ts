@@ -13,9 +13,9 @@ export function useAvailableUsers() {
         queryKey: ['users'],
         queryFn: async () => {
             const result = await getUsers();
-            if (result?.error) {
-                throw new Error(result.error);
-            }
+            // if (result?.error) {
+            //     throw new Error(result.error);
+            // }
             return result?.users || [];
         },
     });

@@ -82,7 +82,7 @@ export const getActions = () => ({
   socketOpen: useBoundStore.getState().socketOpen,
   socketClose: useBoundStore.getState().socketClose,
   sendMessage: useBoundStore.getState().sendMessage,
-  createChatRoom: useBoundStore.getState().createChatRoom,
+  joinChatRoom: useBoundStore.getState().joinChatRoom,
   createConferenceRoom: useBoundStore.getState().createConferenceRoom,
   joinConferenceRoom: useBoundStore.getState().joinConferenceRoom,
   sendOffer: useBoundStore.getState().sendOffer,

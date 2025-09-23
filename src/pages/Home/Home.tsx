@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet-async";
+import type { TUser } from '@/stores/slice/auth';
 import { getActions, useIsGlobalModal, useSelectedMenu, useSocket } from "@/stores";
 import MeetingConfirmModal from '@/components/Conference/MeetingConfirmModal/MeetingConfirmModal';
 import MediaMenu from '@/components/Header/MediaMenu/MediaMenu';
@@ -7,7 +8,6 @@ import { HOME_PAGE_META } from "@/constants/page_messages";
 import Header from "@/components/Header/Header";
 import { MenuItems } from "@/constants/menu";
 import styles from "./styles.module.css";
-import type { TUser } from '@/stores/slice/auth';
 
 export default function Home() {
   const socket = useSocket();
@@ -43,7 +43,7 @@ export default function Home() {
     <>
       <Helmet>
         <title>{HOME_PAGE_META.title}</title>
-        <meta name="description" content={HOME_PAGE_META.description} />
+        <meta name="desc" content={HOME_PAGE_META.desc} />
         <meta property="og:title" content={HOME_PAGE_META.ogTitle} />
         <meta property="og:type" content="website" />
       </Helmet>
