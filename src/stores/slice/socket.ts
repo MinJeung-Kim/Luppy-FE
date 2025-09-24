@@ -67,14 +67,6 @@ export const socketSlice: StateCreator<
                 }
             });
 
-            newSocket.on('sendMessage', ({ newChat }: { newChat: TChatContent }) => {
-                console.log('새 메시지 받음:', newChat);
-                // const messageReceivedEvent = new CustomEvent('messageReceived', {
-                //     detail: chatData
-                // });
-                // window.dispatchEvent(messageReceivedEvent);
-            });
-
             newSocket.on('disconnect', (reason) => {
                 console.log("Socket disconnected:", reason);
             });

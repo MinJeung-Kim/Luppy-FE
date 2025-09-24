@@ -25,12 +25,10 @@ export default function JoinRoom() {
     const conferenceId = useConferenceId();
     const joinUser = useJoinUser();
 
-    const {
-        setIsCallSetting } = useConference();
     const { stream } = useMediaStream();
-    const { sendOffer, sendAnswer, sendMediaState, setJoinUser } = getActions()
+    const { setIsCallSetting } = useConference();
+    const { sendOffer, sendAnswer, sendMediaState, setJoinUser, socketClose, setSelectedMenu } = getActions()
     const { peerConnection } = usePeerConnection()
-
 
     const handleMuteToggle = () => {
         const next = !isMicOn;
@@ -71,9 +69,17 @@ export default function JoinRoom() {
         sendMediaState(conferenceId, host);
     };
 
+    const handleCall = () => {
+        if (!socket || !stream || !user || !conferenceId) {
+            console.log("handleCall : 소켓, 스트림, 사용자 정보 또는 회의 ID가 없습니다.");
+            return;
+        }
+        socketClose();
+        setSelectedMenu("Dashboard")
+    }
+
     useEffect(() => {
         if (!socket) return;
-
 
         const handleJoinedConference = async ({ message, joinUser }: { message: string, joinUser: TUser }) => {
             const offer = await peerConnection.current?.createOffer();
@@ -149,13 +155,13 @@ export default function JoinRoom() {
                     : <Avatar src={user!.profile} alt='' />
                 }
             </div>
-            {joinUser && <div className={styles.video_form}>
-
-                {joinUser?.isVideoOn
-                    ? <VideoForm isMicOn={joinUser.isMicOn} /* 필요 시 props로 peerStream 전달 */ />
-                    : <Avatar src={joinUser.profile} alt='' />}
-
-            </div>}
+            {joinUser &&
+                <div className={styles.video_form}>
+                    {joinUser?.isVideoOn
+                        ? <VideoForm isMicOn={joinUser.isMicOn} />
+                        : <Avatar src={joinUser.profile} alt='' />}
+                </div>
+            }
 
             <div className={styles.button_container}>
                 <button className={styles.call_setting_button} onClick={() => { }}>
@@ -165,7 +171,9 @@ export default function JoinRoom() {
                     <button className={styles.microphone_button} onClick={handleMuteToggle}>
                         {isMicOn ? <MicOffIcon /> : <MicrophoneIcon />}
                     </button>
-                    <button className={styles.call_button}><CallIcon /></button>
+                    <button className={styles.call_button} onClick={handleCall}>
+                        <CallIcon />
+                    </button>
                     <button className={styles.video_cam_button} onClick={handleVideoToggle}>
                         {isVideoOn ? <VideoCamIcon /> : <VideoCamOffIcon />}
                     </button>
