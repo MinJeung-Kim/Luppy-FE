@@ -3,7 +3,6 @@ import { io, Socket } from "socket.io-client";
 import { baseURL } from '@/api/axios.config';
 import type { BoundState } from '../bound-store';
 import type { TJoinUser } from '@/context/ConferenceContext';
-import type { TChatContent } from '@/api/chat';
 
 export type TServerChatData = {
     sender: { id: number, email: string, name: string, profile: string },
