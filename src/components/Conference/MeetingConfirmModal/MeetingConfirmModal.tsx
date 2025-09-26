@@ -25,7 +25,7 @@ export default function MeetingConfirmModal({ text }: Props) {
     const handleSave = () => {
         console.log("회의실에 참여합니다.", conferenceId, user!);
 
-        joinConferenceRoom(conferenceId!, user!.id);
+        joinConferenceRoom(conferenceId!);
         setIsCreatedRoom(true); // 회의실 참여 상태로 변경
         setJoinUser(host);
         setSelectedMenu('Conference'); // Conference 페이지로 이동

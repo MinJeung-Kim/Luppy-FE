@@ -17,8 +17,8 @@ export interface SocketSliceState {
     socketClose: () => void;
     sendMessage: (chatRoomId: number, msg: string) => void;
     joinChatRoom: (roomId: number) => void;
-    createConferenceRoom: (roomId: string, host: number, guests: number[]) => void;
-    joinConferenceRoom: (roomId: string, userId: number) => void;
+    createConferenceRoom: (roomId: string, guests: number[]) => void;
+    joinConferenceRoom: (roomId: string) => void;
     sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => void;
     sendAnswer: (roomId: string, answer: RTCSessionDescriptionInit) => void;
     sendIcecandidate: (roomId: string, candidate: RTCIceCandidateInit) => void;
@@ -93,17 +93,17 @@ export const socketSlice: StateCreator<
             currentSocket.emit("joinChatRoom", roomId);
         }
     },
-    createConferenceRoom: (roomId: string, host: number, guests: number[]) => {
+    createConferenceRoom: (roomId: string, guests: number[]) => {
         const currentSocket = get().socket;
         if (currentSocket) {
 
-            currentSocket.emit("createConferenceRoom", { roomId, host, guests });
+            currentSocket.emit("createConferenceRoom", { roomId, guests });
         }
     },
-    joinConferenceRoom: (roomId: string, host: number) => {
+    joinConferenceRoom: (roomId: string) => {
         const currentSocket = get().socket;
         if (currentSocket) {
-            currentSocket.emit("joinConferenceRoom", { roomId, host });
+            currentSocket.emit("joinConferenceRoom", { roomId });
         }
     },
     sendOffer: (roomId: string, offer: RTCSessionDescriptionInit) => {

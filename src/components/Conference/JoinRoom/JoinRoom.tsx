@@ -154,12 +154,14 @@ export default function JoinRoom() {
                     ? <VideoForm isMicOn={isMicOn} />
                     : <Avatar src={user!.profile} alt='' />
                 }
+                <div className={styles.peer_name_tag}>{user!.name}</div>
             </div>
             {joinUser &&
                 <div className={styles.video_form}>
-                    {joinUser?.isVideoOn
+                    {joinUser.isVideoOn
                         ? <VideoForm isMicOn={joinUser.isMicOn} />
                         : <Avatar src={joinUser.profile} alt='' />}
+                    <div className={styles.peer_name_tag}>{joinUser.name}</div>
                 </div>
             }
 

@@ -15,6 +15,17 @@
         img {
             width: 50%;
         }
+
+        .peer_name_tag {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            color: #161717;
+            border-radius: 8px;
+            background: #cdd2d699;
+            padding: .3rem .8rem;
+            font-size: .8rem;
+        }
     }
 
     .button_container {

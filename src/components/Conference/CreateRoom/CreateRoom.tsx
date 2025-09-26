@@ -20,7 +20,7 @@ export default function CreateRoom() {
         const roomId = uuidv4();
         setConferenceId(roomId)
         if (user == null) return;
-        createConferenceRoom(roomId, user!.id, selectedUsers)
+        createConferenceRoom(roomId, selectedUsers)
     }
 
     useEffect(() => {
