@@ -15,8 +15,7 @@ export default function Menu() {
       {MenuItems.map(({ name, Icon }) => (
         <div
           key={name}
-          className={`${styles.menu_item} ${selectedMenu === name ? styles.active : ""
-            }`}
+          className={`${styles.menu_item} ${selectedMenu === name ? styles.active : ""}`}
           onClick={() => handleMenuClick(name)}
         >
           <Icon />

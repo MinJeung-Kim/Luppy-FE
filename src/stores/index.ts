@@ -9,6 +9,7 @@ const accessTokenSelector = (state: BoundState) => state.accessToken;
 const openAlertSelector = (state: BoundState) => state.openAlert;
 const alertMessageSelector = (state: BoundState) => state.alertMessage;
 const selectedMenuSelector = (state: BoundState) => state.selectedMenu;
+const isOpenMenuSelector = (state: BoundState) => state.isOpenMenu;
 const isGlobalModalSelector = (state: BoundState) => state.isGlobalModal;
 const conferenceIdSelector = (state: BoundState) => state.conferenceId;
 const isCreatedRoomSelector = (state: BoundState) => state.isCreatedRoom;
@@ -28,6 +29,7 @@ export const useAccessToken = () => useBoundStore(accessTokenSelector);
 export const useOpenAlert = () => useBoundStore(openAlertSelector);
 export const useAlertMessage = () => useBoundStore(alertMessageSelector);
 export const useSelectedMenu = () => useBoundStore(selectedMenuSelector);
+export const useIsOpenMenu = () => useBoundStore(isOpenMenuSelector);
 export const useIsGlobalModal = () => useBoundStore(isGlobalModalSelector);
 export const useConferenceId = () => useBoundStore(conferenceIdSelector);
 export const useIsCreatedRoom = () => useBoundStore(isCreatedRoomSelector);
@@ -67,12 +69,14 @@ export const getActions = () => ({
   setOpenAlert: useBoundStore.getState().setOpenAlert,
   setAlertMessage: useBoundStore.getState().setAlertMessage,
   setSelectedMenu: useBoundStore.getState().setSelectedMenu,
+  toggleMenu: useBoundStore.getState().toggleMenu,
   setIsGlobalModal: useBoundStore.getState().setIsGlobalModal,
   setConferenceId: useBoundStore.getState().setConferenceId,
   setIsCreatedRoom: useBoundStore.getState().setIsCreatedRoom,
   setJoinUser: useBoundStore.getState().setJoinUser,
   setChatGroupList: useBoundStore.getState().setChatGroupList,
   setSelectedGroupId: useBoundStore.getState().setSelectedGroupId,
+
 
   setCanvas: (canvas: fabric.Canvas | null) => useBoundStore.getState().setCanvas(canvas),
   setActiveColor: (activeColor: string) => useBoundStore.getState().setActiveColor(activeColor),

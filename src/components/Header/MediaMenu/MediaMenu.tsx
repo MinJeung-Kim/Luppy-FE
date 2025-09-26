@@ -1,25 +1,22 @@
-import { useState } from 'react';
 import { MenuItems } from '@/constants/menu';
-import { getActions, useSelectedMenu } from '@/stores';
+import { getActions, useIsOpenMenu, useSelectedMenu } from '@/stores';
 import HorizontalMenuIcon from '@/components/common/icons/HorizontalMenuIcon';
 import styles from "./styles.module.css";
 
 export default function MediaMenu() {
     const selectedMenu = useSelectedMenu();
-    const { setSelectedMenu } = getActions();
-    const [isOpen, setIsOpen] = useState(false);
+    const isOpenMenu = useIsOpenMenu();
+    const { setSelectedMenu, toggleMenu } = getActions();
 
     const handleMenuClick = (menuName: string) => {
         setSelectedMenu(menuName);
+        toggleMenu()
     };
 
-    const handleOpenMenu = () => {
-        setIsOpen(prev => !prev);
-    };
 
     return (
-        <div className={`${styles.media_menu} ${isOpen ? styles.menu_open : styles.menu_closed}`}>
-            <ul className={`${styles.media_menu_list} ${isOpen ? styles.open : styles.closed}`}>
+        <div className={`${styles.media_menu} ${isOpenMenu ? styles.menu_open : styles.menu_closed}`}>
+            <ul className={`${styles.media_menu_list} ${isOpenMenu ? styles.open : styles.closed}`}>
                 {MenuItems.map(({ name, Icon }) => (
                     <div
                         key={name}
@@ -32,7 +29,7 @@ export default function MediaMenu() {
                     </div>
                 ))}
             </ul>
-            <button className={styles.menu_button} onClick={handleOpenMenu}><HorizontalMenuIcon /></button>
+            <button className={styles.menu_button} onClick={toggleMenu}><HorizontalMenuIcon /></button>
         </div>
     );
 }
