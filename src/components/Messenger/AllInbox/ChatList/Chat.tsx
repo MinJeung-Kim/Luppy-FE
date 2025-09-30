@@ -37,7 +37,9 @@ export default function Chat({ chatList }: Props) {
     };
 
     const handleMoveGroup = (groupId: string) => {
-        moveChatToGroup(selectedChat!, Number(groupId));
+        if (!selectedChat) return;
+
+        moveChatToGroup(selectedChat, Number(groupId));
         setAlertMessage(`Chat moved to group ${groupId}`);
         setOpenAlert(true);
     };
