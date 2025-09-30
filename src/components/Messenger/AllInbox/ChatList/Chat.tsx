@@ -75,9 +75,9 @@ export default function Chat({ chatList }: Props) {
                             {/* <span className={styles.last_message}>{chat.lastMessage}</span> */}
                         </div>
 
-                        <button className={styles.menu_button} onClick={(e) => handleToggleMenu(e, chat.id)} aria-expanded={openMenuId === chat.id}>
+                        {options.length > 0 && <button className={styles.menu_button} onClick={(e) => handleToggleMenu(e, chat.id)} aria-expanded={openMenuId === chat.id}>
                             {chat.chatGroup ? <StarIcon /> : <StarLineIcon />}
-                        </button>
+                        </button>}
                         {openMenuId && openMenuId === chat.id && (
                             <SelectBox options={options} onClick={handleMoveGroup} />
                         )}
