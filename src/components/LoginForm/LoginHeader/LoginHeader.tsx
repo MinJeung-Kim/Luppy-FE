@@ -9,7 +9,8 @@ export default function LoginHeader({ title, subTitle }: Props) {
   return (
     <div className={styles.login_header}>
       <span>{title} </span>
-      <span className={isLogin ? styles.title : styles.sub_title}>
+      <span
+        className={isLogin ? styles.title : styles.sub_title}>
         {subTitle}
       </span>
     </div>

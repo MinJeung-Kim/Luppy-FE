@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useUser } from '@/stores';
 import type { TChatContent } from '@/api/chat';
 import Avatar from '@/components/common/Avatar/Avatar';
@@ -29,16 +30,18 @@ export default function ChatContent() {
                             <span className={styles.date}>{currentDate}</span>
                         </div>
                     )}
-                    <li className={`${styles.chat_content} ${isMe ? styles.me : ""}`}>
+                    <li
+                        className={clsx(styles.chat_content, { [styles.me]: isMe })}>
                         {!isMe && <Avatar src={chat.sender.profile} alt={chat.sender.name} />}
                         <div className={styles.author_wrap}>
                             <div className={styles.author_info}>
                                 {!isMe && <span className={styles.name}>{chat.sender.name}</span>}
-                                <span className={`${styles.time} ${isMe ? styles.me_time : ""}`}>
+                                <span
+                                    className={clsx(styles.time, { [styles.me_time]: isMe })}>
                                     {formatTime(chat.createdAt)}
                                 </span>
                             </div>
-                            <span className={`${styles.message} ${isMe ? styles.me_message : ""}`}>
+                            <span className={clsx(styles.message, { [styles.me_message]: isMe })}>
                                 {chat.msg}
                             </span>
                         </div>

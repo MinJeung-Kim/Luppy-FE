@@ -31,6 +31,12 @@
             button:nth-child(1) {
                 transform: rotate(180deg);
             }
+
+            .page_info {
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: var(--color-disabled);
+            }
         }
 
         .action_buttons {

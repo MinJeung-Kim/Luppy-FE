@@ -3,7 +3,11 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import NotFound from "./pages/NotFound/NotFound.tsx";
-import Home from "./pages/Home/Home.tsx";
+import Dashboard from './pages/Dashboard/Dashboard.tsx';
+import Messenger from './pages/Messenger/Messenger.tsx';
+import Conference from './pages/Conference/Conference.tsx';
+import Management from './pages/Management.tsx';
+import AiWBoard from './pages/AiWBoard.tsx';
 import App from "./App.tsx";
 import "@/styles/global.css";
 
@@ -15,12 +19,24 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Dashboard />,
       },
-      // {
-      //   path: "/login",
-      //   element: <Login />,
-      // },
+      {
+        path: "/messenger",
+        element: <Messenger />,
+      },
+      {
+        path: "/conference",
+        element: <Conference />,
+      },
+      {
+        path: "/ai-w-board",
+        element: <AiWBoard />,
+      },
+      {
+        path: "/management",
+        element: <Management />,
+      },
     ],
   },
 ]);

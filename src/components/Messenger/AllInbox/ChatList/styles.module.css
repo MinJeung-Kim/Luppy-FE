@@ -4,11 +4,14 @@
         display: flex;
         flex-direction: column;
 
+
         .chat_item {
             position: relative;
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
             align-items: center;
+            justify-content: space-between;
+
             padding: 1rem 0.5rem;
             /* gap: 1rem; */
 
@@ -72,7 +75,7 @@
                 height: 1.2rem;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-self: flex-end;
 
                 svg {
                     width: 100%;

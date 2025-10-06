@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clsx from "clsx";
 import ArrowRightIcon from '../../../common/icons/ArrowRightIcon';
 import styles from "./styles.module.css";
 
@@ -25,10 +26,16 @@ export default function CallSelectBox({ label, menu, selected, onClick }: Props)
             <div className={styles.selected_item}
                 onClick={() => setIsMenuToggle(!isMenuToggle)}
             >
-                <span className={styles.selected_item_name}>{selected.label || menu[0]?.label}</span>
+                <span
+                    className={clsx(styles.selected_item_name, {
+                        [styles.active]: selected.label === menu[0]?.label
+                    })}
+                >{selected.label || menu[0]?.label}</span>
                 <ArrowRightIcon />
 
-                <ul className={`${styles.select} ${isMenuToggle ? styles.open : ''}`}>
+                <ul
+                    className={clsx(styles.select, { [styles.open]: isMenuToggle })}
+                >
                     {menu.map(item => (
                         <li key={item.deviceId}
                             className={styles.menu_item}

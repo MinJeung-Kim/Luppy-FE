@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type { ChangeEvent, FocusEvent } from "react";
 import styles from "./styles.module.css";
 
@@ -23,10 +24,12 @@ export default function TextInput({
   onBlur,
 }: Props) {
   return (
-    <div className={styles.text_input_container}>
+    <div
+
+      className={styles.text_input_container}>
       {isLabel && <label className={styles.label}>{name}</label>}
       <input
-        className={`${styles.input} ${disabled ? styles.disabled : ""}`}
+        className={clsx(styles.input, { [styles.disabled]: disabled })}
         type={type}
         name={name}
         value={value}

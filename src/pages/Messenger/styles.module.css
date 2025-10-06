@@ -3,7 +3,7 @@
     height: 100vh;
     display: flex;
     justify-content: space-between;
-    overflow: hidden;
+    /* overflow: hidden; */
 
     .content_area {
         width: 75%;

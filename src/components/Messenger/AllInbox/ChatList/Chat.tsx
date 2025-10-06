@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useEffect, useState } from 'react';
 import { getActions, useChatGroupList } from '@/stores';
 import { formatTime } from '@/utils/time-format';
@@ -57,8 +58,10 @@ export default function Chat({ chatList }: Props) {
         <ul className={styles.chat}>
             {
                 chatList.map((chat) => {
+                    const isSelected = selectedChat === chat.id;
+
                     return <li key={chat.id}
-                        className={`${styles.chat_item} ${selectedChat === chat.id ? styles.selected : ''}`}>
+                        className={clsx(styles.chat_item, { [styles.selected]: isSelected })}>
                         <div className={styles.guests_img}>
                             {chat.members.map(({ id, name, profile }) => (
                                 <Avatar src={profile} alt={`${name}'s avatar`} key={id} />
@@ -71,10 +74,10 @@ export default function Chat({ chatList }: Props) {
                                 <div className={styles.guests_name}>
                                     {chat.members.map(({ name }) => name).join(', ')}
                                 </div>
-                                <span className={styles.time}>{formatTime(chat.createdAt)}</span>
+                                {chat.lastChatCreatedAt && <span className={styles.time}>{formatTime(chat.lastChatCreatedAt)}</span>}
                             </div>
 
-                            {/* <span className={styles.last_message}>{chat.lastMessage}</span> */}
+                            <span className={styles.last_message}>{chat.lastChatMsg}</span>
                         </div>
 
                         {options.length > 0 && <button className={styles.menu_button} onClick={(e) => handleToggleMenu(e, chat.id)} aria-expanded={openMenuId === chat.id}>

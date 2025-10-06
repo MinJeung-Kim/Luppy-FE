@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getActions, useConferenceId, useJoinUser, useSocket, useUser } from '@/stores';
 import type { TUser } from '@/stores/slice/auth';
 import { useMediaStream } from '@/hooks/useMediaStream';
@@ -27,8 +28,9 @@ export default function JoinRoom() {
 
     const { stream } = useMediaStream();
     const { setIsCallSetting } = useConference();
-    const { sendOffer, sendAnswer, sendMediaState, setJoinUser, socketClose, setSelectedMenu } = getActions()
+    const { sendOffer, sendAnswer, sendMediaState, setJoinUser, socketClose } = getActions()
     const { peerConnection } = usePeerConnection()
+    const navigate = useNavigate()
 
     const handleMuteToggle = () => {
         const next = !isMicOn;
@@ -75,7 +77,7 @@ export default function JoinRoom() {
             return;
         }
         socketClose();
-        setSelectedMenu("Dashboard")
+        navigate('/');
     }
 
     useEffect(() => {

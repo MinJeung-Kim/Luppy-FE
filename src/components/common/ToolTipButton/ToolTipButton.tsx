@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import ToolTip from '../ToolTip/ToolTip';
 import styles from "./styles.module.css";
 
@@ -18,7 +19,7 @@ export default function ToolTipButton({
         <ToolTip text={[title]} position="left">
             <button
                 type="button"
-                className={`${styles.tool_li} ${disabled ? styles.active : ""}`}
+                className={clsx(styles.tool_li, { [styles.active]: disabled })}
                 onClick={onClick}
                 disabled={disabled}
             >

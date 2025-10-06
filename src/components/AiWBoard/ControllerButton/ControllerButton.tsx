@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import * as fabric from "fabric";
-import { useCanvas, useColor, useStroke } from '@/stores';
-import ColorIcon from '@/components/common/icons/ColorIcon';
+import { getActions, useCanvas, useColor, useSelectedTool } from '@/stores';
 import ColorTextIcon from '@/components/common/icons/ColorTextIcon';
 import ToolTipButton from '@/components/common/ToolTipButton/ToolTipButton';
 import PencilIcon from '@/components/common/icons/PencilIcon';
@@ -11,37 +10,24 @@ import DeleteIcon from '@/components/common/icons/DeleteIcon';
 import ColorPanel from '../ColorPanel/ColorPanel';
 import styles from "./styles.module.css";
 
-
-type Props = {
-    selectedTool: string;
-    setSelectedTool: (tool: string) => void;
-}
-
-export default function ControllerButton({ selectedTool, setSelectedTool }: Props) {
+export default function ControllerButton() {
     const canvas = useCanvas();
     const activeColor = useColor();
-    const activeStroke = useStroke();
+    const selectedTool = useSelectedTool();
+    const { setSelectedTool } = getActions()
 
-    const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [isPanelOpen, setIsPanelOpen] = useState(true);
 
     const switchButton = (tool: string) => {
         if (!(canvas instanceof fabric.Canvas)) return;
 
         switch (tool) {
             case "그리기": {
-                const brush = new fabric.PencilBrush(canvas);
-                canvas.freeDrawingBrush = brush;
-                canvas.freeDrawingBrush.color = activeColor;
-                canvas.freeDrawingBrush.width = activeStroke;
-
                 canvas.isDrawingMode = true;
-                canvas.defaultCursor = "default";
-                // canvas.defaultCursor = `url(${PenCursor}) 0 32, auto`;
                 setIsPanelOpen(prev => !prev)
                 break;
             }
             case "지우기": {
-                canvas.selection = true;
                 canvas.isDrawingMode = false;
                 const handleMouseUp = (target: fabric.Object | undefined) => {
                     if (!target) return;
@@ -63,10 +49,12 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
                 break;
             }
             case "수정": {
+                canvas.isDrawingMode = false;
                 canvas.selection = true;
                 break;
             }
             case "텍스트": {
+                canvas.isDrawingMode = false;
                 const text = new fabric.IText("텍스트를 입력하세요", {
                     left: 100,
                     top: 100,
@@ -78,8 +66,6 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
                 canvas.setActiveObject(text);
                 break;
             }
-            case "색상":
-                break;
             case "전체 삭제": {
                 canvas.clear();
                 break;
@@ -91,7 +77,10 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
 
     const handleToolChange = (tool: string) => {
         setSelectedTool(tool);
-        switchButton(tool)
+        switchButton(tool);
+        if (tool !== "그리기") {
+            setIsPanelOpen(false);
+        }
     };
 
     const TOOLS = [
@@ -99,7 +88,6 @@ export default function ControllerButton({ selectedTool, setSelectedTool }: Prop
         { Icon: <EraserIcon />, title: "지우기" },
         { Icon: <CursorIcon />, title: "수정" },
         { Icon: <ColorTextIcon />, title: "텍스트" },
-        { Icon: <ColorIcon />, title: "색상" },
         { Icon: <DeleteIcon />, title: "전체 삭제" },
     ]
 

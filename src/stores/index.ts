@@ -8,7 +8,6 @@ const socketSelector = (state: BoundState) => state.socket;
 const accessTokenSelector = (state: BoundState) => state.accessToken;
 const openAlertSelector = (state: BoundState) => state.openAlert;
 const alertMessageSelector = (state: BoundState) => state.alertMessage;
-const selectedMenuSelector = (state: BoundState) => state.selectedMenu;
 const isOpenMenuSelector = (state: BoundState) => state.isOpenMenu;
 const isGlobalModalSelector = (state: BoundState) => state.isGlobalModal;
 const conferenceIdSelector = (state: BoundState) => state.conferenceId;
@@ -16,6 +15,7 @@ const isCreatedRoomSelector = (state: BoundState) => state.isCreatedRoom;
 const joinUserSelector = (state: BoundState) => state.joinUser;
 const chatGroupListSelector = (state: BoundState) => state.chatGroupList;
 const selectedGroupIdSelector = (state: BoundState) => state.selectedGroupId;
+const selectedToolSelector = (state: BoundState) => state.selectedTool;
 
 const canvasSelector = (state: BoundState) => state.canvas;
 const colorSelector = (state: BoundState) => state.activeColor;
@@ -28,7 +28,6 @@ export const useSocket = () => useBoundStore(socketSelector);
 export const useAccessToken = () => useBoundStore(accessTokenSelector);
 export const useOpenAlert = () => useBoundStore(openAlertSelector);
 export const useAlertMessage = () => useBoundStore(alertMessageSelector);
-export const useSelectedMenu = () => useBoundStore(selectedMenuSelector);
 export const useIsOpenMenu = () => useBoundStore(isOpenMenuSelector);
 export const useIsGlobalModal = () => useBoundStore(isGlobalModalSelector);
 export const useConferenceId = () => useBoundStore(conferenceIdSelector);
@@ -40,6 +39,7 @@ export const useSelectedGroupId = () => useBoundStore(selectedGroupIdSelector);
 export const useCanvas = () => useBoundStore(canvasSelector);
 export const useColor = () => useBoundStore(colorSelector);
 export const useStroke = () => useBoundStore(strokeSelector);
+export const useSelectedTool = () => useBoundStore(selectedToolSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -48,7 +48,6 @@ export const getChat = () => chatSelector(useBoundStore.getState());
 export const getAccessToken = () => accessTokenSelector(useBoundStore.getState());
 export const getOpenAlert = () => openAlertSelector(useBoundStore.getState());
 export const getAlertMessage = () => alertMessageSelector(useBoundStore.getState());
-export const getSelectedMenu = () => selectedMenuSelector(useBoundStore.getState());
 export const getIsGlobalModal = () => isGlobalModalSelector(useBoundStore.getState());
 export const getConferenceId = () => conferenceIdSelector(useBoundStore.getState());
 export const getIsCreatedRoom = () => isCreatedRoomSelector(useBoundStore.getState());
@@ -59,7 +58,7 @@ export const getSelectedGroupId = () => selectedGroupIdSelector(useBoundStore.ge
 export const getCanvas = () => canvasSelector(useBoundStore.getState());
 export const getColor = () => colorSelector(useBoundStore.getState());
 export const getStroke = () => strokeSelector(useBoundStore.getState());
-
+export const getSelectedTool = () => selectedToolSelector(useBoundStore.getState());
 
 export const getActions = () => ({
   setGuests: useBoundStore.getState().setGuests,
@@ -68,7 +67,6 @@ export const getActions = () => ({
   setAccessToken: useBoundStore.getState().setAccessToken,
   setOpenAlert: useBoundStore.getState().setOpenAlert,
   setAlertMessage: useBoundStore.getState().setAlertMessage,
-  setSelectedMenu: useBoundStore.getState().setSelectedMenu,
   toggleMenu: useBoundStore.getState().toggleMenu,
   setIsGlobalModal: useBoundStore.getState().setIsGlobalModal,
   setConferenceId: useBoundStore.getState().setConferenceId,
@@ -81,6 +79,7 @@ export const getActions = () => ({
   setCanvas: (canvas: fabric.Canvas | null) => useBoundStore.getState().setCanvas(canvas),
   setActiveColor: (activeColor: string) => useBoundStore.getState().setActiveColor(activeColor),
   setActiveStroke: (activeStroke: number) => useBoundStore.getState().setActiveStroke(activeStroke),
+  setSelectedTool: (tool: string) => useBoundStore.getState().setSelectedTool(tool),
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,

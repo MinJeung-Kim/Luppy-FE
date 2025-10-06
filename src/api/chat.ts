@@ -12,7 +12,8 @@ export type TChatRoom = {
     createdAt: string;
     chatGroup: number | null;
     members: TUser[],
-    // lastMessage: string
+    lastChatMsg: string,
+    lastChatCreatedAt: string | null,
 };
 
 export type TChatContent = {
@@ -58,11 +59,15 @@ export const createChatRoom = async (memberIds: number[]) => {
     }
 }
 
-export const getChatRooms = async (groupId: string) => {
+export const getChatRooms = async (groupId: string, page: number = 1, limit: number = 10) => {
     try {
-        const response = await axiosPrivate.get(`/chat/room?id=${groupId}`);
+        const response = await axiosPrivate.get(`/chat/room?id=${groupId}&page=${page}&limit=${limit}`);
 
-        return response.data || [];
+        return {
+            chatList: response.data.chatList,
+            totalPages: response.data.totalPages
+        };
+
     } catch (error) {
         handleAxiosError(error);
     }

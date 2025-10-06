@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import styles from "./styles.module.css";
 
 type Props = {
@@ -28,11 +29,11 @@ export default function Button({
 
   return (
     <button
-      className={`
-        ${styles.button_container} 
-        ${getTypeClass()} 
-        ${disabled ? styles.disabled : ""
-        }`}
+      className={clsx(
+        styles.button_container,
+        getTypeClass(),
+        { [styles.disabled]: disabled }
+      )}
       onClick={onClick}
       disabled={disabled}
     >

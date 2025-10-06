@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { initializeAuth } from "./api/auth";
@@ -6,18 +6,28 @@ import {
   useOpenAlert,
   useAccessToken,
   getActions,
+  useSocket,
+  useIsGlobalModal,
 } from "./stores";
+import type { TUser } from './stores/slice/auth';
 import { setupAxiosInterceptors } from "./api/axios.config";
 import Alert from "./components/common/Alert/Alert";
 import Login from "./pages/Login/Login";
+import Header from './components/Header/Header';
+import MediaMenu from './components/Header/MediaMenu/MediaMenu';
+import MeetingConfirmModal from './components/Conference/MeetingConfirmModal/MeetingConfirmModal';
 import styles from "./App.module.css";
 
 const queryClient = new QueryClient()
 
 function App() {
+  const socket = useSocket();
   const openAlert = useOpenAlert();
   const accessToken = useAccessToken();
-  const { setAccessToken, socketOpen } = getActions();
+  const { setAccessToken, socketOpen, setIsGlobalModal, setConferenceId } = getActions();
+  const [modalText, setModalText] = useState('');
+  const isGlobalModal = useIsGlobalModal();
+
 
   const initAuth = useCallback(async () => {
     // sessionStorage에 토큰이 있으면 사용, 없으면 refresh token으로 재발급
@@ -65,11 +75,36 @@ function App() {
     initAuth();
   }, [initAuth]);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleConferenceInvitation = ({ host, roomId }: { host: TUser, roomId: string | null }) => {
+      console.log("handleConferenceInvitation - hostName : ", host);
+      setModalText(host.name);
+      setConferenceId(roomId);
+      setIsGlobalModal(true);
+    };
+
+    socket.on("conferenceInvitation", handleConferenceInvitation);
+
+    return () => {
+      socket.off("conferenceInvitation", handleConferenceInvitation);
+    };
+  }, [socket]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <main className={styles.main}>
 
-        {accessToken ? <Outlet /> : <Login />}
+        {accessToken ?
+          <>
+            <MediaMenu />
+            <Header />
+            <Outlet />
+            {isGlobalModal && <MeetingConfirmModal text={modalText} />}
+
+          </>
+          : <Login />}
         {openAlert && <Alert />}
       </main>
     </QueryClientProvider>

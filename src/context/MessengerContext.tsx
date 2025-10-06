@@ -17,6 +17,11 @@ type State = {
 
     chatContent: TChatContent[] | null;
     setChatContent: React.Dispatch<React.SetStateAction<TChatContent[] | null>>;
+
+    currentPage: number;
+    setCurrentPage: (page: number) => void;
+    totalPages: number;
+    setTotalPages: (total: number) => void;
 };
 
 const MessengerContext = createContext<State>({} as State);
@@ -26,6 +31,9 @@ export function MessengerProvider({ children }: { children: React.ReactNode }) {
     const [selectedChat, setSelectedChat] = useState<number | null>(null);
     const [chatRoomId, setChatRoomId] = useState<number | null>(null);
     const [chatContent, setChatContent] = useState<TChatContent[] | null>(null);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
     return (
         <MessengerContext.Provider
@@ -38,6 +46,10 @@ export function MessengerProvider({ children }: { children: React.ReactNode }) {
                 setChatRoomId,
                 chatContent,
                 setChatContent,
+                currentPage,
+                setCurrentPage,
+                totalPages,
+                setTotalPages,
             }}
         >
             {children}

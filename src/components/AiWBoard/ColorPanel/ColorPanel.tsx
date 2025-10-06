@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { getActions, useCanvas, useColor, useStroke } from '@/stores';
 import { COLORS, STROKE_ICONS, STROKES } from '@/utils/color-panel';
 import styles from "./styles.module.css";
@@ -31,7 +32,7 @@ export default function ColorPanel() {
                     key={width}
                     type="button"
                     onClick={() => handleStrokeClick(width)}
-                    className={activeStroke === width ? styles.active : ""}
+                    className={clsx(styles.strokeButton, { [styles.active]: activeStroke === width })}
                 >
                     <img src={STROKE_ICONS[width]} alt={`stroke-${width}`} />
                 </button>
@@ -42,8 +43,7 @@ export default function ColorPanel() {
                 <div
                     key={index}
                     onClick={() => handleColorClick(color)}
-                    className={`${styles.colorChip} ${activeColor === color ? styles.active : ""
-                        }`}
+                    className={clsx(styles.colorChip, { [styles.active]: activeColor === color })}
                 >
                     <div
                         className={styles.colorCircle}

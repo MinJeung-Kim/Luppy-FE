@@ -1,28 +1,24 @@
-import type { ComponentType, ReactElement } from "react";
+import type { ComponentType } from "react";
 import HomeIcon from "@/components/common/icons/HomeIcon";
 import MessagesIcon from "@/components/common/icons/MessagesIcon";
 import ConferenceIcon from "@/components/common/icons/ConferenceIcon";
 import SettingIcon from "@/components/common/icons/SettingIcon";
-import Dashboard from "@/pages/Dashboard/Dashboard";
-import Messenger from "@/pages/Messenger/Messenger";
-import Conference from '@/pages/Conference/Conference';
 import BoardIcon from '@/components/common/icons/BoardIcon';
-import AiWBoard from '@/pages/AiWBoard/AiWBoard';
 
 export interface MenuItem {
   name: string;
   Icon: ComponentType;
-  content: ReactElement;
+  url: string;
 }
 
 export const MenuItems: MenuItem[] = [
-  { name: "Dashboard", Icon: HomeIcon, content: <Dashboard /> },
-  { name: "Messenger", Icon: MessagesIcon, content: <Messenger /> },
+  { name: "Dashboard", Icon: HomeIcon, url: "/" },
+  { name: "Messenger", Icon: MessagesIcon, url: "/messenger" },
   {
     name: "Conference",
     Icon: ConferenceIcon,
-    content: <Conference />,
+    url: "/conference",
   },
-  { name: "AI W-Board", Icon: BoardIcon, content: <AiWBoard /> },
-  { name: "Management", Icon: SettingIcon, content: <></> },
+  { name: "AI W-Board", Icon: BoardIcon, url: "/ai-w-board" },
+  { name: "Management", Icon: SettingIcon, url: "/management" },
 ];

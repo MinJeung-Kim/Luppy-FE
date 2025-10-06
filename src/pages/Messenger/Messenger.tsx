@@ -1,5 +1,6 @@
 import { useEffect, useMemo, type ReactNode } from "react";
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from "react-helmet-async";
 import { getChatGroups, type TGroup } from '@/api/chat';
 import { getActions, useSelectedGroupId } from '@/stores';
 import { MessengerProvider } from '@/context/MessengerContext';
@@ -8,6 +9,7 @@ import AddGroupForm from "@/components/Messenger/AddGroupForm/AddGroupForm";
 import CircleUserIcon from "@/components/common/icons/CircleUserIcon";
 import PlusCircleIcon from "@/components/common/icons/PlusCircleIcon";
 import AllInbox from "@/components/Messenger/AllInbox/AllInbox";
+import { CHAT_PAGE_META } from '@/constants/page_messages';
 import styles from "./styles.module.css";
 
 export type TGroupList = {
@@ -76,13 +78,22 @@ export default function Messenger() {
   );
 
   return (
-    <div className={styles.messenger_container}>
-      <MessengerProvider>
-        <GroupList
-          groupList={mergedGroupList}
-        />
-        <div className={styles.content_area}>{selectedGroup?.content}</div>
-      </MessengerProvider>
-    </div>
+    <>
+      <Helmet>
+        <title>{CHAT_PAGE_META.title}</title>
+        <meta name="desc" content={CHAT_PAGE_META.desc} />
+        <meta property="og:title" content={CHAT_PAGE_META.ogTitle} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
+      <div className={styles.messenger_container}>
+        <MessengerProvider>
+          <GroupList
+            groupList={mergedGroupList}
+          />
+          <div className={styles.content_area}>{selectedGroup?.content}</div>
+        </MessengerProvider>
+      </div>
+    </>
   );
 }

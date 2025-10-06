@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import type { TUser } from '@/stores/slice/auth';
 import { getActions, useConferenceId, useSocket, useUser } from '@/stores';
+import type { TJoinUser } from '@/context/ConferenceContext';
 import Modal from '@/components/common/Modal/Modal';
 import styles from "./styles.module.css";
-import type { TJoinUser } from '@/context/ConferenceContext';
-import type { TUser } from '@/stores/slice/auth';
-
 
 type Props = {
     text: string
@@ -13,8 +13,9 @@ type Props = {
 export default function MeetingConfirmModal({ text }: Props) {
     const user = useUser();
     const socket = useSocket();
+    const navigate = useNavigate()
     const conferenceId = useConferenceId();
-    const { setJoinUser, setIsGlobalModal, joinConferenceRoom, setSelectedMenu, setIsCreatedRoom } = getActions();
+    const { setJoinUser, setIsGlobalModal, joinConferenceRoom, setIsCreatedRoom } = getActions();
 
     const [host, setHost] = useState<TJoinUser | null>(null);
 
@@ -28,7 +29,7 @@ export default function MeetingConfirmModal({ text }: Props) {
         joinConferenceRoom(conferenceId!);
         setIsCreatedRoom(true); // 회의실 참여 상태로 변경
         setJoinUser(host);
-        setSelectedMenu('Conference'); // Conference 페이지로 이동
+        navigate('/conference');
         handleClose()
     }
 
