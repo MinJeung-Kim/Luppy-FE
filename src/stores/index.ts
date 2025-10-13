@@ -1,5 +1,6 @@
 import * as fabric from "fabric";
 import { useBoundStore, type BoundState } from "./bound-store";
+import type { TUnsplashImage } from './slice/canvas';
 
 const guestsSelector = (state: BoundState) => state.guests;
 const userSelector = (state: BoundState) => state.user;
@@ -16,6 +17,7 @@ const joinUserSelector = (state: BoundState) => state.joinUser;
 const chatGroupListSelector = (state: BoundState) => state.chatGroupList;
 const selectedGroupIdSelector = (state: BoundState) => state.selectedGroupId;
 const selectedToolSelector = (state: BoundState) => state.selectedTool;
+const recommendationsSelector = (state: BoundState) => state.recommendations;
 
 const canvasSelector = (state: BoundState) => state.canvas;
 const colorSelector = (state: BoundState) => state.activeColor;
@@ -40,6 +42,7 @@ export const useCanvas = () => useBoundStore(canvasSelector);
 export const useColor = () => useBoundStore(colorSelector);
 export const useStroke = () => useBoundStore(strokeSelector);
 export const useSelectedTool = () => useBoundStore(selectedToolSelector);
+export const useRecommendations = () => useBoundStore(recommendationsSelector);
 
 // 상태 변경 시 컴포넌트가 리렌더링되지 않음
 export const getGuests = () => guestsSelector(useBoundStore.getState());
@@ -59,6 +62,7 @@ export const getCanvas = () => canvasSelector(useBoundStore.getState());
 export const getColor = () => colorSelector(useBoundStore.getState());
 export const getStroke = () => strokeSelector(useBoundStore.getState());
 export const getSelectedTool = () => selectedToolSelector(useBoundStore.getState());
+export const getRecommendations = () => recommendationsSelector(useBoundStore.getState());
 
 export const getActions = () => ({
   setGuests: useBoundStore.getState().setGuests,
@@ -80,6 +84,7 @@ export const getActions = () => ({
   setActiveColor: (activeColor: string) => useBoundStore.getState().setActiveColor(activeColor),
   setActiveStroke: (activeStroke: number) => useBoundStore.getState().setActiveStroke(activeStroke),
   setSelectedTool: (tool: string) => useBoundStore.getState().setSelectedTool(tool),
+  setRecommendations: (recommendations: TUnsplashImage[][]) => useBoundStore.getState().setRecommendations(recommendations),
 
   clearAccessToken: () => useBoundStore.getState().clearAccessToken(),
   socketOpen: useBoundStore.getState().socketOpen,

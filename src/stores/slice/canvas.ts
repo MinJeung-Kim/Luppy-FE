@@ -3,6 +3,23 @@ import * as fabric from "fabric";
 import type { BoundState } from "../bound-store";
 import { COLORS, STROKES } from '@/utils/color-panel';
 
+export type TUnsplashImage = {
+    id: string;
+    alt: string;
+    urls: {
+        raw: string;
+        full: string;
+        regular: string;
+        small: string;
+        thumb: string;
+        small_s3: string;
+    };
+    user: {
+        name: string;
+        link: string;
+    };
+}
+
 export type CanvasSliceState = {
     canvas: fabric.Canvas | null;
     setCanvas: (canvas: fabric.Canvas | null) => void;
@@ -15,6 +32,9 @@ export type CanvasSliceState = {
 
     activeStroke: number;
     setActiveStroke: (stroke: number) => void;
+
+    recommendations: TUnsplashImage[][];
+    setRecommendations: (recommendations: TUnsplashImage[][]) => void;
 };
 
 export const canvasSlice: StateCreator<
@@ -34,4 +54,7 @@ export const canvasSlice: StateCreator<
 
     activeStroke: STROKES[0],
     setActiveStroke: (stroke: number) => set({ activeStroke: stroke }),
+
+    recommendations: [],
+    setRecommendations: (recommendations: TUnsplashImage[][]) => set({ recommendations }),
 });
