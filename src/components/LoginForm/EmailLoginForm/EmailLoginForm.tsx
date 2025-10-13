@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { login } from "@/api/auth";
 import { getActions } from '@/stores';
-import { useLogin } from "@/context/LoginContext";
+import useUserStore from '@/stores/useUserStore';
 import CheckBox from "@/components/common/CheckBox/CheckBox";
 import Button from "@/components/common/Button/Button";
 import { FORM_MESSAGES } from "@/constants/messages";
@@ -12,8 +12,8 @@ export default function EmailLoginForm() {
   const rememberMe = JSON.parse(
     localStorage.getItem("isRememberMe") || "false"
   );
-  const { setUser, setOpenAlert, setAccessToken, setAlertMessage } = getActions();
-  const { isValidInput, inputs, isLoading, setIsLoading } = useLogin();
+  const { setOpenAlert, setAccessToken, setAlertMessage } = getActions();
+  const { user, setUser, isValidInput, isLoading, setIsLoading } = useUserStore();
 
   const [isRememberMe, setIsRememberMe] = useState(rememberMe || false);
 
@@ -21,14 +21,14 @@ export default function EmailLoginForm() {
     setIsLoading(true);
 
     if (isRememberMe) {
-      localStorage.setItem("userEmail", inputs.email);
+      localStorage.setItem("userEmail", user.email);
       localStorage.setItem("isRememberMe", JSON.stringify(true));
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("isRememberMe");
     }
 
-    const result = await login(inputs.email, inputs.password);
+    const result = await login(user.email, user.password);
 
     if (!result.error) {
       setAccessToken(result.accessToken);
@@ -49,6 +49,7 @@ export default function EmailLoginForm() {
       handleLogin();
     }
   };
+
 
   return (
     <div

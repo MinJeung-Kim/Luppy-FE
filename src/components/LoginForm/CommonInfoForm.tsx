@@ -1,28 +1,27 @@
-import { useLogin } from "@/context/LoginContext";
 import TextInput from "../common/TextInput/TextInput";
 import ValidationMessage from "../common/ValidationMessage/ValidationMessage";
+import useUserStore from '@/stores/useUserStore';
 
 export default function CommonInfoForm() {
-  const { inputs, inputErrors, isLoading, handleChange, handleFieldBlur } =
-    useLogin();
+  const { user, inputErrors, isLoading, inputChange, fieldBlur } = useUserStore();
 
   return (
     <>
       <TextInput
         name="email"
         type="email"
-        value={inputs.email}
-        onChange={handleChange}
-        onBlur={handleFieldBlur}
+        value={user.email}
+        onChange={inputChange}
+        onBlur={fieldBlur}
         disabled={isLoading}
       />
       {inputErrors.email && <ValidationMessage message={inputErrors.email} />}
       <TextInput
         name="password"
         type="password"
-        value={inputs.password}
-        onChange={handleChange}
-        onBlur={handleFieldBlur}
+        value={user.password}
+        onChange={inputChange}
+        onBlur={fieldBlur}
         disabled={isLoading}
       />
       {inputErrors.password && (

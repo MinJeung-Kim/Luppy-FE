@@ -1,6 +1,6 @@
 import { register } from "@/api/auth";
 import { getActions } from '@/stores';
-import { useLogin } from "@/context/LoginContext";
+import useUserStore from "@/stores/useUserStore";
 import { FORM_MESSAGES } from "@/constants/messages";
 import { profileImages, randomIndex } from '@/utils/random-avatar';
 import ValidationMessage from "@/components/common/ValidationMessage/ValidationMessage";
@@ -10,19 +10,19 @@ import CommonInfoForm from "./CommonInfoForm";
 
 export default function Register() {
   const {
-    inputs,
+    user,
     isLoading,
     inputErrors,
     isValidInput,
-    handleChange,
-    handleFieldBlur,
+    userChange,
+    fieldBlur,
     setIsLogin,
-  } = useLogin();
+  } = useUserStore();
   const { setOpenAlert, setAlertMessage } = getActions();
 
   const handleSignUp = async () => {
     const profile = profileImages[randomIndex]
-    const result = await register(inputs, profile);
+    const result = await register(user, profile);
     console.log("Sign Up clicked : ", result);
     if (result.error) {
       setAlertMessage(result.error);
@@ -37,17 +37,17 @@ export default function Register() {
       <CommonInfoForm />
       <TextInput
         name="name"
-        value={inputs.name}
-        onChange={handleChange}
-        onBlur={handleFieldBlur}
+        value={user.name}
+        onChange={userChange}
+        onBlur={fieldBlur}
         disabled={isLoading}
       />
       {inputErrors.name && <ValidationMessage message={inputErrors.name} />}
       <TextInput
         name="phone"
-        value={inputs.phone}
-        onChange={handleChange}
-        onBlur={handleFieldBlur}
+        value={user.phone}
+        onChange={userChange}
+        onBlur={fieldBlur}
         disabled={isLoading}
       />
       {inputErrors.phone && <ValidationMessage message={inputErrors.phone} />}

@@ -1,8 +1,8 @@
+import { useUser } from '@/stores';
 import Menu from "./Menu/Menu";
 import UserMenu from "./UserMenu/UserMenu";
 import LogoImg from "@/assets/images/logo.png";
 import styles from "./styles.module.css";
-import { useUser } from '@/stores';
 
 export default function Header() {
   const user = useUser();

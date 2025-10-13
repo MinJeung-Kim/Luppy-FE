@@ -1,10 +1,10 @@
-import { useLogin } from "@/context/LoginContext";
+import useUserStore from "@/stores/useUserStore";
 import styles from "./styles.module.css";
 
 type Props = { title?: string; subTitle?: string };
 
 export default function LoginHeader({ title, subTitle }: Props) {
-  const { isLogin } = useLogin();
+  const { isLogin } = useUserStore();
 
   return (
     <div className={styles.login_header}>

@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import LoginImg from "@/assets/images/login.png";
 import { LOGIN_PAGE_META } from "@/constants/page_messages";
 import LoginForm from "@/components/LoginForm/LoginForm";
-import { LoginProvider } from "@/context/LoginContext";
 import styles from "./styles.module.css";
 
 export default function Login() {
@@ -19,9 +18,7 @@ export default function Login() {
         <div className={styles.login_img}>
           <img src={LoginImg} alt={LOGIN_PAGE_META.imageAlt} />
         </div>
-        <LoginProvider>
-          <LoginForm />
-        </LoginProvider>
+        <LoginForm />
       </div>
     </>
   );

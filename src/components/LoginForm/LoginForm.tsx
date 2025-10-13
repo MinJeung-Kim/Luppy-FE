@@ -1,13 +1,13 @@
-import { useLogin } from "@/context/LoginContext";
-import LoginHeader from "./LoginHeader/LoginHeader";
+import useUserStore from '@/stores/useUserStore';
+import { LOGIN_MESSAGES } from "@/constants/messages";
 import EmailLoginForm from "./EmailLoginForm/EmailLoginForm";
 import SocialLoginForm from "./SocialLoginForm/SocialLoginForm";
-import { LOGIN_MESSAGES } from "@/constants/messages";
+import LoginHeader from "./LoginHeader/LoginHeader";
 import Register from "./Register";
 import styles from "./styles.module.css";
 
 export default function LoginForm() {
-  const { toggleIsLogin, isLogin } = useLogin();
+  const { toggleIsLogin, isLogin } = useUserStore();
 
   const title = isLogin
     ? LOGIN_MESSAGES.header.loginTitle
