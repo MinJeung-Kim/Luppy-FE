@@ -7,13 +7,16 @@ import Button from "@/components/common/Button/Button";
 import { FORM_MESSAGES } from "@/constants/messages";
 import CommonInfoForm from "../CommonInfoForm";
 import styles from "./styles.module.css";
+import useAuthStore from '@/stores/useAuthStore';
 
 export default function EmailLoginForm() {
   const rememberMe = JSON.parse(
     localStorage.getItem("isRememberMe") || "false"
   );
-  const { setOpenAlert, setAccessToken, setAlertMessage } = getActions();
+  const { setOpenAlert, setAlertMessage } = getActions();
   const { user, setUser, isValidInput, isLoading, setIsLoading } = useUserStore();
+
+  const { setToken } = useAuthStore()
 
   const [isRememberMe, setIsRememberMe] = useState(rememberMe);
 
@@ -31,7 +34,7 @@ export default function EmailLoginForm() {
     const result = await login(user.email, user.password);
 
     if (!result.error) {
-      setAccessToken(result.accessToken);
+      setToken(result.accessToken);
       setUser(result.user);
     } else {
       setAlertMessage(result.error);

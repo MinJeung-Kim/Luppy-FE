@@ -66,15 +66,9 @@ let isInitializing = false;
 
 export const initializeAuth = async () => {
   if (isInitializing) {
-    if (import.meta.env.DEV) {
-      console.log("⚠️ 이미 인증 초기화 중입니다. 중복 호출 방지됨");
-    }
     return { success: false, error: "Already initializing", accessToken: null };
   }
 
-  if (import.meta.env.DEV) {
-    console.log("🔄 인증 초기화 시작 - refresh token으로 access token 재발급 시도");
-  }
 
   isInitializing = true;
 
@@ -86,10 +80,6 @@ export const initializeAuth = async () => {
         console.log("✅ 토큰 갱신 성공");
       }
       return { success: true, accessToken: newAccessToken };
-    }
-    // 리프레시 토큰도 만료된 경우
-    if (import.meta.env.DEV) {
-      console.log("❌ 리프레시 토큰 만료 - 로그인 필요");
     }
     return {
       success: false,
@@ -116,19 +106,22 @@ export const initializeAuth = async () => {
   }
 };
 
+
 export const logout = async () => {
+  const { socketClose, clearAccessToken } = useBoundStore.getState();
+
   try {
+
     await axiosPrivate.post("/auth/logout", {}, { withCredentials: true });
 
-    // 로그아웃 성공 시 모든 저장된 데이터 정리
-    const { socketClose, clearAccessToken } = useBoundStore.getState();
+
     socketClose();
-    clearAccessToken(); // 메모리에서 토큰 제거 및 사용자 정보 정리
+    clearAccessToken();
 
     return { success: true };
   } catch (error) {
-    // 로그아웃 API 실패해도 클라이언트에서 데이터 정리
-    const { socketClose, clearAccessToken } = useBoundStore.getState();
+
+    // API 실패해도 클라이언트에서 상태 정리 (중요!)
     socketClose();
     clearAccessToken();
 

@@ -2,16 +2,17 @@ import { getActions } from '@/stores';
 import { logout } from '@/api/auth';
 import { AUTH_MESSAGES } from '@/constants/messages';
 import styles from "./styles.module.css";
+import useAuthStore from '@/stores/useAuthStore';
 
 export default function Logout() {
-
-    const { clearAccessToken, setAlertMessage, setOpenAlert } = getActions();
+    const { clearAccessToken } = useAuthStore()
+    const { setAlertMessage, setOpenAlert } = getActions();
 
     const handleLogout = async () => {
         const result = await logout();
         if (result.success) {
-            setAlertMessage(AUTH_MESSAGES.logout);
             clearAccessToken();
+            setAlertMessage(AUTH_MESSAGES.logout);
         } else {
             setAlertMessage(result.error);
         }
