@@ -2,7 +2,7 @@ import type { ChangeEvent, FocusEvent } from 'react';
 import { create } from 'zustand';
 import { filterNameInput, filterPhoneInput, validateEmail, validateName, validatePassword, validatePhone, validateInputs } from '@/utils/validation';
 
-type TInitUSer = {
+export type TInitUser = {
     name: string;
     email: string;
     phone: string;
@@ -18,29 +18,23 @@ type TInputErrors = {
 }
 
 type UserStore = {
-    // 사용자 정보
-    user: TInitUSer;
-    setUser: (user: TInitUSer) => void;
+    user: TInitUser;
+    setUser: (user: TInitUser) => void;
 
-    // 로그인/회원가입 관련 상태
     isLogin: boolean;
     setIsLogin: (isLogin: boolean) => void;
     toggleIsLogin: () => void;
 
-    // 에러 메시지
     inputErrors: TInputErrors;
     setInputErrors: (errors: TInputErrors | ((prev: TInputErrors) => TInputErrors)) => void;
     resetInputErrors: () => void;
 
-    // 로딩 상태
     isLoading: boolean;
     setIsLoading: (isLoading: boolean) => void;
 
-    // 유효성 검사 상태
     isValidInput: boolean;
     updateValidation: () => void;
 
-    // 이벤트 핸들러
     inputChange: (e: ChangeEvent<HTMLInputElement>) => void;
     fieldBlur: (e: FocusEvent<HTMLInputElement>) => void;
 };
