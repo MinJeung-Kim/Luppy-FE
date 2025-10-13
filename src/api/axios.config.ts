@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useBoundStore } from '@/stores/bound-store';
-import { AUTH_MESSAGES } from '@/constants/messages';
+import useAuthStore from '../stores/useAuthStore';
 
 
 function normalizeBase(url?: string) {
@@ -27,24 +26,7 @@ export const axiosRefresh = axios.create({
   withCredentials: true,
 });
 
-// 토큰 갱신 중복 방지를 위한 상태 관리
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value: string | null) => void;
-  reject: (reason: Error) => void;
-}> = [];
 
-const processQueue = (error: Error | null, token: string | null = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) {
-      reject(error);
-    } else {
-      resolve(token);
-    }
-  });
-
-  failedQueue = [];
-};
 
 // 토큰 갱신 함수 (순환 참조 방지를 위해 여기서 정의)
 export const refreshAccessToken = async () => {
@@ -80,106 +62,47 @@ export const refreshAccessToken = async () => {
   }
 };
 
-export const setupAxiosInterceptors = () => {
-  axiosPrivate.interceptors.request.use(
-    (config) => {
-      const token = useBoundStore.getState().accessToken;
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      config.withCredentials = true; // 항상 쿠키 포함
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
-
-  axiosPrivate.interceptors.response.use(
-    (res) => res,
-    async (error) => {
-      const originalRequest = error.config;
-
-      // 토큰 갱신 요청 자체는 재시도하지 않음 (무한루프 방지)
-      if (originalRequest.url?.includes('/auth/token/access')) {
-        return Promise.reject(error);
-      }
-
-      if (error.response?.status === 401 && !originalRequest._retry) {
-        if (import.meta.env.DEV) {
-          console.log("🚨 401 에러 발생:", originalRequest.url);
-          console.log("📊 현재 상태 - isRefreshing:", isRefreshing, "failedQueue 길이:", failedQueue.length);
-        }
-
-        if (isRefreshing) {
-          if (import.meta.env.DEV) {
-            console.log("⏳ 이미 토큰 갱신 중... 대기열에 추가");
-          }
-          // 이미 토큰 갱신 중이면 대기열에 추가
-          return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
-          }).then(token => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return axiosPrivate(originalRequest);
-          }).catch(err => {
-            return Promise.reject(err);
-          });
-        }
-
-        if (import.meta.env.DEV) {
-          console.log("Access token expired, refreshing...");
-        }
-        originalRequest._retry = true;
-        isRefreshing = true;
-
-        try {
-          const newAccessToken = await refreshAccessToken();
-          if (newAccessToken) {
-            useBoundStore.getState().setAccessToken(newAccessToken);
-
-            // 토큰 갱신 성공 시 소켓 재연결
-            const { socketClose, socketOpen } = useBoundStore.getState();
-            socketClose(); // 기존 연결 종료
-            setTimeout(() => socketOpen(), 100); // 짧은 지연 후 재연결
-
-            processQueue(null, newAccessToken);
-            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-            return axiosPrivate(originalRequest);
-          } else {
-            if (import.meta.env.DEV) {
-              console.log("Refresh token expired - clearing access token");
-            }
-            const { clearAccessToken, socketClose, setAlertMessage, setOpenAlert } = useBoundStore.getState();
-
-            clearAccessToken();
-            socketClose(); // 토큰 만료 시 소켓 연결 종료
-
-            // 토큰 만료 알림 표시
-            setAlertMessage(AUTH_MESSAGES.tokenExpired);
-            setOpenAlert(true);
-
-            processQueue(new Error("Refresh token expired"), null);
-            return Promise.reject(new Error("Refresh token expired"));
-          }
-        } catch (err) {
-          if (import.meta.env.DEV) {
-            console.error("Refresh token failed:", err);
-          }
-          const { clearAccessToken, socketClose, setAlertMessage, setOpenAlert } = useBoundStore.getState();
-
-          clearAccessToken();
-          socketClose(); // 토큰 갱신 실패 시 소켓 연결 종료
-
-          // 토큰 갱신 실패 알림 표시
-          setAlertMessage(AUTH_MESSAGES.tokenExpired);
-          setOpenAlert(true);
-
-          processQueue(err instanceof Error ? err : new Error("Unknown error"), null);
-          return Promise.reject(err);
-        } finally {
-          isRefreshing = false;
-        }
-      }
-
-      return Promise.reject(error);
+// 요청 인터셉터: 모든 요청에 토큰 자동 추가
+axiosPrivate.interceptors.request.use(
+  (config) => {
+    const { token } = useAuthStore.getState();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-  );
-};
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// 응답 인터셉터: 401 에러 시 토큰 갱신 시도
+axiosPrivate.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const newToken = await refreshAccessToken();
+        if (newToken) {
+          useAuthStore.getState().setToken(newToken);
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          return axiosPrivate(originalRequest);
+        } else {
+          // 토큰 갱신 실패 시 로그아웃 처리
+          useAuthStore.getState().clearAccessToken();
+          // 필요시 로그인 페이지로 리다이렉트
+          window.location.href = '/login';
+        }
+      } catch (refreshError) {
+        useAuthStore.getState().clearAccessToken();
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
