@@ -15,7 +15,7 @@ export default function EmailLoginForm() {
   const { setOpenAlert, setAccessToken, setAlertMessage } = getActions();
   const { user, setUser, isValidInput, isLoading, setIsLoading } = useUserStore();
 
-  const [isRememberMe, setIsRememberMe] = useState(rememberMe || false);
+  const [isRememberMe, setIsRememberMe] = useState(rememberMe);
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -41,7 +41,10 @@ export default function EmailLoginForm() {
   };
 
   const handleCheckRememberMe = () => {
-    setIsRememberMe(!isRememberMe);
+    console.log('handleCheckRememberMe : ', isRememberMe);
+
+    const newValue = !isRememberMe;
+    setIsRememberMe(newValue);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -49,6 +52,7 @@ export default function EmailLoginForm() {
       handleLogin();
     }
   };
+
 
 
   return (

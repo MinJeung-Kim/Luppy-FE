@@ -54,6 +54,12 @@
         transition: border-color ease 0.2s;
         cursor: pointer;
 
+
+
+    }
+
+    .checked {
+
         &::before,
         &::after {
             -moz-box-sizing: border-box;
@@ -97,7 +103,6 @@
             -webkit-transform: rotate(-45deg);
             transform: rotate(-45deg);
         }
-
     }
 }
 

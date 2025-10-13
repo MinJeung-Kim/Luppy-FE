@@ -14,7 +14,7 @@ export default function Register() {
     isLoading,
     inputErrors,
     isValidInput,
-    userChange,
+    inputChange,
     fieldBlur,
     setIsLogin,
   } = useUserStore();
@@ -23,7 +23,7 @@ export default function Register() {
   const handleSignUp = async () => {
     const profile = profileImages[randomIndex]
     const result = await register(user, profile);
-    console.log("Sign Up clicked : ", result);
+
     if (result.error) {
       setAlertMessage(result.error);
       setOpenAlert(true);
@@ -38,7 +38,7 @@ export default function Register() {
       <TextInput
         name="name"
         value={user.name}
-        onChange={userChange}
+        onChange={inputChange}
         onBlur={fieldBlur}
         disabled={isLoading}
       />
@@ -46,7 +46,7 @@ export default function Register() {
       <TextInput
         name="phone"
         value={user.phone}
-        onChange={userChange}
+        onChange={inputChange}
         onBlur={fieldBlur}
         disabled={isLoading}
       />

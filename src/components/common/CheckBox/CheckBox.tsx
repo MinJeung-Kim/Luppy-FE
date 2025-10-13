@@ -16,7 +16,10 @@ export default function CheckBox({ name = "check", checked, onChange }: Props) {
         checked={checked}
         onChange={onChange}
       />
-      <label htmlFor={name} className={styles.check_box}></label>
+      <label
+        htmlFor={name}
+        className={`${styles.check_box} ${checked ? styles.checked : ''}`}
+      ></label>
     </div>
   );
 }
