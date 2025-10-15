@@ -2,18 +2,20 @@ import type { ChangeEvent, FocusEvent } from 'react';
 import { create } from 'zustand';
 import { filterNameInput, filterPhoneInput, validateEmail, validateName, validatePassword, validatePhone, validateInputs } from '@/utils/validation';
 
-export type TInitUser = {
+
+type TRequiredUser = {
     name: string;
     email: string;
     phone: string;
+}
+
+export type TInitUser = TRequiredUser & {
+    id: null | number;
     profile: string;
     password: string;
 }
 
-type TInputErrors = {
-    name: string;
-    email: string;
-    phone: string;
+type TInputErrors = TRequiredUser & {
     password: string;
 }
 
@@ -50,6 +52,7 @@ const initialInputErrors: TInputErrors = {
 
 const useUserStore = create<UserStore>((set, get) => ({
     user: {
+        id: null,
         name: "",
         phone: "",
         profile: "",

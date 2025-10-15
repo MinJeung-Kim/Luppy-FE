@@ -3,6 +3,7 @@ import { axiosPrivate } from "./axios.config";
 import type { TInitUser } from '@/stores/useUserStore';
 import { useBoundStore } from '@/stores/bound-store';
 import { handleAxiosError } from '@/utils/error';
+import useAuthStore from '@/stores/useAuthStore';
 
 export const register = async (inputs: TInitUser, profile: string) => {
   const { name, phone, email, password } = inputs;
@@ -61,7 +62,8 @@ export const login = async (email: string, password: string) => {
 
 
 export const logout = async () => {
-  const { socketClose, clearAccessToken } = useBoundStore.getState();
+  const { socketClose } = useBoundStore.getState();
+  const { clearAccessToken } = useAuthStore.getState();
 
   try {
     await axiosPrivate.post("/auth/logout", {}, { withCredentials: true });

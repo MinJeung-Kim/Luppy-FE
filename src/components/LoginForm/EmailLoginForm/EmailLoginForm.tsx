@@ -1,23 +1,21 @@
 import { useState } from "react";
 import { login } from "@/api/auth";
 import { getActions } from '@/stores';
+import useAuthStore from '@/stores/useAuthStore';
 import useUserStore from '@/stores/useUserStore';
 import CheckBox from "@/components/common/CheckBox/CheckBox";
 import Button from "@/components/common/Button/Button";
 import { FORM_MESSAGES } from "@/constants/messages";
 import CommonInfoForm from "../CommonInfoForm";
 import styles from "./styles.module.css";
-import useAuthStore from '@/stores/useAuthStore';
 
 export default function EmailLoginForm() {
-  const rememberMe = JSON.parse(
-    localStorage.getItem("isRememberMe") || "false"
-  );
+
+  const { setToken } = useAuthStore()
   const { setOpenAlert, setAlertMessage } = getActions();
   const { user, setUser, isValidInput, isLoading, setIsLoading } = useUserStore();
 
-  const { setToken } = useAuthStore()
-
+  const rememberMe = localStorage.getItem("isRememberMe") === "true";
   const [isRememberMe, setIsRememberMe] = useState(rememberMe);
 
   const handleLogin = async () => {
@@ -25,13 +23,15 @@ export default function EmailLoginForm() {
 
     if (isRememberMe) {
       localStorage.setItem("userEmail", user.email);
-      localStorage.setItem("isRememberMe", JSON.stringify(true));
+      localStorage.setItem("isRememberMe", "true");
     } else {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("isRememberMe");
     }
 
     const result = await login(user.email, user.password);
+
+    console.log('handleLogin : ', result);
 
     if (!result.error) {
       setToken(result.accessToken);
@@ -44,10 +44,7 @@ export default function EmailLoginForm() {
   };
 
   const handleCheckRememberMe = () => {
-    console.log('handleCheckRememberMe : ', isRememberMe);
-
-    const newValue = !isRememberMe;
-    setIsRememberMe(newValue);
+    setIsRememberMe((prev) => !prev);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -55,8 +52,6 @@ export default function EmailLoginForm() {
       handleLogin();
     }
   };
-
-
 
   return (
     <div

@@ -1,7 +1,8 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getActions, useConferenceId, useJoinUser, useSocket, useUser } from '@/stores';
+import useUserStore from '@/stores/useUserStore';
+import { getActions, useConferenceId, useJoinUser, useSocket } from '@/stores';
 import type { TUser } from '@/stores/slice/auth';
 import { useMediaStream } from '@/hooks/useMediaStream';
 import { usePeerConnection } from '@/hooks/usePeerConnection';
@@ -21,7 +22,7 @@ export default function JoinRoom() {
     const [isMicOn, setIsMicOn] = useState<boolean>(true);
     const [isVideoOn, setIsVideoOn] = useState<boolean>(true);
 
-    const user = useUser()
+    const { user } = useUserStore()
     const socket = useSocket();
     const conferenceId = useConferenceId();
     const joinUser = useJoinUser();
@@ -42,7 +43,7 @@ export default function JoinRoom() {
         };
 
         const host = {
-            id: user.id,
+            id: user.id || 0,
             name: user.name,
             profile: user.profile,
             isMicOn: next,
@@ -62,7 +63,7 @@ export default function JoinRoom() {
         };
 
         const host = {
-            id: user.id,
+            id: user.id || 0,
             name: user.name,
             profile: user.profile,
             isMicOn: isMicOn,
@@ -154,9 +155,9 @@ export default function JoinRoom() {
             <div className={styles.video_form}>
                 {isVideoOn
                     ? <VideoForm isMicOn={isMicOn} />
-                    : <Avatar src={user!.profile} alt='' />
+                    : <Avatar src={user.profile} alt='' />
                 }
-                <div className={styles.peer_name_tag}>{user!.name}</div>
+                <div className={styles.peer_name_tag}>{user.name}</div>
             </div>
             {joinUser &&
                 <div className={styles.video_form}>

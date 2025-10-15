@@ -1,11 +1,13 @@
-import { useUser } from '@/stores';
+
 import Menu from "./Menu/Menu";
 import UserMenu from "./UserMenu/UserMenu";
+import useUserStore from '@/stores/useUserStore';
 import LogoImg from "@/assets/images/logo.png";
 import styles from "./styles.module.css";
 
 export default function Header() {
-  const user = useUser();
+  const { user } = useUserStore();
+
   return (
     <div className={styles.header_container}>
       <div className={styles.logo_warp}>
@@ -14,7 +16,7 @@ export default function Header() {
           <span className={styles.logo_sub}>Happy</span>
           <span className={styles.logo}>Luppy</span>
         </div>
-        <span>{user?.name}</span>
+        <span>{user.name}</span>
       </div>
 
       <Menu />

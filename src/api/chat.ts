@@ -26,6 +26,7 @@ export type TChatContent = {
         id: number;
         name: string;
         profile: string;
+        email: string;
     }
 }
 

@@ -7,6 +7,8 @@ type Props = {
 };
 
 export default function CheckBox({ name = "check", checked, onChange }: Props) {
+  console.log('CheckBox rendered with checked:', checked);
+
   return (
     <div className={styles.checkbox_container}>
       <input

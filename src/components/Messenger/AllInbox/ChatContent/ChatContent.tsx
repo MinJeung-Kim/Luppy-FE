@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { useUser } from '@/stores';
 import type { TChatContent } from '@/api/chat';
+import useUserStore from '@/stores/useUserStore';
 import Avatar from '@/components/common/Avatar/Avatar';
 import { formatDate, formatTime } from '@/utils/time-format';
 import { useMessenger } from '@/context/MessengerContext';
@@ -8,11 +8,11 @@ import styles from "./styles.module.css";
 
 
 export default function ChatContent() {
-    const user = useUser();
+    const { user } = useUserStore();
     const { chatContent } = useMessenger();
 
     const getChatDisplayInfo = (chat: TChatContent, index: number) => {
-        const isMe = Number(user!.id) === chat.sender.id;
+        const isMe = user.email === chat.sender.email;
         const currentDate = formatDate(chat.createdAt);
         const prevDate = index > 0 && chatContent ? formatDate(chatContent[index - 1].createdAt) : null;
         const shouldShowDate = index === 0 || currentDate !== prevDate;

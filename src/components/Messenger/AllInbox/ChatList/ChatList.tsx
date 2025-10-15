@@ -8,7 +8,6 @@ import Chat from './Chat';
 import ChatRoom from './ChatRoom';
 import styles from "./styles.module.css";
 
-
 export default function ChatList() {
     const { selectedChat, currentPage, setTotalPages } = useMessenger();
     const selectedGroupId = useSelectedGroupId();
